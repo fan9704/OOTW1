@@ -1,3 +1,5 @@
+import textAlign.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -6,31 +8,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 // we could add "Command Patter"
 class editor extends JFrame implements ActionListener {
 	// Text component
-	JTextArea t;
+	JTextPane textPane;
 
 	// Frame
-	JFrame f;
+	JFrame frame;
 
 	// Constructor
 	editor()
 	{
 		// Create a frame
-		f = new JFrame("editor");
+		frame = new JFrame("editor");
 
 		try {
 			// Set metal look and feel
@@ -43,65 +36,81 @@ class editor extends JFrame implements ActionListener {
 		}
 
 		// Text component
-		t = new JTextArea();
+		textPane = new JTextPane();
 
 		// Create a menubar
-		JMenuBar mb = new JMenuBar();
-
-		// Create amenu for menu
-		JMenu m1 = new JMenu("File");
-
-		// Create menu items
-		JMenuItem mi1 = new JMenuItem("New");
-		JMenuItem mi2 = new JMenuItem("Open");
-		JMenuItem mi3 = new JMenuItem("Save");
-		JMenuItem mi9 = new JMenuItem("Print");
-
-		// Add action listener
-		mi1.addActionListener(this);
-		mi2.addActionListener(this);
-		mi3.addActionListener(this);
-		mi9.addActionListener(this);
-
-		m1.add(mi1);
-		m1.add(mi2);
-		m1.add(mi3);
-		m1.add(mi9);
+		JMenuBar menuBar = new JMenuBar();
 
 		// Create a menu for menu
-		JMenu m2 = new JMenu("Edit");
+		JMenu fileMenu = new JMenu("File");
 
 		// Create menu items
-		JMenuItem mi4 = new JMenuItem("cut");
-		JMenuItem mi5 = new JMenuItem("copy");
-		JMenuItem mi6 = new JMenuItem("paste");
+		JMenuItem newFileMenuItem = new JMenuItem("New");
+		JMenuItem openFileMenuItem = new JMenuItem("Open");
+		JMenuItem saveFileMenuItem = new JMenuItem("Save");
+		JMenuItem printFileMenuItem = new JMenuItem("Print");
 
 		// Add action listener
-		mi4.addActionListener(this);
-		mi5.addActionListener(this);
-		mi6.addActionListener(this);
+		newFileMenuItem.addActionListener(this);
+		openFileMenuItem.addActionListener(this);
+		saveFileMenuItem.addActionListener(this);
+		printFileMenuItem.addActionListener(this);
 
-		m2.add(mi4);
-		m2.add(mi5);
-		m2.add(mi6);
+		fileMenu.add(newFileMenuItem);
+		fileMenu.add(openFileMenuItem);
+		fileMenu.add(saveFileMenuItem);
+		fileMenu.add(printFileMenuItem);
 
-		JMenuItem mc = new JMenuItem("close");
+		// Create a menu for menu
+		JMenu editMenu = new JMenu("Edit");
 
-		mc.addActionListener(this);
+		// Create menu items
+		JMenuItem cutMenuItem = new JMenuItem("cut");
+		JMenuItem copyMenuItem = new JMenuItem("copy");
+		JMenuItem pasteMenuItem = new JMenuItem("paste");
 
-		mb.add(m1);
-		mb.add(m2);
-		mb.add(mc);
-		
+		// Add action listener
+		cutMenuItem.addActionListener(this);
+		copyMenuItem.addActionListener(this);
+		pasteMenuItem.addActionListener(this);
+
+		editMenu.add(cutMenuItem);
+		editMenu.add(copyMenuItem);
+		editMenu.add(pasteMenuItem);
+
+		JMenuItem closeMenuItem = new JMenuItem("close");
+
+		closeMenuItem.addActionListener(this);
+
+		// align menu
+		JMenu alignMenu = new JMenu("Align");
+		JMenuItem alignLeftMenuItem = new JMenuItem("Left");
+		JMenuItem alignCenterMenuItem = new JMenuItem("Center");
+		JMenuItem alignRightMenuItem = new JMenuItem("Right");
+
+		ActionListener textAlignActionListener = new textAlignActionListener(textPane);
+		alignLeftMenuItem.addActionListener(textAlignActionListener);
+		alignCenterMenuItem.addActionListener(textAlignActionListener);
+		alignRightMenuItem.addActionListener(textAlignActionListener);
+
+		alignMenu.add(alignLeftMenuItem);
+		alignMenu.add(alignCenterMenuItem);
+		alignMenu.add(alignRightMenuItem);
+
+		menuBar.add(fileMenu);
+		menuBar.add(editMenu);
+		menuBar.add(alignMenu);
+		menuBar.add(closeMenuItem);
+
 		
 		// Create a menu for menu
-		JMenu m4= new JMenu("Function");
+		JMenu functionMenu = new JMenu("Function");
 		// Create menu items
-		JMenuItem m4i = new JMenuItem("ScrollBar");
+		JMenuItem scrollBarMenuItem = new JMenuItem("ScrollBar");
 		// Add action listener
-		m4i.addActionListener(this);
-		m4.add(m4i);
-		mb.add(m4);
+		scrollBarMenuItem.addActionListener(this);
+		functionMenu.add(scrollBarMenuItem);
+		menuBar.add(functionMenu);
 		
 		// Create a menu for menu
 		JMenu m5= new JMenu("Style");
@@ -109,13 +118,13 @@ class editor extends JFrame implements ActionListener {
 		JMenuItem m5i = new JMenuItem("ZoomIn");
 		// Add action listener
 		m5i.addActionListener(this);
-		m4.add(m5i);
-		mb.add(m4);
+		functionMenu.add(m5i);
+		menuBar.add(functionMenu);
 		
-		f.setJMenuBar(mb);
-		f.add(t);
-		f.setSize(500, 500);
-		f.show();
+		frame.setJMenuBar(menuBar);
+		frame.add(textPane);
+		frame.setSize(500, 500);
+		frame.show();
 	}
 
 	// If a button is pressed
@@ -125,9 +134,8 @@ class editor extends JFrame implements ActionListener {
 		
 		receiverCommand receiver = new receiverCommand();
 		invokerCommand invoker = new invokerCommand();
-		receiver.setTextArea(t);
-		receiver.setJFrame(f);
-		
+		receiver.setTextArea(textPane);
+		receiver.setJFrame(frame);
 		if (s.equals("cut")) {
 //			t.cut();
 			commandCommand cut = new cutCommand(receiver);
@@ -139,10 +147,10 @@ class editor extends JFrame implements ActionListener {
 			System.out.println("Y");
 		}
 		else if (s.equals("copy")) {
-			t.copy();
+			textPane.copy();
 		}
 		else if (s.equals("paste")) {
-			t.paste();
+			textPane.paste();
 		}
 		else if (s.equals("Save")) {
 			// Create an object of JFileChooser class
@@ -164,26 +172,26 @@ class editor extends JFrame implements ActionListener {
 					BufferedWriter w = new BufferedWriter(wr);
 
 					// Write
-					w.write(t.getText());
+					w.write(textPane.getText());
 
 					w.flush();
 					w.close();
 				}
 				catch (Exception evt) {
-					JOptionPane.showMessageDialog(f, evt.getMessage());
+					JOptionPane.showMessageDialog(frame, evt.getMessage());
 				}
 			}
 			// If the user cancelled the operation
 			else
-				JOptionPane.showMessageDialog(f, "the user cancelled the operation");
+				JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
 		}
 		else if (s.equals("Print")) {
 			try {
 				// print the file
-				t.print();
+				textPane.print();
 			}
 			catch (Exception evt) {
-				JOptionPane.showMessageDialog(f, evt.getMessage());
+				JOptionPane.showMessageDialog(frame, evt.getMessage());
 			}
 		}
 		else if (s.equals("Open")) {
@@ -217,26 +225,26 @@ class editor extends JFrame implements ActionListener {
 					}
 
 					// Set the text
-					t.setText(sl);
+					textPane.setText(sl);
 				}
 				catch (Exception evt) {
-					JOptionPane.showMessageDialog(f, evt.getMessage());
+					JOptionPane.showMessageDialog(frame, evt.getMessage());
 				}
 			}
 			// If the user cancelled the operation
 			else
-				JOptionPane.showMessageDialog(f, "the user cancelled the operation");
+				JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
 		}
 		else if (s.equals("New")) {
-			t.setText("");
+			textPane.setText("");
 		}
 		else if (s.equals("close")) {
-			f.setVisible(false);
+			frame.setVisible(false);
 		}
 		else if(s.equals("ScrollBar")) {
-			JScrollPane pane = new JScrollPane(t, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane pane = new JScrollPane(textPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-			f.add(pane);
+			frame.add(pane);
 		}
 	}
 

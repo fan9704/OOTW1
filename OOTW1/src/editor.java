@@ -88,10 +88,10 @@ class editor extends JFrame implements ActionListener {
 		JMenuItem alignCenterMenuItem = new JMenuItem("Center");
 		JMenuItem alignRightMenuItem = new JMenuItem("Right");
 
-		ActionListener textAlignActionListener = new textAlignActionListener(textPane);
-		alignLeftMenuItem.addActionListener(textAlignActionListener);
-		alignCenterMenuItem.addActionListener(textAlignActionListener);
-		alignRightMenuItem.addActionListener(textAlignActionListener);
+		TextAlignActionListenerFactory textAlignActionListenerFactory = new TextAlignActionListenerFactory(textPane);
+		alignLeftMenuItem.addActionListener(textAlignActionListenerFactory.produce("Left"));
+		alignCenterMenuItem.addActionListener(textAlignActionListenerFactory.produce("Center"));
+		alignRightMenuItem.addActionListener(textAlignActionListenerFactory.produce("Right"));
 
 		alignMenu.add(alignLeftMenuItem);
 		alignMenu.add(alignCenterMenuItem);

@@ -1,3 +1,6 @@
+import Command.*;
+import Memento.*;
+
 import model.FontStyleActionListener;
 import singleton.MenuWeight.DBMenuWeightHelper;
 import textAlign.*;
@@ -12,6 +15,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Map;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.awt.Robot;
+import java.awt.AWTException;
 
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -24,15 +31,25 @@ class editor extends JFrame implements ActionListener {
 	// Frame
 	JFrame frame;
 
+	String Origin = "";
+	File fi;
+
+	originator originator = new originator();
+	careTaker careTaker = new careTaker();
+
 	// Constructor
 	editor()
 	{
+		originator.storeState(Origin);
+		careTaker.setMemento(originator.setMemento());
 		// Create a frame
 		frame = new JFrame("editor");
 
 		try {
 			// Set metal look and feel
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			String lookAndFeel1 = "javax.swing.plaf.metal.MetalLookAndFeel";
+			String lookAndFeel2 = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
+			UIManager.setLookAndFeel(lookAndFeel1);
 
 			// Set theme to ocean
 			MetalLookAndFeel.setCurrentTheme(new OceanTheme());
@@ -43,6 +60,7 @@ class editor extends JFrame implements ActionListener {
 		// Text component
 		textPane = new JTextPane();
 
+		keyEventListener key = new keyEventListener(originator,careTaker,textArea);
 		// Create a menubar
 		JMenuBar menuBar = new JMenuBar();
 
@@ -163,13 +181,22 @@ class editor extends JFrame implements ActionListener {
 		
 		// Create a menu for menu
 		JMenu functionMenu = new JMenu("Function");
+		JMenuItem undoMenuItem = new JMenuItem("Undo");
+		JMenuItem redoMenuItem = new JMenuItem("Redo");
 		// Create menu items
 		JMenuItem scrollBarMenuItem = new JMenuItem("ScrollBar");
 		// Add action listener
 		scrollBarMenuItem.addActionListener(this);
 		functionMenu.add(scrollBarMenuItem);
 		menuBar.add(functionMenu);
-		
+		undoMenuItem.addActionListener(this);
+		redoMenuItem.addActionListener(this);
+		functionMenu.add(undoMenuItem);
+		functionMenu.add(redoMenuItem);
+		//Create keyListener for Pressing Enter
+		textPane.addKeyListener(key);
+
+
 		// Create a menu for menu
 		JMenu m5= new JMenu("Style");
 		// Create menu items
@@ -196,35 +223,88 @@ class editor extends JFrame implements ActionListener {
 		receiver.setJFrame(frame);
 		if (s.equals("cut")) {
 //			t.cut();
+
+		receiver.setTextArea(textPane);
+		receiver.setJFrame(frame);
+
+		switch(s) {
+		case "cut":
 			commandCommand cut = new cutCommand(receiver);
 			invoker.addCommend(cut);
 			invoker.execute();
-			
+			break;
+		case "copy":
+			commandCommand copy = new copyCommand(receiver);
+			invoker.addCommend(copy);
+			invoker.execute();
+			break;
+		case "paste":
+			commandCommand paste = new pasteCommand(receiver);
+			invoker.addCommend(paste);
+			invoker.execute();
+			break;
+		case "Save":
+			commandCommand save = new saveCommand(receiver);
+			invoker.addCommend(save);
+			invoker.execute();
+			break;
+		case "Print":
+			commandCommand print = new printCommand(receiver);
+			invoker.addCommend(print);
+			invoker.execute();
+			break;
+		case "Open":
+			commandCommand open = new openCommand(receiver);
+			invoker.addCommend(open);
+			invoker.execute();
+			break;
+		case "New":
+			commandCommand _new = new newCommand(receiver);
+			invoker.addCommend(_new);
+			invoker.execute();
+			break;
+		case "ScrollBar":
+			commandCommand scrollBar = new scrollBarCommand(receiver);
+			invoker.addCommend(scrollBar);
+			invoker.execute();
+			break;
 		}
-		else if(s.equals("ZoomIn")){
-			System.out.println("Y");
+
+
+		if(s.equals("Undo")) {
+				originator.restoreFromMemento(careTaker.getMemento());
+//				textArea.setText(careTaker.getMemento().getState());
+				textArea.setText(originator.getNow());
 		}
-		else if (s.equals("copy")) {
-			textPane.copy();
+		else if(s.equals("Redo")) {
+			originator.restoreFromMemento(careTaker.getLastMemento());
+			textArea.setText(originator.getNow());
 		}
-		else if (s.equals("paste")) {
-			textPane.paste();
-		}
-		else if (s.equals("Save")) {
-			// Create an object of JFileChooser class
-			JFileChooser j = new JFileChooser("f:");
 
-			// Invoke the showsSaveDialog function to show the save dialog
-			int r = j.showSaveDialog(null);
+		else if(s.equals("Close")) {
+			if(textArea.getText().equals(Origin)) {
+				frame.setVisible(false);
+			}
+			else {
+				int result = JOptionPane.showConfirmDialog(null, "You have revised something but not saved yet�IDo you wanna save it�H","Select an option",JOptionPane.YES_NO_OPTION);
 
-			if (r == JFileChooser.APPROVE_OPTION) {
+				if(result == JOptionPane.NO_OPTION) {
 
-				// Set the label to the path of the selected directory
-				File fi = new File(j.getSelectedFile().getAbsolutePath());
+					frame.setVisible(false);
+				}
+				else if(result == JOptionPane.YES_OPTION) {
+					//Save
+					JFileChooser j = new JFileChooser("f:");
+					if(Origin == "") {
+						// Invoke the showsSaveDialog function to show the save dialog
+						int r = j.showSaveDialog(null);
 
-				try {
-					// Create a file writer
-					FileWriter wr = new FileWriter(fi, false);
+						if (r == JFileChooser.APPROVE_OPTION) {
+							// Set the label to the path of the selected directory
+							File fi = new File(j.getSelectedFile().getAbsolutePath());
+							try {
+								// Create a file writer
+								FileWriter wr = new FileWriter(fi, false);
 
 					// Create buffered writer to write
 					BufferedWriter w = new BufferedWriter(wr);
@@ -240,70 +320,29 @@ class editor extends JFrame implements ActionListener {
 				}
 			}
 			// If the user cancelled the operation
-			else
-				JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
+						else {
+							try {
+								// Create a file writer
+								FileWriter wr = new FileWriter(fi, false);
+
+								// Create buffered writer to write
+								BufferedWriter w = new BufferedWriter(wr);
+
+								// Write
+								w.write(textPane.getText());
+
+								w.flush();
+								w.close();
+							}
+							catch (Exception evt) {
+								JOptionPane.showMessageDialog(frame, evt.getMessage());
+							}
+						}
+						Origin = textPane.getText();
+						frame.setVisible(false);
 		}
-		else if (s.equals("Print")) {
-			try {
-				// print the file
-				textPane.print();
-			}
-			catch (Exception evt) {
-				JOptionPane.showMessageDialog(frame, evt.getMessage());
-			}
-		}
-		else if (s.equals("Open")) {
-			// Create an object of JFileChooser class
-			JFileChooser j = new JFileChooser("f:");
 
-			// Invoke the showsOpenDialog function to show the save dialog
-			int r = j.showOpenDialog(null);
 
-			// If the user selects a file
-			if (r == JFileChooser.APPROVE_OPTION) {
-				// Set the label to the path of the selected directory
-				File fi = new File(j.getSelectedFile().getAbsolutePath());
-
-				try {
-					// String
-					String s1 = "", sl = "";
-
-					// File reader
-					FileReader fr = new FileReader(fi);
-
-					// Buffered reader
-					BufferedReader br = new BufferedReader(fr);
-
-					// Initialize sl
-					sl = br.readLine();
-
-					// Take the input from the file
-					while ((s1 = br.readLine()) != null) {
-						sl = sl + "\n" + s1;
-					}
-
-					// Set the text
-					textPane.setText(sl);
-				}
-				catch (Exception evt) {
-					JOptionPane.showMessageDialog(frame, evt.getMessage());
-				}
-			}
-			// If the user cancelled the operation
-			else
-				JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
-		}
-		else if (s.equals("New")) {
-			textPane.setText("");
-		}
-		else if (s.equals("close")) {
-			frame.setVisible(false);
-		}
-		else if(s.equals("ScrollBar")) {
-			JScrollPane pane = new JScrollPane(textPane, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-			frame.add(pane);
-		}
 	}
 
 	

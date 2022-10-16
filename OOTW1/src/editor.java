@@ -1,13 +1,17 @@
+import model.FontStyleActionListener;
 import singleton.MenuWeight.DBMenuWeightHelper;
 import textAlign.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.TextAttribute;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -98,10 +102,62 @@ class editor extends JFrame implements ActionListener {
 		alignMenu.add(alignCenterMenuItem);
 		alignMenu.add(alignRightMenuItem);
 
+		JMenu styleMenu = new JMenu("樣式");
+		JMenu colorMenu = new JMenu("色彩");
+
+		// 創建stylemenuitem
+		JMenuItem boldMenuItem = new JMenuItem("粗體");
+		JMenuItem italicMenuItem = new JMenuItem("斜體");
+		JMenuItem underlineMenuItem = new JMenuItem("底線");
+
+		// 創建colormenuitem
+		JMenuItem fontColorIsRedMenuItem = new JMenuItem("紅色字體");
+		JMenuItem fontColorIsGreenMenuItem = new JMenuItem("綠色字體");
+		JMenuItem fontColorIsBlueMenuItem = new JMenuItem("藍色字體");
+		JMenuItem fontColorIsBlackMenuItem = new JMenuItem("黑色字體");
+
+		boldMenuItem.setFont(new Font(boldMenuItem.getFont().getFontName(), Font.BOLD, 12));
+		italicMenuItem.setFont(new Font(italicMenuItem.getFont().getFontName(), Font.ITALIC, 12));
+		Map attributes = underlineMenuItem.getFont().getAttributes();
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		underlineMenuItem.setFont((underlineMenuItem.getFont().deriveFont(attributes)));
+
+		fontColorIsRedMenuItem.setForeground(Color.RED);
+		fontColorIsGreenMenuItem.setForeground(Color.GREEN);
+		fontColorIsBlueMenuItem.setForeground(Color.BLUE);
+		fontColorIsBlackMenuItem.setForeground(Color.BLACK);
+
+		boldMenuItem.setActionCommand("bold");
+		boldMenuItem.addActionListener(new FontStyleActionListener(textPane));
+		italicMenuItem.setActionCommand("italic");
+		italicMenuItem.addActionListener(new FontStyleActionListener(textPane));
+		underlineMenuItem.setActionCommand("underline");
+		underlineMenuItem.addActionListener(new FontStyleActionListener(textPane));
+		fontColorIsRedMenuItem.setActionCommand("red");
+		fontColorIsRedMenuItem.addActionListener(new FontStyleActionListener(textPane));
+		fontColorIsGreenMenuItem.setActionCommand("green");
+		fontColorIsGreenMenuItem.addActionListener(new FontStyleActionListener(textPane));
+		fontColorIsBlueMenuItem.setActionCommand("blue");
+		fontColorIsBlueMenuItem.addActionListener(new FontStyleActionListener(textPane));
+		fontColorIsBlackMenuItem.setActionCommand("black");
+		fontColorIsBlackMenuItem.addActionListener(new FontStyleActionListener(textPane));
+
+
+		styleMenu.add(boldMenuItem);
+		styleMenu.add(italicMenuItem);
+		styleMenu.add(underlineMenuItem);
+		colorMenu.add(fontColorIsRedMenuItem);
+		colorMenu.add(fontColorIsGreenMenuItem);
+		colorMenu.add(fontColorIsBlueMenuItem);
+		colorMenu.add(fontColorIsBlackMenuItem);
+
+
 		menuBar.add(fileMenu);
 		menuBar.add(editMenu);
 		menuBar.add(alignMenu);
 		menuBar.add(DBMenuWeightHelper.getMenu(textPane));
+		menuBar.add(styleMenu);
+		menuBar.add(colorMenu);
 		menuBar.add(closeMenuItem);
 
 		

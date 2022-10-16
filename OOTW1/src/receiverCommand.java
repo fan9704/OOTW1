@@ -4,18 +4,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 
 public class receiverCommand extends JFrame {
-	JTextArea t;
+	JTextPane t;
 	JFrame f;
 	
-	public void setTextArea(JTextArea t) {
+	public void setTextArea(JTextPane t) {
 		this.t = t;
 	}
 	public void setJFrame(JFrame f) {

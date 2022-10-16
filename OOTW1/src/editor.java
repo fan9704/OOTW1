@@ -1,3 +1,4 @@
+import singleton.MenuWeight.DBMenuWeightHelper;
 import textAlign.*;
 
 import java.awt.event.ActionEvent;
@@ -100,6 +101,7 @@ class editor extends JFrame implements ActionListener {
 		menuBar.add(fileMenu);
 		menuBar.add(editMenu);
 		menuBar.add(alignMenu);
+		menuBar.add(DBMenuWeightHelper.getMenu(textPane));
 		menuBar.add(closeMenuItem);
 
 		

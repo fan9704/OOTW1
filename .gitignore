@@ -1,2 +1,7 @@
+# IntelliJ project files
 .idea
-/out
+*.iml
+out
+gen
+db
+target

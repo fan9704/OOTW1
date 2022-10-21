@@ -1,33 +1,21 @@
 import Command.*;
-import Memento.*;
-
-import bridge.AbstractWindow;
+import Memento.careTaker;
+import Memento.originator;
 import bridge.Window;
-import bridge.WindowImpl;
-import bridge.WindowsImpl;
-import bridge.XWindowImpl;
+import bridge.*;
 import model.FontStyleActionListener;
 import singleton.MenuWeight.DBMenuWeightHelper;
-import textAlign.*;
+import textAlign.TextAlignActionListenerFactory;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Map;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import java.awt.Robot;
-import java.awt.AWTException;
-
-import javax.swing.*;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.OceanTheme;
 
 // we could add "Command Patter"
 class editor extends JFrame implements ActionListener {
@@ -52,19 +40,19 @@ class editor extends JFrame implements ActionListener {
         WindowImpl windowImpl;
         AbstractWindow window;
 
-        WindowImpl xWindowImpl ;
-        System.out.println("OS Name:" +System.getProperty("os.name") );
-        System.out.println("OS Version:" + System.getProperty("os.version") );
-        System.out.println("OS Architecture:" + System.getProperty("os.arch") );
+        WindowImpl xWindowImpl;
+        System.out.println("OS Name:" + System.getProperty("os.name"));
+        System.out.println("OS Version:" + System.getProperty("os.version"));
+        System.out.println("OS Architecture:" + System.getProperty("os.arch"));
 
-        if(System.getProperty("os.name").equals("Windows 10")){
+        if (System.getProperty("os.name").equals("Windows 10")) {
             windowImpl = new WindowsImpl();
-        }else{
-            windowImpl= new XWindowImpl();
+        } else {
+            windowImpl = new XWindowImpl();
         }
         window = new Window(windowImpl);
         frame = window.getFrame();
-        frame.setSize(960,540);
+        frame.setSize(960, 540);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
@@ -244,118 +232,114 @@ class editor extends JFrame implements ActionListener {
         invokerCommand invoker = new invokerCommand();
         receiver.setTextArea(textPane);
         receiver.setJFrame(frame);
-        if (s.equals("cut")) {
-//			t.cut();
+        receiver.setTextArea(textPane);
+        receiver.setJFrame(frame);
 
-            receiver.setTextArea(textPane);
-            receiver.setJFrame(frame);
-
-            switch (s) {
-                case "cut":
-                    commandCommand cut = new cutCommand(receiver);
-                    invoker.addCommend(cut);
-                    invoker.execute();
-                    break;
-                case "copy":
-                    commandCommand copy = new copyCommand(receiver);
-                    invoker.addCommend(copy);
-                    invoker.execute();
-                    break;
-                case "paste":
-                    commandCommand paste = new pasteCommand(receiver);
-                    invoker.addCommend(paste);
-                    invoker.execute();
-                    break;
-                case "Save":
-                    commandCommand save = new saveCommand(receiver);
-                    invoker.addCommend(save);
-                    invoker.execute();
-                    break;
-                case "Print":
-                    commandCommand print = new printCommand(receiver);
-                    invoker.addCommend(print);
-                    invoker.execute();
-                    break;
-                case "Open":
-                    commandCommand open = new openCommand(receiver);
-                    invoker.addCommend(open);
-                    invoker.execute();
-                    break;
-                case "New":
-                    commandCommand _new = new newCommand(receiver);
-                    invoker.addCommend(_new);
-                    invoker.execute();
-                    break;
-                case "ScrollBar":
-                    commandCommand scrollBar = new scrollBarCommand(receiver);
-                    invoker.addCommend(scrollBar);
-                    invoker.execute();
-                    break;
-            }
+        switch (s) {
+            case "cut":
+                commandCommand cut = new cutCommand(receiver);
+                invoker.addCommend(cut);
+                invoker.execute();
+                break;
+            case "copy":
+                commandCommand copy = new copyCommand(receiver);
+                invoker.addCommend(copy);
+                invoker.execute();
+                break;
+            case "paste":
+                commandCommand paste = new pasteCommand(receiver);
+                invoker.addCommend(paste);
+                invoker.execute();
+                break;
+            case "Save":
+                commandCommand save = new saveCommand(receiver);
+                invoker.addCommend(save);
+                invoker.execute();
+                break;
+            case "Print":
+                commandCommand print = new printCommand(receiver);
+                invoker.addCommend(print);
+                invoker.execute();
+                break;
+            case "Open":
+                commandCommand open = new openCommand(receiver);
+                invoker.addCommend(open);
+                invoker.execute();
+                break;
+            case "New":
+                commandCommand _new = new newCommand(receiver);
+                invoker.addCommend(_new);
+                invoker.execute();
+                break;
+            case "ScrollBar":
+                commandCommand scrollBar = new scrollBarCommand(receiver);
+                invoker.addCommend(scrollBar);
+                invoker.execute();
+                break;
+        }
 
 
-            if (s.equals("Undo")) {
-                originator.restoreFromMemento(careTaker.getMemento());
+        if (s.equals("Undo")) {
+            originator.restoreFromMemento(careTaker.getMemento());
 //				textArea.setText(careTaker.getMemento().getState());
-                textPane.setText(originator.getNow());
-            } else if (s.equals("Redo")) {
-                originator.restoreFromMemento(careTaker.getLastMemento());
-                textPane.setText(originator.getNow());
-            } else if (s.equals("Close")) {
-                if (textPane.getText().equals(Origin)) {
+            textPane.setText(originator.getNow());
+        } else if (s.equals("Redo")) {
+            originator.restoreFromMemento(careTaker.getLastMemento());
+            textPane.setText(originator.getNow());
+        } else if (s.equals("Close")) {
+            if (textPane.getText().equals(Origin)) {
+                frame.setVisible(false);
+            } else {
+                int result = JOptionPane.showConfirmDialog(null, "You have revised something but not saved yet�IDo you wanna save it�H", "Select an option", JOptionPane.YES_NO_OPTION);
+
+                if (result == JOptionPane.NO_OPTION) {
+
                     frame.setVisible(false);
-                } else {
-                    int result = JOptionPane.showConfirmDialog(null, "You have revised something but not saved yet�IDo you wanna save it�H", "Select an option", JOptionPane.YES_NO_OPTION);
+                } else if (result == JOptionPane.YES_OPTION) {
+                    //Save
+                    JFileChooser j = new JFileChooser("f:");
+                    if (Origin == "") {
+                        // Invoke the showsSaveDialog function to show the save dialog
+                        int r = j.showSaveDialog(null);
 
-                    if (result == JOptionPane.NO_OPTION) {
+                        if (r == JFileChooser.APPROVE_OPTION) {
+                            // Set the label to the path of the selected directory
+                            File fi = new File(j.getSelectedFile().getAbsolutePath());
+                            try {
+                                // Create a file writer
+                                FileWriter wr = new FileWriter(fi, false);
 
-                        frame.setVisible(false);
-                    } else if (result == JOptionPane.YES_OPTION) {
-                        //Save
-                        JFileChooser j = new JFileChooser("f:");
-                        if (Origin == "") {
-                            // Invoke the showsSaveDialog function to show the save dialog
-                            int r = j.showSaveDialog(null);
+                                // Create buffered writer to write
+                                BufferedWriter w = new BufferedWriter(wr);
 
-                            if (r == JFileChooser.APPROVE_OPTION) {
-                                // Set the label to the path of the selected directory
-                                File fi = new File(j.getSelectedFile().getAbsolutePath());
-                                try {
-                                    // Create a file writer
-                                    FileWriter wr = new FileWriter(fi, false);
+                                // Write
+                                w.write(textPane.getText());
 
-                                    // Create buffered writer to write
-                                    BufferedWriter w = new BufferedWriter(wr);
-
-                                    // Write
-                                    w.write(textPane.getText());
-
-                                    w.flush();
-                                    w.close();
-                                } catch (Exception evt) {
-                                    JOptionPane.showMessageDialog(frame, evt.getMessage());
-                                }
+                                w.flush();
+                                w.close();
+                            } catch (Exception evt) {
+                                JOptionPane.showMessageDialog(frame, evt.getMessage());
                             }
-                            // If the user cancelled the operation
-                            else {
-                                try {
-                                    // Create a file writer
-                                    FileWriter wr = new FileWriter(fi, false);
-
-                                    // Create buffered writer to write
-                                    BufferedWriter w = new BufferedWriter(wr);
-
-                                    // Write
-                                    w.write(textPane.getText());
-                                    w.flush();
-                                    w.close();
-                                } catch (Exception evt) {
-                                    JOptionPane.showMessageDialog(frame, evt.getMessage());
-                                }
-                            }
-                            Origin = textPane.getText();
-                            frame.setVisible(false);
                         }
+                        // If the user cancelled the operation
+                        else {
+                            try {
+                                // Create a file writer
+                                FileWriter wr = new FileWriter(fi, false);
+
+                                // Create buffered writer to write
+                                BufferedWriter w = new BufferedWriter(wr);
+
+                                // Write
+                                w.write(textPane.getText());
+                                w.flush();
+                                w.close();
+                            } catch (Exception evt) {
+                                JOptionPane.showMessageDialog(frame, evt.getMessage());
+                            }
+                        }
+                        Origin = textPane.getText();
+                        frame.setVisible(false);
                     }
                 }
             }

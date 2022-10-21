@@ -1,5 +1,7 @@
 package bridge;
 
+import javax.swing.*;
+
 public abstract class AbstractWindow {
     protected WindowImpl windowImpl;
 
@@ -8,4 +10,6 @@ public abstract class AbstractWindow {
     }
     abstract void DrawText();
     abstract void DrawRect();
+
+    public abstract JFrame getFrame();
 }

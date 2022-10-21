@@ -49,7 +49,7 @@ class editor extends JFrame implements ActionListener {
         careTaker.setMemento(originator.setMemento());
         // Create a frame
 
-        WindowImpl windowsImpl;
+        WindowImpl windowImpl;
         AbstractWindow window;
 
         WindowImpl xWindowImpl ;
@@ -58,13 +58,12 @@ class editor extends JFrame implements ActionListener {
         System.out.println("OS Architecture:" + System.getProperty("os.arch") );
 
         if(System.getProperty("os.name").equals("Windows 10")){
-            windowsImpl = new WindowsImpl();
-            window = new Window(windowsImpl);
+            windowImpl = new WindowsImpl();
         }else{
-            xWindowImpl= new XWindowImpl();
-            window = new Window(xWindowImpl);
+            windowImpl= new XWindowImpl();
         }
-
+        window = new Window(windowImpl);
+        frame = window.getFrame();
 //        frame = new JFrame("editor");
 //
 //        try {
@@ -227,10 +226,10 @@ class editor extends JFrame implements ActionListener {
         functionMenu.add(m5i);
         menuBar.add(functionMenu);
 
-        Window.frame.setJMenuBar(menuBar);
-        Window.frame.add(textPane);
-        Window.frame.setSize(500, 500);
-        Window.frame.show();
+        frame.setJMenuBar(menuBar);
+        frame.add(textPane);
+        frame.setSize(500, 500);
+        frame.show();
     }
 
     // If a button is pressed

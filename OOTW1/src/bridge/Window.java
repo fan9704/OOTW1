@@ -11,7 +11,7 @@ public class Window extends AbstractWindow {
 
         JFrame frame = new JFrame("Window");
         frame.setSize(960,540);
-        frame.setLayout(new FlowLayout());
+//        frame.setLayout(new FlowLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setLocationByPlatform(true);
@@ -27,5 +27,9 @@ public class Window extends AbstractWindow {
     @Override
     public void DrawRect() {
         this.frame.add(this.windowImpl.DevDrawRect());
+    }
+
+    public JFrame getFrame(){
+        return this.frame;
     }
 }

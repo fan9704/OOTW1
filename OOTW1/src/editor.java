@@ -1,6 +1,11 @@
 import Command.*;
 import Memento.*;
 
+import bridge.AbstractWindow;
+import bridge.Window;
+import bridge.WindowImpl;
+import bridge.WindowsImpl;
+import bridge.XWindowImpl;
 import model.FontStyleActionListener;
 import singleton.MenuWeight.DBMenuWeightHelper;
 import textAlign.*;
@@ -43,18 +48,35 @@ class editor extends JFrame implements ActionListener {
         originator.storeState(Origin);
         careTaker.setMemento(originator.setMemento());
         // Create a frame
-        frame = new JFrame("editor");
 
-        try {
-            // Set metal look and feel
-            String lookAndFeel1 = "javax.swing.plaf.metal.MetalLookAndFeel";
-            String lookAndFeel2 = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
-            UIManager.setLookAndFeel(lookAndFeel1);
+        WindowImpl windowsImpl;
+        AbstractWindow window;
 
-            // Set theme to ocean
-            MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-        } catch (Exception e) {
+        WindowImpl xWindowImpl ;
+        System.out.println("OS Name:" +System.getProperty("os.name") );
+        System.out.println("OS Version:" + System.getProperty("os.version") );
+        System.out.println("OS Architecture:" + System.getProperty("os.arch") );
+
+        if(System.getProperty("os.name").equals("Windows 10")){
+            windowsImpl = new WindowsImpl();
+            window = new Window(windowsImpl);
+        }else{
+            xWindowImpl= new XWindowImpl();
+            window = new Window(xWindowImpl);
         }
+
+//        frame = new JFrame("editor");
+//
+//        try {
+//            // Set metal look and feel
+//            String lookAndFeel1 = "javax.swing.plaf.metal.MetalLookAndFeel";
+//            String lookAndFeel2 = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
+//            UIManager.setLookAndFeel(lookAndFeel1);
+//
+//            // Set theme to ocean
+//            MetalLookAndFeel.setCurrentTheme(new OceanTheme());
+//        } catch (Exception e) {
+//        }
 
         // Text component
         textPane = new JTextPane();
@@ -205,10 +227,10 @@ class editor extends JFrame implements ActionListener {
         functionMenu.add(m5i);
         menuBar.add(functionMenu);
 
-        frame.setJMenuBar(menuBar);
-        frame.add(textPane);
-        frame.setSize(500, 500);
-        frame.show();
+        Window.frame.setJMenuBar(menuBar);
+        Window.frame.add(textPane);
+        Window.frame.setSize(500, 500);
+        Window.frame.show();
     }
 
     // If a button is pressed

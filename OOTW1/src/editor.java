@@ -64,6 +64,10 @@ class editor extends JFrame implements ActionListener {
         }
         window = new Window(windowImpl);
         frame = window.getFrame();
+        frame.setSize(960,540);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
 //        frame = new JFrame("editor");
 //
 //        try {

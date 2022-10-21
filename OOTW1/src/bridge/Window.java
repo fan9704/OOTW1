@@ -7,15 +7,7 @@ public class Window extends AbstractWindow {
     public static JFrame frame;
     public Window(WindowImpl windowImpl) {
         super(windowImpl);
-
-
         JFrame frame = new JFrame("Window");
-        frame.setSize(960,540);
-//        frame.setLayout(new FlowLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
         this.frame =frame;
     }
 

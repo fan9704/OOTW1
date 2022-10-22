@@ -5,6 +5,7 @@ import singleton.Model.DocumentModel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -15,68 +16,42 @@ import java.util.List;
 
 public class DBMenuWeightHelper {
 
-    static public JMenu getMenu(JTextPane jTextPane){
+    static public JMenu getMenu(JTextPane jTextPane) {
 
         JMenu dbMenu = new JMenu("Database");
 
         JMenuItem dbUpdateMenuItem = new JMenuItem("update");
         JMenuItem dbRollbackMenuItem = new JMenuItem("rollback");
 
-        dbUpdateMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        dbUpdateMenuItem.addActionListener(e -> {
 
-                DBConnector dbConnector = DBConnector.getInstance();
-                EntityManager entityManager = dbConnector.getEntityManager();
-                EntityTransaction transaction = entityManager.getTransaction();
+            DBConnector dbConnector = DBConnector.getInstance();
+            EntityManager entityManager = dbConnector.getEntityManager();
+            EntityTransaction transaction = entityManager.getTransaction();
 
-                DocumentModel documentModel = new DocumentModel(jTextPane.getDocument(),"FakeMin");
+            DocumentModel documentModel = new DocumentModel(jTextPane.getDocument(), "FakeMin");
 
-                transaction.begin();
-                entityManager.persist(documentModel);
-                transaction.commit();
+            transaction.begin();
+            entityManager.persist(documentModel);
+            transaction.commit();
 
-                TypedQuery<DocumentModel> query
-                        = entityManager.createQuery("SELECT c FROM DocumentModel c",
-                        DocumentModel.class);
-                List<DocumentModel> results = query.getResultList();
-
-                for (DocumentModel document : results) {
-                    Document d = document.getDocument();
-                    try {
-                        System.out.println(d.getText(0,d.getLength()));
-                    } catch (BadLocationException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-               // dbConnector.close();
-
-            }
         });
 
-        dbRollbackMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DBConnector dbConnector = DBConnector.getInstance();
-                EntityManager entityManager = dbConnector.getEntityManager();
-               // EntityTransaction transaction = entityManager.getTransaction();
-               // transaction.begin();
-                TypedQuery<DocumentModel> query
-                        = entityManager.createQuery("SELECT c FROM DocumentModel c",
-                        DocumentModel.class);
-                List<DocumentModel> results = query.getResultList();
+        dbRollbackMenuItem.addActionListener(e -> {
+            DBConnector dbConnector = DBConnector.getInstance();
+            EntityManager entityManager = dbConnector.getEntityManager();
+            // EntityTransaction transaction = entityManager.getTransaction();
+            // transaction.begin();
+            TypedQuery<DocumentModel> query
+                    = entityManager.createQuery("SELECT d FROM DocumentModel d ORDER BY d.updateTime", DocumentModel.class);
+            query.setFirstResult(0);
+            query.setMaxResults(1);
 
-                for (DocumentModel document : results) {
-                    Document d = document.getDocument();
-                    jTextPane.setDocument(d);
-                    try {
-                        System.out.println(d.getText(0,d.getLength()) +"--" );
-                    } catch (BadLocationException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-//                dbConnector.close();
-            }
+             DocumentModel dbDocument = query.getSingleResult();
+
+            jTextPane.setDocument(dbDocument.getDocument());
+
+
         });
 
         dbMenu.add((dbUpdateMenuItem));
@@ -84,7 +59,6 @@ public class DBMenuWeightHelper {
 
         return dbMenu;
     }
-
 
 
 }

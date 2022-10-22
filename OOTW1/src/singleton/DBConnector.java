@@ -6,29 +6,33 @@ import javax.persistence.Persistence;
 
 public class DBConnector {
     private static DBConnector dbConnector;
-    private  EntityManager entityManager;
-    private EntityManagerFactory entityManagerFactory;
+    private final EntityManager entityManager;
+    private final EntityManagerFactory entityManagerFactory;
 
     DBConnector() {
-        entityManagerFactory = Persistence.createEntityManagerFactory(
-                "db/TextEditor2.odb");
-        entityManager = entityManagerFactory.createEntityManager();
+//      ------------------------------------------------------------------------
+//        entityManagerFactory = Persistence.createEntityManagerFactory(
+//                "objectdb://localhost/test.odb;user=admin;password=admin");
+//      ------------------------------------------------------------------------
 
-    };
-    public static DBConnector getInstance(){
-        if(dbConnector==null){
-            dbConnector= new DBConnector();
+        entityManagerFactory = Persistence.createEntityManagerFactory(
+                "db/TextEditor.odb");
+        entityManager = entityManagerFactory.createEntityManager();
+    }
+
+
+    public static DBConnector getInstance() {
+        if (dbConnector == null) {
+            dbConnector = new DBConnector();
         }
         return dbConnector;
     }
+
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
     public void close() {
         entityManagerFactory.close();
-        entityManagerFactory = Persistence.createEntityManagerFactory(
-                "db/TextEditor.odb");
-        entityManager = entityManagerFactory.createEntityManager();
-    ;}
+    }
 }

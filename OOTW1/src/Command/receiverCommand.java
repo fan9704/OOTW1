@@ -1,31 +1,21 @@
 package Command;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.text.Document;
-import javax.swing.undo.CannotUndoException;
-import javax.swing.undo.UndoManager;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
+import Observer.Attribute;
+import Observer.Title;
+import Observer.WindowAttribute;
+import Observer.WindowTitle;
+
+import javax.swing.*;
+import java.io.*;
+
 
 public class receiverCommand extends JFrame {
 	JTextPane textArea;
 	JFrame frame;
-	UndoManager undoManager = new UndoManager();
+	String fileName;
+	String[] fileNameTemp;
 
 
-	
-	
 	public void setTextArea(JTextPane textArea) {
 		this.textArea = textArea;
 	}
@@ -74,7 +64,7 @@ public class receiverCommand extends JFrame {
 		else
 		JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
 	}
-	
+
 	public void Print() {
 		try {
 			// print the file
@@ -95,6 +85,15 @@ public class receiverCommand extends JFrame {
 				if (r == JFileChooser.APPROVE_OPTION) {
 					// Set the label to the path of the selected directory
 					File fi = new File(j.getSelectedFile().getAbsolutePath());
+					fileName = fi.toString();
+					fileNameTemp = fileName.split("\\\\");
+					System.out.println("Open file: "+ fileNameTemp[fileNameTemp.length -1]);
+
+					// Observer Pattern
+					WindowAttribute windowTitle = new WindowTitle();
+					Attribute title = new Title();
+					windowTitle.AddObserver(title);
+					windowTitle.Notify(fileNameTemp[fileNameTemp.length -1]);
 
 					try {
 						// String
@@ -128,11 +127,11 @@ public class receiverCommand extends JFrame {
 	public void New() {
 		textArea.setText("");
 	}
-		
+
 	public void ScrollBar() {
 		JScrollPane pane = new JScrollPane(textArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		frame.add(pane);
 	}
-	
+
 }

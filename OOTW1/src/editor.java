@@ -1,10 +1,6 @@
 import Command.*;
 import Memento.careTaker;
 import Memento.originator;
-import Observer.Attribute;
-import Observer.Title;
-import Observer.WindowAttribute;
-import Observer.WindowTitle;
 import bridge.Window;
 import bridge.*;
 import model.FontStyleActionListener;
@@ -16,7 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Map;
 
 // we could add "Command Patter"
@@ -56,18 +54,7 @@ public class editor extends JFrame implements ActionListener {
         }
         window = new Window(windowImpl);
         frame = window.getFrame();
-//        frame = new JFrame("editor");
-//
-//        try {
-//            // Set metal look and feel
-//            String lookAndFeel1 = "javax.swing.plaf.metal.MetalLookAndFeel";
-//            String lookAndFeel2 = "com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel";
-//            UIManager.setLookAndFeel(lookAndFeel1);
-//
-//            // Set theme to ocean
-//            MetalLookAndFeel.setCurrentTheme(new OceanTheme());
-//        } catch (Exception e) {
-//        }
+
 
         // Text component
         textPane = new JTextPane();
@@ -228,6 +215,8 @@ public class editor extends JFrame implements ActionListener {
 
         receiver.setTextArea(textPane);
         receiver.setJFrame(frame);
+        receiver.getFi(fi);
+        receiver.getOrigin(Origin);
 
         switch (s) {
             case "Cut":
@@ -265,11 +254,13 @@ public class editor extends JFrame implements ActionListener {
                 invoker.addCommend(scrollBar);
                 invoker.execute();
                 break;
-//            case "Open":
-//                commandCommand open = new openCommand(receiver);
-//                invoker.addCommend(open);
-//                invoker.execute();
-//                break;
+            case "Open":
+                commandCommand open = new openCommand(receiver);
+                invoker.addCommend(open);
+                invoker.execute();
+                Origin = receiver.setOrigin();
+                fi = receiver.setFi();
+                break;
         }
 
 
@@ -280,6 +271,8 @@ public class editor extends JFrame implements ActionListener {
             originator.restoreFromMemento(careTaker.getLastMemento());
             textPane.setText(originator.getNow());
         } else if (s.equals("Close")) {
+            Origin = receiver.setOrigin();
+            fi = receiver.setFi();
             if(textPane.getText().equals(Origin)) {
                 frame.setVisible(false);
             }
@@ -299,7 +292,7 @@ public class editor extends JFrame implements ActionListener {
 
                         if (r == JFileChooser.APPROVE_OPTION) {
                             // Set the label to the path of the selected directory
-                            File fi = new File(j.getSelectedFile().getAbsolutePath());
+//                            fi = new File(j.getSelectedFile().getAbsolutePath());
                             try {
                                 // Create a file writer
                                 FileWriter wr = new FileWriter(fi, false);
@@ -321,6 +314,7 @@ public class editor extends JFrame implements ActionListener {
                     else {
                         try {
                             // Create a file writer
+
                             FileWriter wr = new FileWriter(fi, false);
 
                             // Create buffered writer to write
@@ -340,56 +334,7 @@ public class editor extends JFrame implements ActionListener {
             }
             Origin = textPane.getText();
             frame.setVisible(false);
-        } else if (s.equals("Open")) {
-            // Create an object of JFileChooser class
-            JFileChooser j = new JFileChooser("f:");
-
-            // Invoke the showsOpenDialog function to show the save dialog
-            int r = j.showOpenDialog(null);
-
-            // If the user selects a file
-            if (r == JFileChooser.APPROVE_OPTION) {
-                // Set the label to the path of the selected directory
-                fi = new File(j.getSelectedFile().getAbsolutePath());
-                //To get the fileName
-                fileName = fi.toString();
-                fileNameTemp = fileName.split("\\\\");
-                System.out.println("Open file: " + fileNameTemp[fileNameTemp.length - 1]);
-
-                // Observer Pattern
-                WindowAttribute windowTitle = new WindowTitle();
-                Attribute title = new Title();
-                windowTitle.AddObserver(title);
-                windowTitle.Notify(fileNameTemp[fileNameTemp.length - 1]);
-
-                try {
-                    // String
-                    String s1 = "", sl = "";
-
-                    // File reader
-                    FileReader fr = new FileReader(fi);
-
-                    // Buffered reader
-                    BufferedReader br = new BufferedReader(fr);
-
-                    // Initialize sl
-                    sl = br.readLine();
-                    Origin = sl;
-                    // Take the input from the file
-                    while ((s1 = br.readLine()) != null) {
-                        sl = sl + "\n" + s1;
-                    }
-
-                    // Set the text
-                    textPane.setText(sl);
-                } catch (Exception evt) {
-                    JOptionPane.showMessageDialog(frame, evt.getMessage());
-                }
-            }
-            // If the user cancelled the operation
-            else
-                JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
-
         }
     }
+
 }

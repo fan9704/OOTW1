@@ -5,8 +5,6 @@ public class careTaker {
 	private List<memento> list = new ArrayList<memento>();
 	int lastIdx;
 	public memento getMemento() {
-//		st.pop();
-//		return st.peek();//用pop比較好，但是要預防取到最後沒東西會跳exception
 		lastIdx = lastIdx - 1;
 		memento lastElement = list.get(lastIdx);
 		return lastElement;

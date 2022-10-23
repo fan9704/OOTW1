@@ -26,33 +26,13 @@ public class DBMenuWeightHelper {
         JMenuItem dbRollbackMenuItem = new JMenuItem("rollback");
 
         dbUpdateMenuItem.addActionListener(e -> {
-
             DBConnector dbConnector = DBConnector.getInstance();
-            EntityManager entityManager = dbConnector.getEntityManager();
-            EntityTransaction transaction = entityManager.getTransaction();
-
-
-
-//            DocumentModel documentModel = new DocumentModel(jTextPane.getDocument(), "FakeMin");
-            DocumentModel documentModel = entityManager.find(DocumentModel.class,1);
-            documentModel.setAuthor("ba");
-            transaction.begin();
-//            entityManager.persist(documentModel);
-            transaction.commit();
+            dbConnector.createDocumentModel(jTextPane);
         });
 
         dbRollbackMenuItem.addActionListener(e -> {
             DBConnector dbConnector = DBConnector.getInstance();
-            EntityManager entityManager = dbConnector.getEntityManager();
-            TypedQuery<DocumentModel> query
-                    = entityManager.createQuery("SELECT d FROM DocumentModel d ORDER BY d.updateTime desc", DocumentModel.class);
-            query.setFirstResult(0);
-            query.setMaxResults(1);
-
-            DocumentModel dbDocument = query.getSingleResult();
-            DocumentModel clone = dbDocument.clone();
-            jTextPane.setDocument(clone.getDocument());
-
+            dbConnector.rollbackToNewstDocumentModel(jTextPane);
         });
 
         dbMenu.add((dbUpdateMenuItem));

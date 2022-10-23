@@ -12,11 +12,12 @@ public class DBConnector {
     DBConnector() {
 //      ------------------------------------------------------------------------
 //        entityManagerFactory = Persistence.createEntityManagerFactory(
-//                "objectdb://localhost/test.odb;user=admin;password=admin");
+//                "objectdb://localhost/test2.odb;user=admin;password=admin");
 //      ------------------------------------------------------------------------
 
         entityManagerFactory = Persistence.createEntityManagerFactory(
                 "db/TextEditor.odb");
+
         entityManager = entityManagerFactory.createEntityManager();
     }
 

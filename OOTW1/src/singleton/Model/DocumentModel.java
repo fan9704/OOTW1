@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.swing.text.Document;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 
 @Getter
@@ -26,11 +26,16 @@ public class DocumentModel implements Serializable {
     public String author;
 
     @Temporal(TemporalType.TIMESTAMP)
-    public Timestamp updateTime;
+    public Date updateTime;
 
     public DocumentModel(Document document, String author){
         this.document = document;
         this.author = author;
+        Date date =  new Date();
+    }
+    @PrePersist
+    void updateDates() {
+        updateTime = new Date();
     }
 
 

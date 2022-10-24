@@ -11,7 +11,6 @@ public class FontStyleActionListener  implements ActionListener {
     JTextPane textPane;
     StyledDocument doc;
     Glyph basic;
-    Decorator FontColor;
     SimpleAttributeSet style;
     public FontStyleActionListener(JTextPane textPane) {
         this.textPane = textPane;
@@ -22,43 +21,31 @@ public class FontStyleActionListener  implements ActionListener {
         String s = e.getActionCommand();
         doc = textPane.getStyledDocument();
         style = new SimpleAttributeSet();
+        basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
         switch (s){
             case "bold":
-                basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
-                Decorator bold = new Bold(basic,doc,e);
-                bold.getStyle();
+                basic= new Bold(basic,doc,e);
                 break;
             case "italic":
-                basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
-                Decorator italic = new Italic(basic,doc,e);
-                italic.getStyle();
+                basic = new Italic(basic,doc,e);
                 break;
             case "underline":
-                basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
-                Decorator underline = new Underline(basic,doc,e);
-                underline.getStyle();
+                basic = new Underline(basic,doc,e);
                 break;
             case "red":
-                basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
-                FontColor = new FontColor(basic,doc, style, Color.RED);
-                FontColor.getStyle();
+                basic = new FontColor(basic,doc, style, Color.RED);
                 break;
             case "green":
-                basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
-                FontColor = new FontColor(basic,doc, style, Color.GREEN);
-                FontColor.getStyle();
+                basic = new FontColor(basic,doc, style, Color.GREEN);
                 break;
             case "blue":
-                basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
-                FontColor = new FontColor(basic,doc, style, Color.BLUE);
-                FontColor.getStyle();
+                basic = new FontColor(basic,doc, style, Color.BLUE);
                 break;
             case "black":
-                basic = new BasicText(textPane.getSelectionStart(), textPane.getSelectionEnd());
-                FontColor = new FontColor(basic,doc, style, Color.BLACK);
-                FontColor.getStyle();
+                basic = new FontColor(basic,doc, style, Color.BLACK);
                 break;
         }
+        basic.setStyle();
 
     }
 }

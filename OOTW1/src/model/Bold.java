@@ -3,7 +3,7 @@ package model;
 import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 
-public class Bold extends Decorator{
+public class Bold extends TextDecorator {
     ActionEvent e;
     public Bold(Glyph decorator, StyledDocument d,ActionEvent e){
         super(decorator,d);
@@ -11,7 +11,7 @@ public class Bold extends Decorator{
     }
 
     @Override
-    public void getStyle(){
+    public void setStyle(){
 //        System.out.println(StyleConstants.isBold(getstyle()));
 //
 //        if(StyleConstants.isBold(getstyle())){
@@ -26,8 +26,4 @@ public class Bold extends Decorator{
           new StyledEditorKit.BoldAction().actionPerformed(e);
     }
 
-    @Override
-    void printGlyph() {
-        System.out.println("This is Bold");
-    }
 }

@@ -4,14 +4,14 @@ package model;
 import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 
-public class Underline extends Decorator{
+public class Underline extends TextDecorator {
     ActionEvent e;
     public Underline(Glyph decorator, StyledDocument d,ActionEvent e){
         super(decorator,d);
         this.e = e;
     }
     @Override
-    public void getStyle() {
+    public void setStyle() {
 //        StyleConstants.setUnderline(getstyle(),true);
 //        int start = BasicText.getStart();
 //        int end = BasicText.getEnd();
@@ -20,8 +20,4 @@ public class Underline extends Decorator{
         new StyledEditorKit.UnderlineAction().actionPerformed(e);
     }
 
-    @Override
-    void printGlyph() {
-        System.out.println("This is underline");
-    }
 }

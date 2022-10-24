@@ -3,7 +3,7 @@ package model;
 import javax.swing.text.*;
 import java.awt.*;
 
-public class FontColor extends Decorator{
+public class FontColor extends TextDecorator {
     Color color;
     SimpleAttributeSet style;
     public FontColor(Glyph decorator, StyledDocument d,SimpleAttributeSet style,Color color){
@@ -12,7 +12,7 @@ public class FontColor extends Decorator{
         this.color = color;
     }
     @Override
-    public void getStyle() {
+    public void setStyle() {
         StyleConstants.setForeground(style, color);
         int start = BasicText.getStart();
         int end = BasicText.getEnd();
@@ -20,8 +20,4 @@ public class FontColor extends Decorator{
         getDocument().setCharacterAttributes(start,end - start,style,false);
     }
 
-    @Override
-    void printGlyph() {
-        System.out.println("This is Italic");
-    }
 }

@@ -145,19 +145,19 @@ public class editor extends JFrame implements ActionListener {
         fontColorIsBlackMenuItem.setForeground(Color.BLACK);
 
         boldMenuItem.setActionCommand("bold");
-        boldMenuItem.addActionListener(new FontStyleActionListener(textPane));
+        boldMenuItem.addActionListener(new FontStyleActionListener());
         italicMenuItem.setActionCommand("italic");
-        italicMenuItem.addActionListener(new FontStyleActionListener(textPane));
+        italicMenuItem.addActionListener(new FontStyleActionListener());
         underlineMenuItem.setActionCommand("underline");
-        underlineMenuItem.addActionListener(new FontStyleActionListener(textPane));
+        underlineMenuItem.addActionListener(new FontStyleActionListener());
         fontColorIsRedMenuItem.setActionCommand("red");
-        fontColorIsRedMenuItem.addActionListener(new FontStyleActionListener(textPane));
+        fontColorIsRedMenuItem.addActionListener(new FontStyleActionListener());
         fontColorIsGreenMenuItem.setActionCommand("green");
-        fontColorIsGreenMenuItem.addActionListener(new FontStyleActionListener(textPane));
+        fontColorIsGreenMenuItem.addActionListener(new FontStyleActionListener());
         fontColorIsBlueMenuItem.setActionCommand("blue");
-        fontColorIsBlueMenuItem.addActionListener(new FontStyleActionListener(textPane));
+        fontColorIsBlueMenuItem.addActionListener(new FontStyleActionListener());
         fontColorIsBlackMenuItem.setActionCommand("black");
-        fontColorIsBlackMenuItem.addActionListener(new FontStyleActionListener(textPane));
+        fontColorIsBlackMenuItem.addActionListener(new FontStyleActionListener());
 
 
         styleMenu.add(boldMenuItem);

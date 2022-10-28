@@ -4,17 +4,16 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class FontColor extends TextDecorator {
+public class FontColor extends FontStyleDecorator {
     Color color;
-    ActionEvent e;
-    public FontColor(Glyph decorator,Color color,ActionEvent e){
-        super(decorator);
+    public FontColor(FontStyleComponent fontStyleComponent,Color color){
+        super(fontStyleComponent);
         this.color = color;
-        this.e=e;
     }
     @Override
     public void setStyle() {
-        new StyledEditorKit.ForegroundAction("",color).actionPerformed(e);
+        fontStyleComponent.setStyle();
+        new StyledEditorKit.ForegroundAction("",color).actionPerformed(actionEvent);
     }
 
 }

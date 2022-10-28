@@ -1,8 +1,6 @@
 package Iterator;
 
-import singleton.Model.DocumentModel;
-
-import java.util.List;
+import Database.Model.DocumentModel;
 
 public interface VersionCollection {
     public void add(DocumentModel documentModel);

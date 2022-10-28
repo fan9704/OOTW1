@@ -1,11 +1,10 @@
-package singleton;
+package Database;
 
-import singleton.Model.DocumentModel;
+import Database.Model.DocumentModel;
 
 import javax.persistence.*;
 import javax.swing.*;
 import java.util.List;
-import java.util.Optional;
 
 public class DBConnector {
     private static DBConnector dbConnector;

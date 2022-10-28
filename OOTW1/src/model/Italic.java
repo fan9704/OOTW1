@@ -3,15 +3,15 @@ package model;
 import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 
-public class Italic extends TextDecorator {
-    ActionEvent e;
-    public Italic(Glyph decorator,ActionEvent e){
-        super(decorator);
-        this.e = e;
+public class Italic extends FontStyleDecorator {
+    public Italic( FontStyleComponent fontStyleComponent){
+        super(fontStyleComponent);
     }
+
     @Override
-    public void setStyle() {
-        new StyledEditorKit.ItalicAction().actionPerformed(e);
+    public void setStyle(){
+        fontStyleComponent.setStyle();
+        new StyledEditorKit.BoldAction().actionPerformed(actionEvent);
     }
 
 }

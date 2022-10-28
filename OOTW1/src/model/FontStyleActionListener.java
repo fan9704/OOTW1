@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FontStyleActionListener  implements ActionListener {
-    Glyph basic;
+    FontStyleComponent basic;
     public FontStyleActionListener() {
 
     }
@@ -16,28 +16,28 @@ public class FontStyleActionListener  implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
-        basic = new BasicText();
+        basic = new BasicFontStyle(e);
         switch (s){
             case "bold":
-                basic= new Bold(basic,e);
+                basic= new Bold(basic);
                 break;
             case "italic":
-                basic = new Italic(basic,e);
+                basic = new Italic(basic);
                 break;
             case "underline":
-                basic = new Underline(basic,e);
+                basic = new Underline(basic);
                 break;
             case "red":
-                basic = new FontColor(basic,Color.RED,e);
+                basic = new FontColor(basic,Color.RED);
                 break;
             case "green":
-                basic = new FontColor(basic,Color.GREEN,e);
+                basic = new FontColor(basic,Color.GREEN);
                 break;
             case "blue":
-                basic = new FontColor(basic,Color.BLUE,e);
+                basic = new FontColor(basic,Color.BLUE);
                 break;
             case "black":
-                basic = new FontColor(basic,Color.BLACK,e);
+                basic = new FontColor(basic,Color.BLACK);
                 break;
         }
         basic.setStyle();

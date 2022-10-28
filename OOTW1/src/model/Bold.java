@@ -3,16 +3,16 @@ package model;
 import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 
-public class Bold extends TextDecorator {
-    ActionEvent e;
-    public Bold(Glyph decorator ,ActionEvent e){
-        super(decorator);
-        this.e = e;
+public class Bold extends FontStyleDecorator {
+
+    public Bold( FontStyleComponent fontStyleComponent){
+        super(fontStyleComponent);
     }
 
     @Override
     public void setStyle(){
-          new StyledEditorKit.BoldAction().actionPerformed(e);
+        fontStyleComponent.setStyle();
+        new StyledEditorKit.BoldAction().actionPerformed(actionEvent);
     }
 
 }

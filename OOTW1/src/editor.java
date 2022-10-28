@@ -4,7 +4,7 @@ import Memento.originator;
 import bridge.Window;
 import bridge.*;
 import model.FontStyleActionListener;
-import singleton.MenuWeight.DBMenuWeightHelper;
+import Database.Weight.DBMenuWeightHelper;
 import textAlign.TextAlignActionListenerFactory;
 
 import javax.swing.*;
@@ -385,17 +385,17 @@ public class editor extends JFrame implements ActionListener {
 
         JButton fontStyleBoldButton = new JButton(getResizedIcon(url+"fontStyleBold.png"));
         fontStyleBoldButton.setActionCommand("bold");
-        fontStyleBoldButton.addActionListener(new FontStyleActionListener(textPane));
+//        fontStyleBoldButton.addActionListener(new FontStyleActionListener(textPane));
         toolBar.add(fontStyleBoldButton);
 
         JButton fontStyleItalicButton = new JButton(getResizedIcon(url+"fontStyleItalic.png"));
         fontStyleItalicButton.setActionCommand("italic");
-        fontStyleItalicButton.addActionListener(new FontStyleActionListener(textPane));
+//        fontStyleItalicButton.addActionListener(new FontStyleActionListener(textPane));
         toolBar.add(fontStyleItalicButton);
 
         JButton fontStyleUnderlineButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
         fontStyleUnderlineButton.setActionCommand("underline");
-        fontStyleUnderlineButton.addActionListener(new FontStyleActionListener(textPane));
+//        fontStyleUnderlineButton.addActionListener(new FontStyleActionListener(textPane));
         toolBar.add(fontStyleUnderlineButton);
 
 

@@ -110,7 +110,7 @@ public class ReplaceActionListener implements ActionListener {
 
     void recoverBackgroundColor() {
         SimpleAttributeSet style = new SimpleAttributeSet();
-        StyleConstants.setBackground(style, Color.white);
+        StyleConstants.setBackground(style, new Color(0,0,0,0));
         textPane.getStyledDocument().setCharacterAttributes(0, textPane.getText().length(), style, false);
     }
 

@@ -198,6 +198,9 @@ public class editor extends JFrame implements ActionListener {
 
         menuBar.add(functionMenu);
 
+
+        frame.add(getToolbar(),BorderLayout.NORTH);
+
         frame.setJMenuBar(menuBar);
         frame.add(textPane);
         frame.setSize(500, 500);
@@ -336,5 +339,88 @@ public class editor extends JFrame implements ActionListener {
             frame.setVisible(false);
         }
     }
+
+    //-----------------------Toolbar----------------------------------
+    private JToolBar getToolbar(){
+        JToolBar toolBar = new JToolBar();
+        String url = "OOTW1/resources/image/toolbar/";
+
+
+
+        JButton openButton = new JButton(getResizedIcon(url+"functionOpenFile.png"));
+        openButton.setActionCommand("Open");
+        openButton.addActionListener(this);
+        toolBar.add(openButton);
+
+        JButton undoButton = new JButton(getResizedIcon(url+"functionUndo.png"));
+        undoButton.setActionCommand("Undo");
+        undoButton.addActionListener(this);
+        toolBar.add(undoButton);
+
+        JButton redoButton = new JButton(getResizedIcon(url+"functionRedo.png"));
+        redoButton.setActionCommand("Redo");
+        redoButton.addActionListener(this);
+        toolBar.add(redoButton);
+
+
+
+        TextAlignActionListenerFactory textAlignActionListenerFactory = new TextAlignActionListenerFactory(textPane);
+
+        JButton alignLeftButton = new JButton(getResizedIcon(url+"alignLeft.png"));
+        alignLeftButton.setActionCommand("Left");
+        alignLeftButton.addActionListener(textAlignActionListenerFactory.produce(alignLeftButton.getActionCommand()));
+        toolBar.add(alignLeftButton);
+
+        JButton alignCenterButton = new JButton(getResizedIcon(url+"alignCenter.png"));
+        alignCenterButton.setActionCommand("Center");
+        alignCenterButton.addActionListener(textAlignActionListenerFactory.produce(alignCenterButton.getActionCommand()));
+        toolBar.add(alignCenterButton);
+
+        JButton alignRightButton = new JButton(getResizedIcon(url+"alignRight.png"));
+        alignRightButton.setActionCommand("Right");
+        alignRightButton.addActionListener( textAlignActionListenerFactory.produce(alignRightButton.getActionCommand()));
+        toolBar.add(alignRightButton);
+
+
+
+        JButton fontStyleBoldButton = new JButton(getResizedIcon(url+"fontStyleBold.png"));
+        fontStyleBoldButton.setActionCommand("bold");
+        fontStyleBoldButton.addActionListener(new FontStyleActionListener(textPane));
+        toolBar.add(fontStyleBoldButton);
+
+        JButton fontStyleItalicButton = new JButton(getResizedIcon(url+"fontStyleItalic.png"));
+        fontStyleItalicButton.setActionCommand("italic");
+        fontStyleItalicButton.addActionListener(new FontStyleActionListener(textPane));
+        toolBar.add(fontStyleItalicButton);
+
+        JButton fontStyleUnderlineButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
+        fontStyleUnderlineButton.setActionCommand("underline");
+        fontStyleUnderlineButton.addActionListener(new FontStyleActionListener(textPane));
+        toolBar.add(fontStyleUnderlineButton);
+
+
+
+        JButton DatabaseFileButton = new JButton(getResizedIcon(url+"databaseFile.png"));
+        DatabaseFileButton.setActionCommand("");
+//        DatabaseOpenButton.addActionListener();
+        toolBar.add(DatabaseFileButton);
+
+        JButton DatabaseCommitButton = new JButton(getResizedIcon(url+"databaseCommit.png"));
+        DatabaseCommitButton.setActionCommand("");
+//        DatabaseOpenButton.addActionListener();
+        toolBar.add(DatabaseCommitButton);
+
+
+
+        return toolBar;
+    }
+
+    private ImageIcon getResizedIcon (String fileUrl){
+        ImageIcon icon = new ImageIcon(fileUrl);
+        Image image = icon.getImage();
+        Image resizedImage = image.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
+    }
+    //-----------------------Toolbar----------------------------------
 
 }

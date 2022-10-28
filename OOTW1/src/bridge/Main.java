@@ -19,8 +19,8 @@ public class Main {
             xWindowImpl= new XWindowImpl();
             window = new Window(xWindowImpl);
         }
-
-        window.DrawRect();
-        window.DrawText();
+        JFrame jFrame = window.getFrame();
+        jFrame.setSize(500, 500);
+        jFrame.show();
     }
 }

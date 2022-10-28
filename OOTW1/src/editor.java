@@ -3,20 +3,25 @@ import Memento.careTaker;
 import Memento.originator;
 import bridge.Window;
 import bridge.*;
+import com.googlecode.vfsjfilechooser2.VFSJFileChooser;
+import com.googlecode.vfsjfilechooser2.accessories.DefaultAccessoriesPanel;
+import com.googlecode.vfsjfilechooser2.accessories.connection.Credentials;
+import com.googlecode.vfsjfilechooser2.utils.VFSUtils;
 import model.FontStyleActionListener;
+import org.apache.commons.lang3.builder.Builder;
+import org.apache.commons.vfs2.FileObject;
+import replace.ReplaceActionListener;
 import singleton.MenuWeight.DBMenuWeightHelper;
 import textAlign.TextAlignActionListenerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Map;
-
 // we could add "Command Patter"
 public class editor extends JFrame implements ActionListener {
     // Text component
@@ -58,6 +63,21 @@ public class editor extends JFrame implements ActionListener {
 
         // Text component
         textPane = new JTextPane();
+
+        textPane.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent g) {
+                if(g.isControlDown()) {
+                    int fontZoom = g.getUnitsToScroll() > 0 ? -2 : 2;
+                    String fontName = textPane.getFont().getFontName();
+                    int fontStyle = textPane.getFont().getStyle();
+                    int fontSize = textPane.getFont().getSize();
+                    textPane.setFont(new Font(fontName,fontStyle,fontSize + fontZoom));
+                }
+            }
+        });
+
+
 
         keyEventListener key = new keyEventListener(originator, careTaker, textPane);
         // Create a menubar
@@ -187,6 +207,12 @@ public class editor extends JFrame implements ActionListener {
         // Add action listener
         scrollBarMenuItem.addActionListener(this);
         functionMenu.add(scrollBarMenuItem);
+
+        JMenuItem testMenuItem = new JMenuItem("find & replace");
+        testMenuItem.addActionListener(new ReplaceActionListener(textPane));
+        functionMenu.add(testMenuItem);
+
+
         menuBar.add(functionMenu);
         undoMenuItem.addActionListener(this);
         redoMenuItem.addActionListener(this);
@@ -195,8 +221,6 @@ public class editor extends JFrame implements ActionListener {
         //Create keyListener for Pressing Enter
         textPane.addKeyListener(key);
 
-
-        menuBar.add(functionMenu);
 
         frame.setJMenuBar(menuBar);
         frame.add(textPane);

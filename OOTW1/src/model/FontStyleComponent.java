@@ -6,11 +6,8 @@ import java.awt.event.ActionEvent;
 
 // Componet
 public abstract class FontStyleComponent {
-    ActionEvent actionEvent;
-    abstract void  setStyle();
+    abstract void  setStyle(ActionEvent actionEvent);
     abstract public  void removeDecorator(FontStyleComponent toRemove);
     abstract protected FontStyleComponent getSubject();
-
-    abstract protected ActionEvent getActionEvent();
 
 }

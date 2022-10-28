@@ -16,7 +16,7 @@ public class FontStyleActionListener  implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
-        basic = new BasicFontStyle(e);
+        basic = new BasicFontStyle();
         switch (s){
             case "bold":
                 basic= new Bold(basic);
@@ -40,7 +40,7 @@ public class FontStyleActionListener  implements ActionListener {
                 basic = new FontColor(basic,Color.BLACK);
                 break;
         }
-        basic.setStyle();
+        basic.setStyle(e);
 
     }
 }

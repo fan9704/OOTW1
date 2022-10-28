@@ -1,10 +1,12 @@
 import Command.*;
+import Database.Weight.DBMenuWeightHelper;
 import Memento.careTaker;
 import Memento.originator;
 import bridge.Window;
 import bridge.*;
+import model.BasicFontStyle;
+import model.DemoFontStyleActionListener;
 import model.FontStyleActionListener;
-import Database.Weight.DBMenuWeightHelper;
 import textAlign.TextAlignActionListenerFactory;
 
 import javax.swing.*;
@@ -199,8 +201,36 @@ public class editor extends JFrame implements ActionListener {
         menuBar.add(functionMenu);
 
 
-        frame.add(getToolbar(),BorderLayout.NORTH);
 
+        BasicFontStyle basicFontStyle = new BasicFontStyle();
+
+
+        JMenu demoMenuBar = new JMenu("customButton");
+        DemoFontStyleActionListener demoFontStyleActionListener = new DemoFontStyleActionListener(basicFontStyle);
+
+        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("bold");
+        bold.setActionCommand("bold");
+        bold.addItemListener(demoFontStyleActionListener);
+        demoMenuBar.add(bold);
+
+        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("italic");
+        italic.setActionCommand("italic");
+        italic.addItemListener(demoFontStyleActionListener);
+        demoMenuBar.add(italic);
+
+        JCheckBoxMenuItem underline = new JCheckBoxMenuItem("underline");
+        underline.setActionCommand("underline");
+        underline.addItemListener(demoFontStyleActionListener);
+        demoMenuBar.add(underline);
+
+        JCheckBoxMenuItem color = new JCheckBoxMenuItem("color");
+        color.setActionCommand("color");
+        color.addItemListener(demoFontStyleActionListener);
+        demoMenuBar.add(color);
+
+        menuBar.add(demoMenuBar);
+
+        frame.add(getToolbar(demoFontStyleActionListener),BorderLayout.NORTH);
         frame.setJMenuBar(menuBar);
         frame.add(textPane);
         frame.setSize(500, 500);
@@ -341,7 +371,7 @@ public class editor extends JFrame implements ActionListener {
     }
 
     //-----------------------Toolbar----------------------------------
-    private JToolBar getToolbar(){
+    private JToolBar getToolbar(DemoFontStyleActionListener demoFontStyleActionListener){
         JToolBar toolBar = new JToolBar();
         String url = "OOTW1/resources/image/toolbar/";
 
@@ -385,17 +415,17 @@ public class editor extends JFrame implements ActionListener {
 
         JButton fontStyleBoldButton = new JButton(getResizedIcon(url+"fontStyleBold.png"));
         fontStyleBoldButton.setActionCommand("bold");
-//        fontStyleBoldButton.addActionListener(new FontStyleActionListener(textPane));
+        fontStyleBoldButton.addActionListener(new FontStyleActionListener());
         toolBar.add(fontStyleBoldButton);
 
         JButton fontStyleItalicButton = new JButton(getResizedIcon(url+"fontStyleItalic.png"));
         fontStyleItalicButton.setActionCommand("italic");
-//        fontStyleItalicButton.addActionListener(new FontStyleActionListener(textPane));
+        fontStyleItalicButton.addActionListener(new FontStyleActionListener());
         toolBar.add(fontStyleItalicButton);
 
         JButton fontStyleUnderlineButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
         fontStyleUnderlineButton.setActionCommand("underline");
-//        fontStyleUnderlineButton.addActionListener(new FontStyleActionListener(textPane));
+        fontStyleUnderlineButton.addActionListener(new FontStyleActionListener());
         toolBar.add(fontStyleUnderlineButton);
 
 
@@ -410,6 +440,12 @@ public class editor extends JFrame implements ActionListener {
 //        DatabaseOpenButton.addActionListener();
         toolBar.add(DatabaseCommitButton);
 
+        JButton coustomStyleButton = new JButton(getResizedIcon(url+"demo.jpg"));
+        coustomStyleButton.setActionCommand("coustomStyle");
+        coustomStyleButton.addActionListener(demoFontStyleActionListener);
+
+
+        toolBar.add(coustomStyleButton);
 
 
         return toolBar;

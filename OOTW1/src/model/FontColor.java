@@ -11,9 +11,9 @@ public class FontColor extends FontStyleDecorator {
         this.color = color;
     }
     @Override
-    public void setStyle() {
-        fontStyleComponent.setStyle();
-        new StyledEditorKit.ForegroundAction("",color).actionPerformed(actionEvent);
+    public void setStyle(ActionEvent event) {
+        fontStyleComponent.setStyle(event);
+        new StyledEditorKit.ForegroundAction("",color).actionPerformed(event);
     }
 
 }

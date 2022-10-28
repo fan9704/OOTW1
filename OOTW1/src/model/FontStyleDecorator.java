@@ -23,9 +23,5 @@ public abstract class FontStyleDecorator extends FontStyleComponent {
         return fontStyleComponent;
     }
 
-    @Override
-    protected ActionEvent getActionEvent(){
-        return fontStyleComponent.getActionEvent();
-    }
 
 }

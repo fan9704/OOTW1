@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 public class BasicFontStyle extends FontStyleComponent{
 
     @Override
-    void setStyle() {
+    public void setStyle(ActionEvent event) {
 
     }
 
@@ -20,13 +20,10 @@ public class BasicFontStyle extends FontStyleComponent{
         return this;
     }
 
-    @Override
-    protected ActionEvent getActionEvent() {
-        return actionEvent;
-    }
 
-    BasicFontStyle(ActionEvent actionEvent){
-        this.actionEvent = actionEvent;
+
+    public BasicFontStyle(){
+
     }
 
 

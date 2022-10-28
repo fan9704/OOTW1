@@ -10,8 +10,8 @@ public class Underline extends FontStyleDecorator {
     }
 
     @Override
-    public void setStyle(){
-        fontStyleComponent.setStyle();
-        new StyledEditorKit.BoldAction().actionPerformed(actionEvent);
+    public void setStyle(ActionEvent event){
+        fontStyleComponent.setStyle(event);
+        new StyledEditorKit.UnderlineAction().actionPerformed(event);
     }
 }

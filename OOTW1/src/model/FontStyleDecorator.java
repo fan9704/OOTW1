@@ -10,12 +10,15 @@ public abstract class FontStyleDecorator extends FontStyleComponent {
     }
 
     @Override
-    public void removeDecorator(FontStyleComponent toRemove) {
+    public FontStyleComponent removeDecorator(FontStyleComponent toRemove) {
         if (fontStyleComponent.equals(toRemove)) {
             fontStyleComponent = toRemove.getSubject();
+        } else if (this.equals(toRemove)) {
+            return getSubject();
         } else {
             fontStyleComponent.removeDecorator(toRemove);
         }
+        return this;
     }
 
     @Override

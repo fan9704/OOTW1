@@ -12,8 +12,8 @@ public class BasicFontStyle extends FontStyleComponent{
     }
 
     @Override
-    public void removeDecorator(FontStyleComponent toRemove) {
-
+    public FontStyleComponent removeDecorator(FontStyleComponent toRemove) {
+        return this;
     }
     @Override
     protected FontStyleComponent getSubject() {

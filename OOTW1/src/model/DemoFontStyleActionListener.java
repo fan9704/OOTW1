@@ -32,17 +32,16 @@ public class DemoFontStyleActionListener implements ActionListener, ItemListener
                     bold = fontStyleComponent;
                 }
                 else {
-                    fontStyleComponent.removeDecorator(bold);
+                   fontStyleComponent = fontStyleComponent.removeDecorator(bold);
                 }
                 break;
             case "italic":
                 if (e.getStateChange() == ItemEvent.SELECTED){
                     fontStyleComponent = new Italic(fontStyleComponent);
                     italic = fontStyleComponent;
-                    System.out.println("test");
                 }
                 else {
-                    fontStyleComponent.removeDecorator(italic);
+                   fontStyleComponent = fontStyleComponent.removeDecorator(italic);
                 }
                 break;
             case "underline":
@@ -51,7 +50,7 @@ public class DemoFontStyleActionListener implements ActionListener, ItemListener
                     underline = fontStyleComponent;
                 }
                 else {
-                    fontStyleComponent.removeDecorator(underline);
+                   fontStyleComponent = fontStyleComponent.removeDecorator(underline);
                 }
                 break;
             case "color":
@@ -60,7 +59,7 @@ public class DemoFontStyleActionListener implements ActionListener, ItemListener
                     color = fontStyleComponent;
                 }
                 else {
-                    fontStyleComponent.removeDecorator(color);
+                   fontStyleComponent = fontStyleComponent.removeDecorator(color);
                 }
                 break;
         }

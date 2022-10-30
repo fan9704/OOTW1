@@ -1,11 +1,7 @@
-package singleton.MenuWeight;
+package Database.Weight;
 
-import singleton.DBConnector;
-import singleton.Model.DocumentModel;
+import Database.DBConnector;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import javax.swing.*;
 
 public class DBMenuWeightHelper {

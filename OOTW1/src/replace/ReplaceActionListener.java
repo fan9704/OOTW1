@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 public class ReplaceActionListener implements ActionListener {
     JTextPane textPane;
@@ -19,7 +20,7 @@ public class ReplaceActionListener implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent event) {
         JDialog frDialog = new JDialog();
         frDialog.addWindowListener(new WindowListener() {
             @Override
@@ -63,11 +64,12 @@ public class ReplaceActionListener implements ActionListener {
         JTextField txtFind = new JTextField();
         JTextField txtReplace = new JTextField();
         JButton btnFind = new JButton("Find");
-        btnFind.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setFindWordBackgroundColor(txtFind.getText());
-            }
+
+        btnFind.addActionListener(e -> {
+            String findText = txtFind.getText();
+            TextPaneFinder finder = new TextPaneFinder(textPane);
+            ArrayList<Integer> findIndexList = finder.findTextIndex(findText);
+            applyFindWordBackgroundColor(findIndexList, findText.length());
         });
         JButton btnReplace = new JButton("Replace");
         btnReplace.addActionListener(new ActionListener() {
@@ -96,15 +98,11 @@ public class ReplaceActionListener implements ActionListener {
         frDialog.setVisible(true);
     }
 
-    void setFindWordBackgroundColor(String find) {
-        String content = textPane.getText().replace("\n", "");
-        for (int i = 0; i < content.length() - find.length() + 1; i++) {
-            String temp = content.substring(i, i + find.length());
-            if (temp.equals(find)) {
-                SimpleAttributeSet style = new SimpleAttributeSet();
-                StyleConstants.setBackground(style, new Color(37, 150, 190,50));
-                textPane.getStyledDocument().setCharacterAttributes(i, find.length(), style, false);
-            }
+    void applyFindWordBackgroundColor(ArrayList<Integer> findIndexList,int length) {
+        for (int i:findIndexList){
+            SimpleAttributeSet style = new SimpleAttributeSet();
+            StyleConstants.setBackground(style, new Color(0,62,93,255));
+            textPane.getStyledDocument().setCharacterAttributes(i, length, style, false);
         }
     }
 

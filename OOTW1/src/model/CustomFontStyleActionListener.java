@@ -1,17 +1,18 @@
 package model;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class DemoFontStyleActionListener implements ActionListener, ItemListener {
+public class CustomFontStyleActionListener implements ActionListener, ItemListener {
 
-    FontStyleComponent fontStyleComponent,bold,italic,underline,color;
+    FontStyleComponent fontStyleComponent,bold,italic,underline;
 
-    public DemoFontStyleActionListener(FontStyleComponent fontStyleComponent) {
+    public CustomFontStyleActionListener(FontStyleComponent fontStyleComponent) {
         this.fontStyleComponent = fontStyleComponent;
 
     }
@@ -24,7 +25,6 @@ public class DemoFontStyleActionListener implements ActionListener, ItemListener
     @Override
     public void itemStateChanged(ItemEvent e) {
         String buttonName = ((JCheckBoxMenuItem) e.getItem()).getActionCommand();
-
         switch (buttonName) {
             case "bold":
                 if (e.getStateChange() == ItemEvent.SELECTED){
@@ -51,15 +51,6 @@ public class DemoFontStyleActionListener implements ActionListener, ItemListener
                 }
                 else {
                    fontStyleComponent = fontStyleComponent.removeDecorator(underline);
-                }
-                break;
-            case "color":
-                if (e.getStateChange() == ItemEvent.SELECTED){
-                    fontStyleComponent =  new FontColor(fontStyleComponent,Color.RED);
-                    color = fontStyleComponent;
-                }
-                else {
-                   fontStyleComponent = fontStyleComponent.removeDecorator(color);
                 }
                 break;
         }

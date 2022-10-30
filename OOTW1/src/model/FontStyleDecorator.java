@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.text.StyledEditorKit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public abstract class FontStyleDecorator extends FontStyleComponent {

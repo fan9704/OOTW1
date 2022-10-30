@@ -2,7 +2,6 @@ package model;
 
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class FontColor extends FontStyleDecorator {
     Color color;
@@ -11,9 +10,11 @@ public class FontColor extends FontStyleDecorator {
         this.color = color;
     }
     @Override
-    public void setStyle(ActionEvent event) {
-        fontStyleComponent.setStyle(event);
-        new StyledEditorKit.ForegroundAction("",color).actionPerformed(event);
+    public void setStyle(StyledDocument styledDocument, int startLocation, int endLocation) {
+        fontStyleComponent.setStyle(styledDocument,startLocation,endLocation);
+        SimpleAttributeSet s = new SimpleAttributeSet();
+        StyleConstants.setForeground(s, color);
+        styledDocument.setCharacterAttributes(startLocation, endLocation - startLocation, s, false);
     }
 
 }

@@ -1,7 +1,6 @@
 package model;
 
 import javax.swing.text.*;
-import java.awt.event.ActionEvent;
 
 public class Bold extends FontStyleDecorator {
 
@@ -10,9 +9,11 @@ public class Bold extends FontStyleDecorator {
     }
 
     @Override
-    public void setStyle(ActionEvent event){
-        fontStyleComponent.setStyle(event);
-        new StyledEditorKit.BoldAction().actionPerformed(event);
-    }
+    public void setStyle(StyledDocument styledDocument, int startLocation, int endLocation) {
+        fontStyleComponent.setStyle(styledDocument,startLocation, endLocation);
+        SimpleAttributeSet s = new SimpleAttributeSet();
+        StyleConstants.setBold(s, true);
+        styledDocument.setCharacterAttributes(startLocation, endLocation - startLocation, s, false);
 
+    }
 }

@@ -1,7 +1,6 @@
 package model;
 
 import javax.swing.text.*;
-import java.awt.event.ActionEvent;
 
 public class Italic extends FontStyleDecorator {
     public Italic( FontStyleComponent fontStyleComponent){
@@ -9,9 +8,11 @@ public class Italic extends FontStyleDecorator {
     }
 
     @Override
-    public void setStyle(ActionEvent event){
-        fontStyleComponent.setStyle(event);
-        new StyledEditorKit.ItalicAction().actionPerformed(event);
+    public void setStyle(StyledDocument styledDocument, int startLocation, int endLocation){
+        fontStyleComponent.setStyle(styledDocument,startLocation, endLocation);
+        SimpleAttributeSet s = new SimpleAttributeSet();
+        StyleConstants.setItalic(s, true);
+        styledDocument.setCharacterAttributes(startLocation, endLocation - startLocation, s, false);
     }
 
 }

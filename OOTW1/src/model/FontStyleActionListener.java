@@ -3,44 +3,42 @@ package model;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledDocument;
+import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FontStyleActionListener  implements ActionListener {
-    FontStyleComponent basic;
+
     public FontStyleActionListener() {
 
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        String s = e.getActionCommand();
-        basic = new BasicFontStyle();
+    public void actionPerformed(ActionEvent event) {
+        String s = event.getActionCommand();
         switch (s){
             case "bold":
-                basic= new Bold(basic);
+                new StyledEditorKit.BoldAction().actionPerformed(event);
                 break;
             case "italic":
-                basic = new Italic(basic);
+                new StyledEditorKit.ItalicAction().actionPerformed(event);
                 break;
             case "underline":
-                basic = new Underline(basic);
+                new StyledEditorKit.UnderlineAction().actionPerformed(event);
                 break;
             case "red":
-                basic = new FontColor(basic,Color.RED);
+                new StyledEditorKit.ForegroundAction("",Color.red).actionPerformed(event);
                 break;
             case "green":
-                basic = new FontColor(basic,Color.GREEN);
+                new StyledEditorKit.ForegroundAction("",Color.green).actionPerformed(event);
                 break;
             case "blue":
-                basic = new FontColor(basic,Color.BLUE);
+                new StyledEditorKit.ForegroundAction("",Color.blue).actionPerformed(event);
                 break;
             case "black":
-                basic = new FontColor(basic,Color.BLACK);
+                new StyledEditorKit.ForegroundAction("",Color.black).actionPerformed(event);
                 break;
         }
-        basic.setStyle(e);
-
     }
 }

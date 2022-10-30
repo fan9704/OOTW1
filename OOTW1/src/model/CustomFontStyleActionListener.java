@@ -1,8 +1,6 @@
 package model;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -10,16 +8,22 @@ import java.awt.event.ItemListener;
 
 public class CustomFontStyleActionListener implements ActionListener, ItemListener {
 
-    FontStyleComponent fontStyleComponent,bold,italic,underline;
+    FontStyleComponent fontStyleComponent, bold, italic, underline;
+    JTextPane textPane;
 
-    public CustomFontStyleActionListener(FontStyleComponent fontStyleComponent) {
+
+    public CustomFontStyleActionListener(FontStyleComponent fontStyleComponent, JTextPane jTextPane) {
         this.fontStyleComponent = fontStyleComponent;
-
+        textPane = jTextPane;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        fontStyleComponent.setStyle(e);
+        int startLocation = textPane.getSelectionStart(),
+                endLocation = textPane.getSelectionEnd();
+        if (startLocation != endLocation) {
+            fontStyleComponent.setStyle(textPane.getStyledDocument(), startLocation, endLocation);
+        }
     }
 
     @Override
@@ -27,30 +31,27 @@ public class CustomFontStyleActionListener implements ActionListener, ItemListen
         String buttonName = ((JCheckBoxMenuItem) e.getItem()).getActionCommand();
         switch (buttonName) {
             case "bold":
-                if (e.getStateChange() == ItemEvent.SELECTED){
+                if (e.getStateChange() == ItemEvent.SELECTED) {
                     fontStyleComponent = new Bold(fontStyleComponent);
                     bold = fontStyleComponent;
-                }
-                else {
-                   fontStyleComponent = fontStyleComponent.removeDecorator(bold);
+                } else {
+                    fontStyleComponent = fontStyleComponent.removeDecorator(bold);
                 }
                 break;
             case "italic":
-                if (e.getStateChange() == ItemEvent.SELECTED){
+                if (e.getStateChange() == ItemEvent.SELECTED) {
                     fontStyleComponent = new Italic(fontStyleComponent);
                     italic = fontStyleComponent;
-                }
-                else {
-                   fontStyleComponent = fontStyleComponent.removeDecorator(italic);
+                } else {
+                    fontStyleComponent = fontStyleComponent.removeDecorator(italic);
                 }
                 break;
             case "underline":
-                if (e.getStateChange() == ItemEvent.SELECTED){
+                if (e.getStateChange() == ItemEvent.SELECTED) {
                     fontStyleComponent = new Underline(fontStyleComponent);
                     underline = fontStyleComponent;
-                }
-                else {
-                   fontStyleComponent = fontStyleComponent.removeDecorator(underline);
+                } else {
+                    fontStyleComponent = fontStyleComponent.removeDecorator(underline);
                 }
                 break;
         }

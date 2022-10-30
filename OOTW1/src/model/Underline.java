@@ -2,7 +2,6 @@
 package model;
 
 import javax.swing.text.*;
-import java.awt.event.ActionEvent;
 
 public class Underline extends FontStyleDecorator {
     public Underline( FontStyleComponent fontStyleComponent){
@@ -10,8 +9,10 @@ public class Underline extends FontStyleDecorator {
     }
 
     @Override
-    public void setStyle(ActionEvent event){
-        fontStyleComponent.setStyle(event);
-        new StyledEditorKit.UnderlineAction().actionPerformed(event);
+    public void setStyle(StyledDocument styledDocument, int startLocation, int endLocation){
+        fontStyleComponent.setStyle(styledDocument,startLocation, endLocation);
+        SimpleAttributeSet s = new SimpleAttributeSet();
+        StyleConstants.setUnderline(s, true);
+        styledDocument.setCharacterAttributes(startLocation, endLocation - startLocation, s, false);
     }
 }

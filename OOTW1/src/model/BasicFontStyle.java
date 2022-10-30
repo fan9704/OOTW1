@@ -1,17 +1,20 @@
 package model;
 
-import org.apache.commons.lang3.NotImplementedException;
-
-import javax.swing.text.StyledEditorKit;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
+import javax.swing.text.*;
 
 public class BasicFontStyle extends FontStyleComponent{
 
-    @Override
-    public void setStyle(ActionEvent event) {
-    }
+    JTextPane jTextPane;
 
+    @Override
+    public void setStyle(StyledDocument styledDocument, int startLocation, int endLocation) {
+            SimpleAttributeSet s = new SimpleAttributeSet();
+            StyleConstants.setBold(s, false);
+            StyleConstants.setItalic(s, false);
+            StyleConstants.setUnderline(s, false);
+            styledDocument.setCharacterAttributes(startLocation, endLocation - startLocation, s, false);
+    }
     @Override
     public FontStyleComponent removeDecorator(FontStyleComponent toRemove) {
         return this;
@@ -23,10 +26,10 @@ public class BasicFontStyle extends FontStyleComponent{
 
 
 
-    public BasicFontStyle(){
 
+    public BasicFontStyle(JTextPane jTextPane){
+        this.jTextPane = jTextPane;
     }
-
 
 
 

@@ -8,19 +8,18 @@ import model.BasicFontStyle;
 import model.CustomFontColorActionListener;
 import model.CustomFontStyleActionListener;
 import model.FontStyleActionListener;
+import org.apache.commons.lang3.builder.Builder;
+import replace.ReplaceActionListener;
 import singleton.MenuWeight.DBMenuWeightHelper;
-import textAlign.TextAlignActionListenerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Map;
-
 // we could add "Command Patter"
 public class editor extends JFrame implements ActionListener {
     // Text component
@@ -62,6 +61,21 @@ public class editor extends JFrame implements ActionListener {
 
         // Text component
         textPane = new JTextPane();
+
+        textPane.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent g) {
+                if(g.isControlDown()) {
+                    int fontZoom = g.getUnitsToScroll() > 0 ? -2 : 2;
+                    String fontName = textPane.getFont().getFontName();
+                    int fontStyle = textPane.getFont().getStyle();
+                    int fontSize = textPane.getFont().getSize();
+                    textPane.setFont(new Font(fontName,fontStyle,fontSize + fontZoom));
+                }
+            }
+        });
+
+
 
         keyEventListener key = new keyEventListener(originator, careTaker, textPane);
         // Create a menubar
@@ -192,6 +206,12 @@ public class editor extends JFrame implements ActionListener {
         // Add action listener
         scrollBarMenuItem.addActionListener(this);
         functionMenu.add(scrollBarMenuItem);
+
+        JMenuItem replaceMenuItem = new JMenuItem("find & replace");
+        replaceMenuItem.addActionListener(new ReplaceActionListener(textPane));
+        functionMenu.add(replaceMenuItem);
+
+
         menuBar.add(functionMenu);
         undoMenuItem.addActionListener(this);
         redoMenuItem.addActionListener(this);

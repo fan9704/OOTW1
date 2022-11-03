@@ -52,7 +52,7 @@ public class editor extends JFrame implements ActionListener {
         System.out.println("OS Version:" + System.getProperty("os.version"));
         System.out.println("OS Architecture:" + System.getProperty("os.arch"));
 
-        if (System.getProperty("os.name").equals("Windows 10")) {
+        if (System.getProperty("os.name").contains("Windows")) {
             windowImpl = new WindowsImpl();
         } else {
             windowImpl = new XWindowImpl();

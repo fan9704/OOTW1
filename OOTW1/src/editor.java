@@ -1,10 +1,13 @@
 import Command.*;
+import Database.Weight.DBMenuWeightHelper;
 import Memento.careTaker;
 import Memento.originator;
 import bridge.Window;
 import bridge.*;
+import model.BasicFontStyle;
+import model.CustomFontColorActionListener;
+import model.CustomFontStyleActionListener;
 import model.FontStyleActionListener;
-import singleton.MenuWeight.DBMenuWeightHelper;
 import textAlign.TextAlignActionListenerFactory;
 
 import javax.swing.*;
@@ -119,19 +122,19 @@ public class editor extends JFrame implements ActionListener {
         alignMenu.add(alignCenterMenuItem);
         alignMenu.add(alignRightMenuItem);
 
-        JMenu styleMenu = new JMenu("樣式");
-        JMenu colorMenu = new JMenu("色彩");
+        JMenu styleMenu = new JMenu("Style");
+        JMenu colorMenu = new JMenu("Color");
 
         // 創建stylemenuitem
-        JMenuItem boldMenuItem = new JMenuItem("粗體");
-        JMenuItem italicMenuItem = new JMenuItem("斜體");
-        JMenuItem underlineMenuItem = new JMenuItem("底線");
+        JMenuItem boldMenuItem = new JMenuItem("Bold");
+        JMenuItem italicMenuItem = new JMenuItem("Italic");
+        JMenuItem underlineMenuItem = new JMenuItem("Underline");
 
         // 創建colormenuitem
-        JMenuItem fontColorIsRedMenuItem = new JMenuItem("紅色字體");
-        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("綠色字體");
-        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("藍色字體");
-        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("黑色字體");
+        JMenuItem fontColorIsRedMenuItem = new JMenuItem("Red Color");
+        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("Green Color");
+        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("Blue Color");
+        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("Black Color");
 
         boldMenuItem.setFont(new Font(boldMenuItem.getFont().getFontName(), Font.BOLD, 12));
         italicMenuItem.setFont(new Font(italicMenuItem.getFont().getFontName(), Font.ITALIC, 12));
@@ -144,20 +147,21 @@ public class editor extends JFrame implements ActionListener {
         fontColorIsBlueMenuItem.setForeground(Color.BLUE);
         fontColorIsBlackMenuItem.setForeground(Color.BLACK);
 
+        FontStyleActionListener fontStyleActionListener = new FontStyleActionListener();
         boldMenuItem.setActionCommand("bold");
-        boldMenuItem.addActionListener(new FontStyleActionListener());
+        boldMenuItem.addActionListener(fontStyleActionListener);
         italicMenuItem.setActionCommand("italic");
-        italicMenuItem.addActionListener(new FontStyleActionListener());
+        italicMenuItem.addActionListener(fontStyleActionListener);
         underlineMenuItem.setActionCommand("underline");
-        underlineMenuItem.addActionListener(new FontStyleActionListener());
+        underlineMenuItem.addActionListener(fontStyleActionListener);
         fontColorIsRedMenuItem.setActionCommand("red");
-        fontColorIsRedMenuItem.addActionListener(new FontStyleActionListener());
+        fontColorIsRedMenuItem.addActionListener(fontStyleActionListener);
         fontColorIsGreenMenuItem.setActionCommand("green");
-        fontColorIsGreenMenuItem.addActionListener(new FontStyleActionListener());
+        fontColorIsGreenMenuItem.addActionListener(fontStyleActionListener);
         fontColorIsBlueMenuItem.setActionCommand("blue");
-        fontColorIsBlueMenuItem.addActionListener(new FontStyleActionListener());
+        fontColorIsBlueMenuItem.addActionListener(fontStyleActionListener);
         fontColorIsBlackMenuItem.setActionCommand("black");
-        fontColorIsBlackMenuItem.addActionListener(new FontStyleActionListener());
+        fontColorIsBlackMenuItem.addActionListener(fontStyleActionListener);
 
 
         styleMenu.add(boldMenuItem);
@@ -199,8 +203,68 @@ public class editor extends JFrame implements ActionListener {
         menuBar.add(functionMenu);
 
 
-        frame.add(getToolbar(),BorderLayout.NORTH);
 
+        BasicFontStyle basicFontStyle = new BasicFontStyle(this.textPane);
+
+
+        JMenu CustomBar = new JMenu("customButton");
+        CustomFontStyleActionListener customFontStyleActionListener = new CustomFontStyleActionListener(basicFontStyle,textPane);
+        CustomFontColorActionListener customFontColorActionListener = new CustomFontColorActionListener(basicFontStyle,textPane);
+
+        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("bold");
+        bold.setActionCommand("bold");
+        bold.addItemListener(customFontStyleActionListener);
+        CustomBar.add(bold);
+
+        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("italic");
+        italic.setActionCommand("italic");
+        italic.addItemListener(customFontStyleActionListener);
+        CustomBar.add(italic);
+
+        JCheckBoxMenuItem underline = new JCheckBoxMenuItem("underline");
+        underline.setActionCommand("underline");
+        underline.addItemListener(customFontStyleActionListener);
+        CustomBar.add(underline);
+
+        ButtonGroup Colorgroup = new ButtonGroup();
+        JRadioButton Color1 = new JRadioButton();
+        JRadioButton Color2 = new JRadioButton();
+        JRadioButton Color3 = new JRadioButton();
+        JRadioButton Color4 = new JRadioButton();
+        Color1.setText("Black color");
+        Color1.setActionCommand("black");
+        Color1.setSelected(true);
+        Color1.setMaximumSize(new Dimension(300 , 300));
+        Color1.addItemListener(customFontColorActionListener);
+        Color2.setText("Red color");
+        Color2.setActionCommand("red");
+        Color2.setMaximumSize(new Dimension(300 , 300));
+        Color2.addItemListener(customFontColorActionListener);
+        Color3.setText("Green color");
+        Color3.setActionCommand("green");
+        Color3.addItemListener(customFontColorActionListener);
+        Color3.setMaximumSize(new Dimension(300 , 300));
+        Color4.setText("Blue color");
+        Color4.setActionCommand("blue");
+        Color4.addItemListener(customFontColorActionListener);
+        Color4.setMaximumSize(new Dimension(300 , 300));
+        Colorgroup.add(Color1);
+        Colorgroup.add(Color2);
+        Colorgroup.add(Color3);
+        Colorgroup.add(Color4);
+
+        CustomBar.add(Color1);
+        CustomBar.add(Color2);
+        CustomBar.add(Color3);
+        CustomBar.add(Color4);
+
+
+
+
+
+        menuBar.add(CustomBar);
+
+        frame.add(getToolbar(customFontStyleActionListener,customFontColorActionListener),BorderLayout.NORTH);
         frame.setJMenuBar(menuBar);
         frame.add(textPane);
         frame.setSize(500, 500);
@@ -341,7 +405,7 @@ public class editor extends JFrame implements ActionListener {
     }
 
     //-----------------------Toolbar----------------------------------
-    private JToolBar getToolbar(){
+    private JToolBar getToolbar(CustomFontStyleActionListener customFontStyleActionListener,CustomFontColorActionListener customFontColorActionListener){
         JToolBar toolBar = new JToolBar();
         String url = "OOTW1/resources/image/toolbar/";
 
@@ -382,20 +446,20 @@ public class editor extends JFrame implements ActionListener {
         toolBar.add(alignRightButton);
 
 
-
+        FontStyleActionListener fontStyleActionListener = new FontStyleActionListener();
         JButton fontStyleBoldButton = new JButton(getResizedIcon(url+"fontStyleBold.png"));
         fontStyleBoldButton.setActionCommand("bold");
-        fontStyleBoldButton.addActionListener(new FontStyleActionListener(textPane));
+        fontStyleBoldButton.addActionListener(fontStyleActionListener);
         toolBar.add(fontStyleBoldButton);
 
         JButton fontStyleItalicButton = new JButton(getResizedIcon(url+"fontStyleItalic.png"));
         fontStyleItalicButton.setActionCommand("italic");
-        fontStyleItalicButton.addActionListener(new FontStyleActionListener(textPane));
+        fontStyleItalicButton.addActionListener(fontStyleActionListener);
         toolBar.add(fontStyleItalicButton);
 
         JButton fontStyleUnderlineButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
         fontStyleUnderlineButton.setActionCommand("underline");
-        fontStyleUnderlineButton.addActionListener(new FontStyleActionListener(textPane));
+        fontStyleUnderlineButton.addActionListener(fontStyleActionListener);
         toolBar.add(fontStyleUnderlineButton);
 
 
@@ -410,6 +474,13 @@ public class editor extends JFrame implements ActionListener {
 //        DatabaseOpenButton.addActionListener();
         toolBar.add(DatabaseCommitButton);
 
+        JButton coustomStyleButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
+        coustomStyleButton.setActionCommand("coustomStyle");
+        coustomStyleButton.addActionListener(customFontStyleActionListener);
+        coustomStyleButton.addActionListener(customFontColorActionListener);
+
+
+        toolBar.add(coustomStyleButton);
 
 
         return toolBar;

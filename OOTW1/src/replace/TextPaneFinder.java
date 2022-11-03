@@ -10,7 +10,7 @@ public class TextPaneFinder {
     }
     ArrayList<Integer> findTextIndex(String findText){
         ArrayList<Integer> r = new ArrayList<>();
-        String content = textPane.getText();
+        String content = textPane.getText().replace("\n","");
         for (int i = 0; i < content.length() - findText.length() + 1; i++) {
             String subText = content.substring(i, i + findText.length());
             if (subText.equals(findText)) {

@@ -29,6 +29,23 @@ public class DatabaseManager {
 
     void updateDocumentModel(DocumentModel documentModel){
 
+
+        dbRepository.updateDbDocument(documentModel);
+    }
+
+    void deleteDocumentModel(DocumentModel documentModel){
+        dbRepository.deleteDbDocument(documentModel);
+
+        VersionIterator versionIterator = arrayVersionCollection.iterator();
+        DocumentModel tmp;
+
+        while (versionIterator.hasNext()) {
+            tmp = versionIterator.getNext();
+            if(tmp.documentId == documentModel.documentId){
+                versionIterator.remove();
+            }
+        }
+
     }
 
 

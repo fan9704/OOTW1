@@ -58,21 +58,25 @@ public class DatabaseRepository {
 
     }
 
-    public void updateDbDocument(){
+    public void updateDbDocument(DocumentModel documentModel){
         EntityManager entityManager = dbConnector.getEntityManager();
-
         EntityTransaction transaction = entityManager.getTransaction();
-//        editingDocumentModel = anotherDocumentModel;
+
+        DocumentModel dbDocumentModel = entityManager.find(DocumentModel.class,documentModel.documentId);
+
         transaction.begin();
+        dbDocumentModel.document = documentModel.document;
         transaction.commit();
     }
 
-    public void deleteDbDocument(int documentId,DocumentModel editingDocumentModel){
+    public void deleteDbDocument(DocumentModel documentModel){
         EntityManager entityManager = dbConnector.getEntityManager();
-
         EntityTransaction transaction = entityManager.getTransaction();
+
+        DocumentModel dbDocumentModel = entityManager.find(DocumentModel.class,documentModel.documentId);
+
         transaction.begin();
-        entityManager.remove(editingDocumentModel);
+        entityManager.remove(dbDocumentModel);
         transaction.commit();
     }
 

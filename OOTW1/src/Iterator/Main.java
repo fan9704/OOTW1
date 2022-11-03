@@ -31,7 +31,7 @@ public class Main {
         TypedQuery<DocumentModel> documentQuery = entityManager.createQuery("SELECT document from DocumentModel document",DocumentModel.class);
         List<DocumentModel> documentModelList = documentQuery.getResultList();
 
-        VersionCollection collection = new ConcreteVersionCollection(documentModelList);
+        VersionCollection collection = new ArrayVersionCollection(documentModelList);
         VersionIterator versionIterator = collection.iterator();
 
         JFrame jFrame = setUpVersionJFrame();

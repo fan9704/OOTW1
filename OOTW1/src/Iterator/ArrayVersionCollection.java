@@ -5,22 +5,20 @@ import Database.Model.DocumentModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConcreteVersionCollection implements VersionCollection {
+public class ArrayVersionCollection implements VersionCollection {
     private List<DocumentModel> versionList;
-    private int last = 0;
 
-    public ConcreteVersionCollection() {
+    public ArrayVersionCollection() {
         this.versionList = new ArrayList<>();
     }
 
-    ConcreteVersionCollection(List<DocumentModel> versionList) {
+    ArrayVersionCollection(List<DocumentModel> versionList) {
         this.versionList = versionList;
     }
 
     @Override
     public void add(DocumentModel documentModel) {
         this.versionList.add(documentModel);
-        this.last++;
     }
 
     @Override
@@ -29,9 +27,23 @@ public class ConcreteVersionCollection implements VersionCollection {
     }
 
     @Override
+    public DocumentModel get(int index) {
+        return versionList.get(index);
+    }
+
+    @Override
+    public int getSize() {
+        return versionList.size();
+    }
+
+    @Override
     public void remove(DocumentModel documentModel) {
         this.versionList.remove(documentModel);
-        this.last--;
+    }
+
+    @Override
+    public void remove(int index) {
+        versionList.remove(index);
     }
 
     @Override
@@ -45,6 +57,6 @@ public class ConcreteVersionCollection implements VersionCollection {
 
     @Override
     public VersionIterator iterator() {
-        return new ConcreteVersionIterator(this.versionList);
+        return new ArrayVersionIterator(this);
     }
 }

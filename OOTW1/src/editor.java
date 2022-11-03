@@ -476,10 +476,10 @@ public class editor extends JFrame implements ActionListener {
         });
         toolBar.add(DatabaseFileButton);
 
-        JButton DatabaseCommitButton = new JButton(getResizedIcon(url+"databaseCommit.png"));
-        DatabaseCommitButton.setActionCommand("");
+//        JButton DatabaseCommitButton = new JButton(getResizedIcon(url+"databaseCommit.png"));
+//        DatabaseCommitButton.setActionCommand("");
 //        DatabaseOpenButton.addActionListener();
-        toolBar.add(DatabaseCommitButton);
+//        toolBar.add(DatabaseCommitButton);
 
         JButton coustomStyleButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
         coustomStyleButton.setActionCommand("coustomStyle");

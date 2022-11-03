@@ -48,7 +48,7 @@ public class DatabaseRepository {
     }
 
 
-    private List<DocumentModel> fetchDbDocumentModelList() {
+    public List<DocumentModel> fetchDbDocumentModelList() {
         EntityManager entityManager = dbConnector.getEntityManager();
 
         TypedQuery<DocumentModel> query

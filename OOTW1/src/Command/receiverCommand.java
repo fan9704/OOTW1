@@ -10,6 +10,8 @@ import java.io.*;
 
 
 public class receiverCommand extends JFrame {
+	WindowAttribute windowTitle = new WindowTitle();
+	Attribute title = new Title();
 	JTextPane textArea;
 	JFrame frame;
 	String fileName;
@@ -46,8 +48,13 @@ public class receiverCommand extends JFrame {
 
 		// Set the label to the path of the selected directory
 		File fi = new File(j.getSelectedFile().getAbsolutePath());
+			//Observer Pattern
+			fileName = fi.toString();
+			String[] fileNameTemp = fileName.split("\\\\");
+			windowTitle.AddObserver(title);
+			windowTitle.Notify(fileNameTemp[fileNameTemp.length - 1]);
 
-		try {
+			try {
 				// Create a file writer
 				FileWriter wr = new FileWriter(fi, false);
 
@@ -56,7 +63,7 @@ public class receiverCommand extends JFrame {
 
 				// Write
 				w.write(textArea.getText());
-
+				Origin = textArea.getText();
 				w.flush();
 				w.close();
 			}
@@ -67,6 +74,7 @@ public class receiverCommand extends JFrame {
 		// If the user cancelled the operation
 		else
 		JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
+
 	}
 
 	public void Print() {
@@ -95,8 +103,6 @@ public class receiverCommand extends JFrame {
 			System.out.println("Open file: " + fileNameTemp[fileNameTemp.length - 1]);
 
 			// Observer Pattern
-			WindowAttribute windowTitle = new WindowTitle();
-			Attribute title = new Title();
 			windowTitle.AddObserver(title);
 			windowTitle.Notify(fileNameTemp[fileNameTemp.length - 1]);
 
@@ -117,7 +123,6 @@ public class receiverCommand extends JFrame {
 				while ((s1 = br.readLine()) != null) {
 					sl = sl + "\n" + s1;
 				}
-
 				// Set the text
 				textArea.setText(sl);
 			} catch (Exception evt) {
@@ -127,8 +132,6 @@ public class receiverCommand extends JFrame {
 		// If the user cancelled the operation
 		else
 			JOptionPane.showMessageDialog(frame, "the user cancelled the operation");
-
-
 	}
 	public void New() {
 		textArea.setText("");

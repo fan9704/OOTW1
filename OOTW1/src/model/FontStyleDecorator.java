@@ -4,7 +4,7 @@ import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public abstract class FontStyleDecorator extends FontStyleComponent {
+public abstract class FontStyleDecorator implements FontStyleComponent {
     protected FontStyleComponent fontStyleComponent;
 
     FontStyleDecorator(FontStyleComponent fontStyleComponent) {

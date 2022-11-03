@@ -11,12 +11,15 @@ import model.BasicFontStyle;
 import model.CustomFontColorActionListener;
 import model.CustomFontStyleActionListener;
 import model.FontStyleActionListener;
+import replace.ReplaceActionListener;
 import textAlign.TextAlignActionListenerFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.font.TextAttribute;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,6 +30,7 @@ import java.util.Map;
 public class editor extends JFrame implements ActionListener {
     // Text component
     JTextPane textPane;
+
     // Frame
     JFrame frame;
 
@@ -65,6 +69,21 @@ public class editor extends JFrame implements ActionListener {
 
         // Text component
         textPane = new JTextPane();
+
+        textPane.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent g) {
+                if(g.isControlDown()) {
+                    int fontZoom = g.getUnitsToScroll() > 0 ? -2 : 2;
+                    String fontName = textPane.getFont().getFontName();
+                    int fontStyle = textPane.getFont().getStyle();
+                    int fontSize = textPane.getFont().getSize();
+                    textPane.setFont(new Font(fontName,fontStyle,fontSize + fontZoom));
+                }
+            }
+        });
+
+
 
         keyEventListener key = new keyEventListener(originator, careTaker, textPane);
         // Create a menubar
@@ -126,19 +145,19 @@ public class editor extends JFrame implements ActionListener {
         alignMenu.add(alignCenterMenuItem);
         alignMenu.add(alignRightMenuItem);
 
-        JMenu styleMenu = new JMenu("樣式");
-        JMenu colorMenu = new JMenu("色彩");
+        JMenu styleMenu = new JMenu("Style");
+        JMenu colorMenu = new JMenu("Color");
 
         // 創建stylemenuitem
-        JMenuItem boldMenuItem = new JMenuItem("粗體");
-        JMenuItem italicMenuItem = new JMenuItem("斜體");
-        JMenuItem underlineMenuItem = new JMenuItem("底線");
+        JMenuItem boldMenuItem = new JMenuItem("Bold");
+        JMenuItem italicMenuItem = new JMenuItem("Italic");
+        JMenuItem underlineMenuItem = new JMenuItem("Underline");
 
         // 創建colormenuitem
-        JMenuItem fontColorIsRedMenuItem = new JMenuItem("紅色字體");
-        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("綠色字體");
-        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("藍色字體");
-        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("黑色字體");
+        JMenuItem fontColorIsRedMenuItem = new JMenuItem("Red");
+        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("Green");
+        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("Blue");
+        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("Black");
 
         boldMenuItem.setFont(new Font(boldMenuItem.getFont().getFontName(), Font.BOLD, 12));
         italicMenuItem.setFont(new Font(italicMenuItem.getFont().getFontName(), Font.ITALIC, 12));
@@ -195,6 +214,12 @@ public class editor extends JFrame implements ActionListener {
         // Add action listener
         scrollBarMenuItem.addActionListener(this);
         functionMenu.add(scrollBarMenuItem);
+
+        JMenuItem replaceMenuItem = new JMenuItem("find & replace");
+        replaceMenuItem.addActionListener(new ReplaceActionListener(textPane));
+        functionMenu.add(replaceMenuItem);
+
+
         menuBar.add(functionMenu);
         undoMenuItem.addActionListener(this);
         redoMenuItem.addActionListener(this);
@@ -207,24 +232,25 @@ public class editor extends JFrame implements ActionListener {
         menuBar.add(functionMenu);
 
 
+
         BasicFontStyle basicFontStyle = new BasicFontStyle(this.textPane);
 
 
-        JMenu CustomBar = new JMenu("customButton");
-        CustomFontStyleActionListener customFontStyleActionListener = new CustomFontStyleActionListener(basicFontStyle, textPane);
-        CustomFontColorActionListener customFontColorActionListener = new CustomFontColorActionListener(basicFontStyle, textPane);
+        JMenu CustomBar = new JMenu("CustomButton");
+        CustomFontStyleActionListener customFontStyleActionListener = new CustomFontStyleActionListener(basicFontStyle,textPane);
+        CustomFontColorActionListener customFontColorActionListener = new CustomFontColorActionListener(basicFontStyle,textPane);
 
-        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("bold");
+        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("Bold");
         bold.setActionCommand("bold");
         bold.addItemListener(customFontStyleActionListener);
         CustomBar.add(bold);
 
-        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("italic");
+        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("Italic");
         italic.setActionCommand("italic");
         italic.addItemListener(customFontStyleActionListener);
         CustomBar.add(italic);
 
-        JCheckBoxMenuItem underline = new JCheckBoxMenuItem("underline");
+        JCheckBoxMenuItem underline = new JCheckBoxMenuItem("Underline");
         underline.setActionCommand("underline");
         underline.addItemListener(customFontStyleActionListener);
         CustomBar.add(underline);
@@ -234,19 +260,23 @@ public class editor extends JFrame implements ActionListener {
         JRadioButton Color2 = new JRadioButton();
         JRadioButton Color3 = new JRadioButton();
         JRadioButton Color4 = new JRadioButton();
-        Color1.setText("黑色");
+        Color1.setText("Black");
         Color1.setActionCommand("black");
         Color1.setSelected(true);
+        Color1.setMaximumSize(new Dimension(300 , 300));
         Color1.addItemListener(customFontColorActionListener);
-        Color2.setText("紅色");
+        Color2.setText("Red");
         Color2.setActionCommand("red");
+        Color2.setMaximumSize(new Dimension(300 , 300));
         Color2.addItemListener(customFontColorActionListener);
-        Color3.setText("綠色");
+        Color3.setText("Green");
         Color3.setActionCommand("green");
         Color3.addItemListener(customFontColorActionListener);
-        Color4.setText("藍色");
+        Color3.setMaximumSize(new Dimension(300 , 300));
+        Color4.setText("Blue");
         Color4.setActionCommand("blue");
         Color4.addItemListener(customFontColorActionListener);
+        Color4.setMaximumSize(new Dimension(300 , 300));
         Colorgroup.add(Color1);
         Colorgroup.add(Color2);
         Colorgroup.add(Color3);
@@ -415,6 +445,7 @@ public class editor extends JFrame implements ActionListener {
         redoButton.setActionCommand("Redo");
         redoButton.addActionListener(this);
         toolBar.add(redoButton);
+
 
 
         TextAlignActionListenerFactory textAlignActionListenerFactory = new TextAlignActionListenerFactory(textPane);

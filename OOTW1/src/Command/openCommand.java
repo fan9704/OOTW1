@@ -7,5 +7,4 @@ public class openCommand extends commandCommand {
 	public void execute() {
 		receiverCommand.Open();
 	}
-
 }

@@ -3,7 +3,7 @@ package model;
 import javax.swing.*;
 import javax.swing.text.*;
 
-public class BasicFontStyle extends FontStyleComponent{
+public class BasicFontStyle implements FontStyleComponent{
 
     JTextPane jTextPane;
 
@@ -20,7 +20,7 @@ public class BasicFontStyle extends FontStyleComponent{
         return this;
     }
     @Override
-    protected FontStyleComponent getSubject() {
+    public FontStyleComponent getSubject() {
         return this;
     }
 

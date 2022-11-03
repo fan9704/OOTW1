@@ -8,13 +8,15 @@ import model.BasicFontStyle;
 import model.CustomFontColorActionListener;
 import model.CustomFontStyleActionListener;
 import model.FontStyleActionListener;
-import org.apache.commons.lang3.builder.Builder;
 import replace.ReplaceActionListener;
-import singleton.MenuWeight.DBMenuWeightHelper;
+import textAlign.TextAlignActionListenerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.font.TextAttribute;
 import java.io.BufferedWriter;
 import java.io.File;

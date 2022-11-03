@@ -10,14 +10,14 @@ import java.io.*;
 
 
 public class receiverCommand extends JFrame {
+	WindowAttribute windowTitle = new WindowTitle();
+	Attribute title = new Title();
 	JTextPane textArea;
 	JFrame frame;
 	String fileName;
 	String[] fileNameTemp;
 	String Origin;
 	File fi;
-	WindowAttribute windowTitle = new WindowTitle();
-	Attribute title = new Title();
 	public void getOrigin(String Origin){this.Origin = Origin;}
 	public void getFi(File fi){this.fi = fi;}
 	public File setFi(){return fi;}
@@ -54,7 +54,7 @@ public class receiverCommand extends JFrame {
 			windowTitle.AddObserver(title);
 			windowTitle.Notify(fileNameTemp[fileNameTemp.length - 1]);
 
-		try {
+			try {
 				// Create a file writer
 				FileWriter wr = new FileWriter(fi, false);
 

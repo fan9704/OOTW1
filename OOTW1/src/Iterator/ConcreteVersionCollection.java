@@ -1,6 +1,6 @@
 package Iterator;
 
-import singleton.Model.DocumentModel;
+import Database.Model.DocumentModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,18 +1,19 @@
 package model;
 
 import javax.swing.text.*;
-import java.awt.event.ActionEvent;
 
-public class Bold extends TextDecorator {
-    ActionEvent e;
-    public Bold(Glyph decorator ,ActionEvent e){
-        super(decorator);
-        this.e = e;
+public class Bold extends FontStyleDecorator {
+
+    public Bold( FontStyleComponent fontStyleComponent){
+        super(fontStyleComponent);
     }
 
     @Override
-    public void setStyle(){
-          new StyledEditorKit.BoldAction().actionPerformed(e);
-    }
+    public void setStyle(StyledDocument styledDocument, int startLocation, int endLocation) {
+        fontStyleComponent.setStyle(styledDocument,startLocation, endLocation);
+        SimpleAttributeSet s = new SimpleAttributeSet();
+        StyleConstants.setBold(s, true);
+        styledDocument.setCharacterAttributes(startLocation, endLocation - startLocation, s, false);
 
+    }
 }

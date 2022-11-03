@@ -1,6 +1,6 @@
 package Iterator;
 
-import singleton.Model.DocumentModel;
+import Database.Model.DocumentModel;
 
 public interface VersionIterator {
     public boolean hasNext();

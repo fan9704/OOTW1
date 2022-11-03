@@ -1,14 +1,11 @@
 package Iterator;
 
-import singleton.DBConnector;
-import singleton.Model.DocumentModel;
+import Database.DBConnector;
+import Database.Model.DocumentModel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class Main {

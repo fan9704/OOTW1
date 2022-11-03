@@ -66,6 +66,7 @@ public class ReplaceActionListener implements ActionListener {
         JButton btnFind = new JButton("Find");
 
         btnFind.addActionListener(e -> {
+            recoverBackgroundColor();
             String findText = txtFind.getText();
             TextPaneFinder finder = new TextPaneFinder(textPane);
             ArrayList<Integer> findIndexList = finder.findTextIndex(findText);
@@ -101,7 +102,7 @@ public class ReplaceActionListener implements ActionListener {
     void applyFindWordBackgroundColor(ArrayList<Integer> findIndexList,int length) {
         for (int i:findIndexList){
             SimpleAttributeSet style = new SimpleAttributeSet();
-            StyleConstants.setBackground(style, new Color(0,62,93,255));
+            StyleConstants.setBackground(style, new Color(255,203,107,255));
             textPane.getStyledDocument().setCharacterAttributes(i, length, style, false);
         }
     }

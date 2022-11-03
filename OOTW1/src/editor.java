@@ -122,19 +122,19 @@ public class editor extends JFrame implements ActionListener {
         alignMenu.add(alignCenterMenuItem);
         alignMenu.add(alignRightMenuItem);
 
-        JMenu styleMenu = new JMenu("樣式");
-        JMenu colorMenu = new JMenu("色彩");
+        JMenu styleMenu = new JMenu("Style");
+        JMenu colorMenu = new JMenu("Color");
 
         // 創建stylemenuitem
-        JMenuItem boldMenuItem = new JMenuItem("粗體");
-        JMenuItem italicMenuItem = new JMenuItem("斜體");
-        JMenuItem underlineMenuItem = new JMenuItem("底線");
+        JMenuItem boldMenuItem = new JMenuItem("Bold");
+        JMenuItem italicMenuItem = new JMenuItem("Italic");
+        JMenuItem underlineMenuItem = new JMenuItem("Underline");
 
         // 創建colormenuitem
-        JMenuItem fontColorIsRedMenuItem = new JMenuItem("紅色字體");
-        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("綠色字體");
-        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("藍色字體");
-        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("黑色字體");
+        JMenuItem fontColorIsRedMenuItem = new JMenuItem("Red Color");
+        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("Green Color");
+        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("Blue Color");
+        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("Black Color");
 
         boldMenuItem.setFont(new Font(boldMenuItem.getFont().getFontName(), Font.BOLD, 12));
         italicMenuItem.setFont(new Font(italicMenuItem.getFont().getFontName(), Font.ITALIC, 12));
@@ -231,20 +231,20 @@ public class editor extends JFrame implements ActionListener {
         JRadioButton Color2 = new JRadioButton();
         JRadioButton Color3 = new JRadioButton();
         JRadioButton Color4 = new JRadioButton();
-        Color1.setText("黑色");
+        Color1.setText("Black color");
         Color1.setActionCommand("black");
         Color1.setSelected(true);
         Color1.setMaximumSize(new Dimension(300 , 300));
         Color1.addItemListener(customFontColorActionListener);
-        Color2.setText("紅色");
+        Color2.setText("Red color");
         Color2.setActionCommand("red");
         Color2.setMaximumSize(new Dimension(300 , 300));
         Color2.addItemListener(customFontColorActionListener);
-        Color3.setText("綠色");
+        Color3.setText("Green color");
         Color3.setActionCommand("green");
         Color3.addItemListener(customFontColorActionListener);
         Color3.setMaximumSize(new Dimension(300 , 300));
-        Color4.setText("藍色");
+        Color4.setText("Blue color");
         Color4.setActionCommand("blue");
         Color4.addItemListener(customFontColorActionListener);
         Color4.setMaximumSize(new Dimension(300 , 300));

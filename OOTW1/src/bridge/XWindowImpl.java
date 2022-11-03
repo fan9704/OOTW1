@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class XWindowImpl implements WindowImpl{
-    public XWindowImpl(){
+    @Override
+    public void setUpTheme() {
         try {
             //here you can put the selected theme class name in JTattoo
             UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
@@ -19,15 +20,6 @@ public class XWindowImpl implements WindowImpl{
             java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
-    @Override
-    public Component DevDrawText() {
-        DrawText mainPanel = new DrawText("XWindow-DrawText");
-        return mainPanel;
-    }
 
-    @Override
-    public Component DevDrawRect() {
-        DrawRect mainPanel = new DrawRect();
-        return mainPanel;
-    }
+
 }

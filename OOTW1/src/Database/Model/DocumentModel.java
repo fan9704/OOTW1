@@ -1,4 +1,4 @@
-package singleton.Model;
+package Database.Model;
 
 
 import lombok.Getter;
@@ -21,16 +21,10 @@ public class DocumentModel implements Serializable,Cloneable {
     @Id
     @GeneratedValue
     public int documentId;
-
-        public Document document;
-
+    public Document document;
     public String author;
-
-
     public Date updateTime;
-
     public Date createdDate;
-
     public DocumentModel(Document document, String author){
         this.document = document;
         this.author = author;

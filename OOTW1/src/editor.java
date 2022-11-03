@@ -146,10 +146,10 @@ public class editor extends JFrame implements ActionListener {
         JMenuItem underlineMenuItem = new JMenuItem("Underline");
 
         // 創建colormenuitem
-        JMenuItem fontColorIsRedMenuItem = new JMenuItem("Red Color");
-        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("Green Color");
-        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("Blue Color");
-        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("Black Color");
+        JMenuItem fontColorIsRedMenuItem = new JMenuItem("Red");
+        JMenuItem fontColorIsGreenMenuItem = new JMenuItem("Green");
+        JMenuItem fontColorIsBlueMenuItem = new JMenuItem("Blue");
+        JMenuItem fontColorIsBlackMenuItem = new JMenuItem("Black");
 
         boldMenuItem.setFont(new Font(boldMenuItem.getFont().getFontName(), Font.BOLD, 12));
         italicMenuItem.setFont(new Font(italicMenuItem.getFont().getFontName(), Font.ITALIC, 12));
@@ -228,21 +228,21 @@ public class editor extends JFrame implements ActionListener {
         BasicFontStyle basicFontStyle = new BasicFontStyle(this.textPane);
 
 
-        JMenu CustomBar = new JMenu("customButton");
+        JMenu CustomBar = new JMenu("CustomButton");
         CustomFontStyleActionListener customFontStyleActionListener = new CustomFontStyleActionListener(basicFontStyle,textPane);
         CustomFontColorActionListener customFontColorActionListener = new CustomFontColorActionListener(basicFontStyle,textPane);
 
-        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("bold");
+        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("Bold");
         bold.setActionCommand("bold");
         bold.addItemListener(customFontStyleActionListener);
         CustomBar.add(bold);
 
-        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("italic");
+        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("Italic");
         italic.setActionCommand("italic");
         italic.addItemListener(customFontStyleActionListener);
         CustomBar.add(italic);
 
-        JCheckBoxMenuItem underline = new JCheckBoxMenuItem("underline");
+        JCheckBoxMenuItem underline = new JCheckBoxMenuItem("Underline");
         underline.setActionCommand("underline");
         underline.addItemListener(customFontStyleActionListener);
         CustomBar.add(underline);
@@ -252,20 +252,20 @@ public class editor extends JFrame implements ActionListener {
         JRadioButton Color2 = new JRadioButton();
         JRadioButton Color3 = new JRadioButton();
         JRadioButton Color4 = new JRadioButton();
-        Color1.setText("Black color");
+        Color1.setText("Black");
         Color1.setActionCommand("black");
         Color1.setSelected(true);
         Color1.setMaximumSize(new Dimension(300 , 300));
         Color1.addItemListener(customFontColorActionListener);
-        Color2.setText("Red color");
+        Color2.setText("Red");
         Color2.setActionCommand("red");
         Color2.setMaximumSize(new Dimension(300 , 300));
         Color2.addItemListener(customFontColorActionListener);
-        Color3.setText("Green color");
+        Color3.setText("Green");
         Color3.setActionCommand("green");
         Color3.addItemListener(customFontColorActionListener);
         Color3.setMaximumSize(new Dimension(300 , 300));
-        Color4.setText("Blue color");
+        Color4.setText("Blue");
         Color4.setActionCommand("blue");
         Color4.addItemListener(customFontColorActionListener);
         Color4.setMaximumSize(new Dimension(300 , 300));

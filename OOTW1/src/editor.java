@@ -203,9 +203,9 @@ public class editor extends JFrame implements ActionListener {
         scrollBarMenuItem.addActionListener(this);
         functionMenu.add(scrollBarMenuItem);
 
-        JMenuItem testMenuItem = new JMenuItem("find & replace");
-        testMenuItem.addActionListener(new ReplaceActionListener(textPane));
-        functionMenu.add(testMenuItem);
+        JMenuItem replaceMenuItem = new JMenuItem("find & replace");
+        replaceMenuItem.addActionListener(new ReplaceActionListener(textPane));
+        functionMenu.add(replaceMenuItem);
 
 
         menuBar.add(functionMenu);

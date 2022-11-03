@@ -2,9 +2,6 @@ package Memento;
 
 public class originator {
 	private String state;
-	public originator() {
-		
-	}
 	public void storeState(String state) {
 		this.state = state;
 	}

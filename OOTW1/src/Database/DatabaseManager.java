@@ -12,28 +12,25 @@ public class DatabaseManager {
     DatabaseRepository dbRepository;
     JTextPane textPane;
 
-    DatabaseManager(JTextPane textPane) {
-        ArrayVersionCollection arrayVersionCollection = new ArrayVersionCollection();
+    public DatabaseManager() {
+        arrayVersionCollection = new ArrayVersionCollection();
         dbRepository = new DatabaseRepository();
-        this.textPane = textPane;
     }
 
     void fetchModel(){
         arrayVersionCollection.removeAll();
         arrayVersionCollection.addRange(dbRepository.fetchDbDocumentModelList());
     }
-    void createDocumentModel(DocumentModel documentModel){
+    public void createDocumentModel(DocumentModel documentModel){
         dbRepository.createDocumentModel(documentModel);
         arrayVersionCollection.add(documentModel);
     }
 
-    void updateDocumentModel(DocumentModel documentModel){
-
-
+    public void updateDocumentModel(DocumentModel documentModel){
         dbRepository.updateDbDocument(documentModel);
     }
 
-    void deleteDocumentModel(DocumentModel documentModel){
+    public void deleteDocumentModel(DocumentModel documentModel){
         dbRepository.deleteDbDocument(documentModel);
 
         VersionIterator versionIterator = arrayVersionCollection.iterator();
@@ -51,6 +48,7 @@ public class DatabaseManager {
 
 
     public VersionIterator getDocumentVersionIterator() {
+        fetchModel();
         return arrayVersionCollection.iterator();
     }
 }

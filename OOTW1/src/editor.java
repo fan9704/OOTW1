@@ -1,4 +1,6 @@
 import Command.*;
+import Database.DatabaseManager;
+import Database.Model.DocumentModel;
 import Database.Weight.DBMenuWeightHelper;
 import Database.Weight.DatabaseDialogPanel;
 import Memento.careTaker;
@@ -25,7 +27,6 @@ import java.util.Map;
 public class editor extends JFrame implements ActionListener {
     // Text component
     JTextPane textPane;
-
     // Frame
     JFrame frame;
 
@@ -33,6 +34,8 @@ public class editor extends JFrame implements ActionListener {
     File fi;
     String fileName;
     String[] fileNameTemp;
+
+    DocumentModel editingDocumentModel = new DocumentModel();
 
     originator originator = new originator();
     careTaker careTaker = new careTaker();
@@ -204,13 +207,12 @@ public class editor extends JFrame implements ActionListener {
         menuBar.add(functionMenu);
 
 
-
         BasicFontStyle basicFontStyle = new BasicFontStyle(this.textPane);
 
 
         JMenu CustomBar = new JMenu("customButton");
-        CustomFontStyleActionListener customFontStyleActionListener = new CustomFontStyleActionListener(basicFontStyle,textPane);
-        CustomFontColorActionListener customFontColorActionListener = new CustomFontColorActionListener(basicFontStyle,textPane);
+        CustomFontStyleActionListener customFontStyleActionListener = new CustomFontStyleActionListener(basicFontStyle, textPane);
+        CustomFontColorActionListener customFontColorActionListener = new CustomFontColorActionListener(basicFontStyle, textPane);
 
         JCheckBoxMenuItem bold = new JCheckBoxMenuItem("bold");
         bold.setActionCommand("bold");
@@ -256,12 +258,9 @@ public class editor extends JFrame implements ActionListener {
         CustomBar.add(Color4);
 
 
-
-
-
         menuBar.add(CustomBar);
 
-        frame.add(getToolbar(customFontStyleActionListener,customFontColorActionListener),BorderLayout.NORTH);
+        frame.add(getToolbar(customFontStyleActionListener, customFontColorActionListener), BorderLayout.NORTH);
         frame.setJMenuBar(menuBar);
         frame.add(textPane);
         frame.setSize(500, 500);
@@ -337,20 +336,18 @@ public class editor extends JFrame implements ActionListener {
         } else if (s.equals("Close")) {
             Origin = receiver.setOrigin();
             fi = receiver.setFi();
-            if(textPane.getText().equals(Origin)) {
+            if (textPane.getText().equals(Origin)) {
                 frame.setVisible(false);
-            }
-            else {
-                int result = JOptionPane.showConfirmDialog(null, "You have revised something but not saved yet！Do you wanna save it？","Select an option",JOptionPane.YES_NO_OPTION);
+            } else {
+                int result = JOptionPane.showConfirmDialog(null, "You have revised something but not saved yet！Do you wanna save it？", "Select an option", JOptionPane.YES_NO_OPTION);
 
-                if(result == JOptionPane.NO_OPTION) {
+                if (result == JOptionPane.NO_OPTION) {
 
                     frame.setVisible(false);
-                }
-                else if(result == JOptionPane.YES_OPTION) {
+                } else if (result == JOptionPane.YES_OPTION) {
                     //Save
                     JFileChooser j = new JFileChooser("f:");
-                    if(Origin == "") {
+                    if (Origin == "") {
                         // Invoke the showsSaveDialog function to show the save dialog
                         int r = j.showSaveDialog(null);
 
@@ -369,13 +366,11 @@ public class editor extends JFrame implements ActionListener {
 
                                 w.flush();
                                 w.close();
-                            }
-                            catch (Exception evt) {
+                            } catch (Exception evt) {
                                 JOptionPane.showMessageDialog(frame, evt.getMessage());
                             }
                         }
-                    }
-                    else {
+                    } else {
                         try {
                             // Create a file writer
 
@@ -389,8 +384,7 @@ public class editor extends JFrame implements ActionListener {
 
                             w.flush();
                             w.close();
-                        }
-                        catch (Exception evt) {
+                        } catch (Exception evt) {
                             JOptionPane.showMessageDialog(frame, evt.getMessage());
                         }
                     }
@@ -402,86 +396,104 @@ public class editor extends JFrame implements ActionListener {
     }
 
     //-----------------------Toolbar----------------------------------
-    private JToolBar getToolbar(CustomFontStyleActionListener customFontStyleActionListener,CustomFontColorActionListener customFontColorActionListener){
+    private JToolBar getToolbar(CustomFontStyleActionListener customFontStyleActionListener, CustomFontColorActionListener customFontColorActionListener) {
         JToolBar toolBar = new JToolBar();
         String url = "OOTW1/resources/image/toolbar/";
 
 
-
-        JButton openButton = new JButton(getResizedIcon(url+"functionOpenFile.png"));
+        JButton openButton = new JButton(getResizedIcon(url + "functionOpenFile.png"));
         openButton.setActionCommand("Open");
         openButton.addActionListener(this);
         toolBar.add(openButton);
 
-        JButton undoButton = new JButton(getResizedIcon(url+"functionUndo.png"));
+        JButton undoButton = new JButton(getResizedIcon(url + "functionUndo.png"));
         undoButton.setActionCommand("Undo");
         undoButton.addActionListener(this);
         toolBar.add(undoButton);
 
-        JButton redoButton = new JButton(getResizedIcon(url+"functionRedo.png"));
+        JButton redoButton = new JButton(getResizedIcon(url + "functionRedo.png"));
         redoButton.setActionCommand("Redo");
         redoButton.addActionListener(this);
         toolBar.add(redoButton);
 
 
-
         TextAlignActionListenerFactory textAlignActionListenerFactory = new TextAlignActionListenerFactory(textPane);
 
-        JButton alignLeftButton = new JButton(getResizedIcon(url+"alignLeft.png"));
+        JButton alignLeftButton = new JButton(getResizedIcon(url + "alignLeft.png"));
         alignLeftButton.setActionCommand("Left");
         alignLeftButton.addActionListener(textAlignActionListenerFactory.produce(alignLeftButton.getActionCommand()));
         toolBar.add(alignLeftButton);
 
-        JButton alignCenterButton = new JButton(getResizedIcon(url+"alignCenter.png"));
+        JButton alignCenterButton = new JButton(getResizedIcon(url + "alignCenter.png"));
         alignCenterButton.setActionCommand("Center");
         alignCenterButton.addActionListener(textAlignActionListenerFactory.produce(alignCenterButton.getActionCommand()));
         toolBar.add(alignCenterButton);
 
-        JButton alignRightButton = new JButton(getResizedIcon(url+"alignRight.png"));
+        JButton alignRightButton = new JButton(getResizedIcon(url + "alignRight.png"));
         alignRightButton.setActionCommand("Right");
-        alignRightButton.addActionListener( textAlignActionListenerFactory.produce(alignRightButton.getActionCommand()));
+        alignRightButton.addActionListener(textAlignActionListenerFactory.produce(alignRightButton.getActionCommand()));
         toolBar.add(alignRightButton);
 
 
         FontStyleActionListener fontStyleActionListener = new FontStyleActionListener();
-        JButton fontStyleBoldButton = new JButton(getResizedIcon(url+"fontStyleBold.png"));
+        JButton fontStyleBoldButton = new JButton(getResizedIcon(url + "fontStyleBold.png"));
         fontStyleBoldButton.setActionCommand("bold");
         fontStyleBoldButton.addActionListener(fontStyleActionListener);
         toolBar.add(fontStyleBoldButton);
 
-        JButton fontStyleItalicButton = new JButton(getResizedIcon(url+"fontStyleItalic.png"));
+        JButton fontStyleItalicButton = new JButton(getResizedIcon(url + "fontStyleItalic.png"));
         fontStyleItalicButton.setActionCommand("italic");
         fontStyleItalicButton.addActionListener(fontStyleActionListener);
         toolBar.add(fontStyleItalicButton);
 
-        JButton fontStyleUnderlineButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
+        JButton fontStyleUnderlineButton = new JButton(getResizedIcon(url + "fontStyleUnderline.png"));
         fontStyleUnderlineButton.setActionCommand("underline");
         fontStyleUnderlineButton.addActionListener(fontStyleActionListener);
         toolBar.add(fontStyleUnderlineButton);
 
 
-
-        JButton DatabaseFileButton = new JButton(getResizedIcon(url+"databaseFile.png"));
+        JButton DatabaseFileButton = new JButton(getResizedIcon(url + "databaseFile.png"));
         DatabaseFileButton.setActionCommand("");
         DatabaseFileButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog versionDialog = new JDialog(frame, "Version");
-                DatabaseDialogPanel databaseDialog = new DatabaseDialogPanel();
+                JDialog versionDialog = new JDialog(frame, "Version", true);
+                DatabaseDialogPanel databaseDialog = new DatabaseDialogPanel(textPane, editingDocumentModel);
                 versionDialog.setContentPane(databaseDialog.getLayoutPanel());
                 versionDialog.setSize(600, 400);
                 versionDialog.setVisible(true);
+
+                System.out.println(editingDocumentModel.getDocumentId());
             }
         });
         toolBar.add(DatabaseFileButton);
 
-//        JButton DatabaseCommitButton = new JButton(getResizedIcon(url+"databaseCommit.png"));
-//        DatabaseCommitButton.setActionCommand("");
-//        DatabaseOpenButton.addActionListener();
-//        toolBar.add(DatabaseCommitButton);
+        JButton DatabaseCommitButton = new JButton(getResizedIcon(url + "databaseCommit.png"));
+        DatabaseCommitButton.setActionCommand("");
+        DatabaseCommitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fileName = JOptionPane.showInputDialog("InputFileName");
+                if (fileName != null) {
+                    DocumentModel documentModel = new DocumentModel();
+                    documentModel.setAuthor(fileName);
+                    documentModel.setDocument(textPane.getDocument());
 
-        JButton coustomStyleButton = new JButton(getResizedIcon(url+"fontStyleUnderline.png"));
+                    DocumentModel cloneDocumentModel = documentModel.clone();
+
+                    DatabaseManager databaseManager = new DatabaseManager();
+                    databaseManager.createDocumentModel(documentModel);
+
+                    textPane.setDocument(cloneDocumentModel.getDocument());
+
+                }
+            }
+        });
+        toolBar.add(DatabaseCommitButton);
+
+
+        JButton coustomStyleButton = new JButton(getResizedIcon(url + "fontStyleUnderline.png"));
         coustomStyleButton.setActionCommand("coustomStyle");
         coustomStyleButton.addActionListener(customFontStyleActionListener);
         coustomStyleButton.addActionListener(customFontColorActionListener);
@@ -493,10 +505,10 @@ public class editor extends JFrame implements ActionListener {
         return toolBar;
     }
 
-    private ImageIcon getResizedIcon (String fileUrl){
+    private ImageIcon getResizedIcon(String fileUrl) {
         ImageIcon icon = new ImageIcon(fileUrl);
         Image image = icon.getImage();
-        Image resizedImage = image.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+        Image resizedImage = image.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
     //-----------------------Toolbar----------------------------------

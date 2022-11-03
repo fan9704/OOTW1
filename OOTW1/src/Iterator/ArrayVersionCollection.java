@@ -43,7 +43,7 @@ public class ArrayVersionCollection implements VersionCollection {
 
     @Override
     public void remove(int index) {
-        versionList.remove(index);
+        versionList.remove(index-1);
     }
 
     @Override

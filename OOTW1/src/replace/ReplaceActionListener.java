@@ -1,10 +1,7 @@
 package replace;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -99,31 +96,33 @@ public class ReplaceActionListener implements ActionListener {
         frDialog.setVisible(true);
     }
 
-    void applyFindWordBackgroundColor(ArrayList<Integer> findIndexList,int length) {
-        for (int i:findIndexList){
+    void applyFindWordBackgroundColor(ArrayList<Integer> findIndexList, int length) {
+        for (int i : findIndexList) {
             SimpleAttributeSet style = new SimpleAttributeSet();
-            StyleConstants.setBackground(style, new Color(255,203,107,255));
+            StyleConstants.setBackground(style, new Color(255, 203, 107, 255));
             textPane.getStyledDocument().setCharacterAttributes(i, length, style, false);
         }
     }
 
     void recoverBackgroundColor() {
         SimpleAttributeSet style = new SimpleAttributeSet();
-        StyleConstants.setBackground(style, new Color(0,0,0,0));
+        StyleConstants.setBackground(style, new Color(0, 0, 0, 0));
         textPane.getStyledDocument().setCharacterAttributes(0, textPane.getText().length(), style, false);
     }
 
     void replaceWord(String find, String replace) throws BadLocationException {
         String content = textPane.getText().replace("\n", "");
         Document doc = textPane.getDocument();
+        StyledDocument styledDoc = textPane.getStyledDocument();
         int counterOfReplace = 0;
 
         for (int i = 0; i < content.length() - find.length() + 1; i++) {
             String temp = content.substring(i, i + find.length());
             if (temp.equals(find)) {
                 int offset = (find.length() - replace.length()) * counterOfReplace;
+                AttributeSet insertAttr = styledDoc.getCharacterElement(i - offset).getAttributes();
                 doc.remove(i - offset, find.length());
-                doc.insertString(i - offset, replace, new SimpleAttributeSet());
+                doc.insertString(i - offset, replace, insertAttr);
                 counterOfReplace++;
             }
         }

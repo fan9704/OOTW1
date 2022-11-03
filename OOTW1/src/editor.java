@@ -1,5 +1,6 @@
 import Command.*;
 import Database.Weight.DBMenuWeightHelper;
+import Database.Weight.DatabaseDialogPanel;
 import Memento.careTaker;
 import Memento.originator;
 import bridge.Window;
@@ -462,7 +463,17 @@ public class editor extends JFrame implements ActionListener {
 
         JButton DatabaseFileButton = new JButton(getResizedIcon(url+"databaseFile.png"));
         DatabaseFileButton.setActionCommand("");
-//        DatabaseOpenButton.addActionListener();
+        DatabaseFileButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog versionDialog = new JDialog(frame, "Version");
+                DatabaseDialogPanel databaseDialog = new DatabaseDialogPanel();
+                versionDialog.setContentPane(databaseDialog.getLayoutPanel());
+                versionDialog.setSize(600, 400);
+                versionDialog.setVisible(true);
+            }
+        });
         toolBar.add(DatabaseFileButton);
 
         JButton DatabaseCommitButton = new JButton(getResizedIcon(url+"databaseCommit.png"));

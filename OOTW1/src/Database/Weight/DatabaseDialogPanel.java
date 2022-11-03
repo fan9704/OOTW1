@@ -13,7 +13,7 @@ public class DatabaseDialogPanel {
             operationPanel,
             layoutPanel;
 
-    DatabaseDialogPanel() {
+    public DatabaseDialogPanel() {
         documentPanel = new JPanel(new GridLayout(0, 1, 10, 10));
         contentPanel = new JPanel(new GridLayout(0, 1, 10, 10));
         operationPanel = new JPanel();
@@ -49,16 +49,6 @@ public class DatabaseDialogPanel {
 
     public JPanel getLayoutPanel() {
         return layoutPanel;
-    }
-
-    public static void main(String[] args) {
-        JFrame versionFrame = new JFrame("Version Showing");
-        JDialog versionDialog = new JDialog(versionFrame, "Version");
-        DatabaseDialogPanel databaseDialog = new DatabaseDialogPanel();
-        versionDialog.setContentPane(databaseDialog.getLayoutPanel());
-        versionDialog.setSize(400, 400);
-        versionDialog.setVisible(true);
-
     }
 
 

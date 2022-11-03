@@ -52,7 +52,6 @@ public class editor extends JFrame implements ActionListener {
 
         if (System.getProperty("os.name").contains("Windows")) {
             windowImpl = new WindowsImpl();
-            System.out.println(.contains("Windows"));
         } else {
             windowImpl = new XWindowImpl();
         }

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class invokerCommand {
-	List<commandCommand>commandList = new ArrayList<commandCommand>();
+	private List<commandCommand>commandList = new ArrayList<commandCommand>();
 	
 	public void addCommend(commandCommand commandCommand) {
 		commandList.add(commandCommand);

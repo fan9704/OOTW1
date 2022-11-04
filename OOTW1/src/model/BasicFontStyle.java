@@ -5,8 +5,6 @@ import javax.swing.text.*;
 
 public class BasicFontStyle implements FontStyleComponent{
 
-    JTextPane jTextPane;
-
     @Override
     public void setStyle(StyledDocument styledDocument, int startLocation, int endLocation) {
             SimpleAttributeSet s = new SimpleAttributeSet();
@@ -19,16 +17,14 @@ public class BasicFontStyle implements FontStyleComponent{
     public FontStyleComponent removeDecorator(FontStyleComponent toRemove) {
         return this;
     }
+
     @Override
     public FontStyleComponent getSubject() {
-        return this;
+        throw new UnsupportedOperationException("No subject can be return！");
     }
 
+    public BasicFontStyle(){
 
-
-
-    public BasicFontStyle(JTextPane jTextPane){
-        this.jTextPane = jTextPane;
     }
 
 

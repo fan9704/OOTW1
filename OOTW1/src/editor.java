@@ -204,7 +204,7 @@ public class editor extends JFrame implements ActionListener {
 
 
 
-        BasicFontStyle basicFontStyle = new BasicFontStyle(this.textPane);
+        BasicFontStyle basicFontStyle = new BasicFontStyle();
 
 
         JMenu CustomBar = new JMenu("CustomButton");

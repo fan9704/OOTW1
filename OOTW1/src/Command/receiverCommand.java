@@ -137,7 +137,13 @@ public class receiverCommand extends JFrame {
 		textArea.setText("");
 		// Observer Pattern
 		windowTitle.AddObserver(title);
-		windowTitle.Notify(System.getProperty("os.name"));
+		if(System.getProperty("os.name").equals("Windows 10")){
+			windowTitle.Notify("Window");
+		}
+		else {
+			windowTitle.Notify(System.getProperty("os.name"));
+		}
+
 
 	}
 

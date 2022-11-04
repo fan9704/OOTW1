@@ -140,6 +140,9 @@ public class receiverCommand extends JFrame {
 		if(System.getProperty("os.name").equals("Windows 10")){
 			windowTitle.Notify("Window");
 		}
+		else if(System.getProperty("os.name").equals("Windows 11")){
+			windowTitle.Notify("Window");
+		}
 		else {
 			windowTitle.Notify(System.getProperty("os.name"));
 		}

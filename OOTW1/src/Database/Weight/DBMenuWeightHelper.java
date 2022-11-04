@@ -16,12 +16,10 @@ public class DBMenuWeightHelper {
         dbUpdateMenuItem.addActionListener(e -> {
 
             DBConnector dbConnector = DBConnector.getInstance();
-            dbConnector.createDocumentModel(jTextPane);
         });
 
         dbRollbackMenuItem.addActionListener(e -> {
             DBConnector dbConnector = DBConnector.getInstance();
-            dbConnector.rollbackToNewstDocumentModel(jTextPane);
         });
 
         dbMenu.add((dbUpdateMenuItem));

@@ -135,6 +135,10 @@ public class receiverCommand extends JFrame {
 	}
 	public void New() {
 		textArea.setText("");
+		// Observer Pattern
+		windowTitle.AddObserver(title);
+		windowTitle.Notify(System.getProperty("os.name"));
+
 	}
 
 	public void ScrollBar() {

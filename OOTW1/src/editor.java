@@ -1,4 +1,5 @@
 import Command.*;
+import Database.DBConnector;
 import Database.DatabaseManager;
 import Database.Model.DocumentModel;
 import Database.Weight.DBMenuWeightHelper;
@@ -422,6 +423,8 @@ public class editor extends JFrame implements ActionListener {
             }
             Origin = textPane.getText();
             frame.setVisible(false);
+            DBConnector dbConnector = DBConnector.getInstance();
+            dbConnector.closeConnection();
         }
     }
 
@@ -508,7 +511,7 @@ public class editor extends JFrame implements ActionListener {
                 String fileName = JOptionPane.showInputDialog("InputFileName");
                 if (fileName != null) {
                     DocumentModel documentModel = new DocumentModel();
-                    documentModel.setAuthor(fileName);
+                    documentModel.setFileName(fileName);
                     documentModel.setDocument(textPane.getDocument());
 
                     DocumentModel cloneDocumentModel = documentModel.clone();

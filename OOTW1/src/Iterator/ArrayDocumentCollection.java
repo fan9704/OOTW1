@@ -5,14 +5,14 @@ import Database.Model.DocumentModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayVersionCollection implements VersionCollection {
+public class ArrayDocumentCollection implements DocumentCollection {
     private List<DocumentModel> versionList;
 
-    public ArrayVersionCollection() {
+    public ArrayDocumentCollection() {
         this.versionList = new ArrayList<>();
     }
 
-    ArrayVersionCollection(List<DocumentModel> versionList) {
+    ArrayDocumentCollection(List<DocumentModel> versionList) {
         this.versionList = versionList;
     }
 
@@ -20,12 +20,6 @@ public class ArrayVersionCollection implements VersionCollection {
     public void add(DocumentModel documentModel) {
         this.versionList.add(documentModel);
     }
-
-    @Override
-    public void addRange(List<DocumentModel> documentModel) {
-        this.versionList.addAll(documentModel);
-    }
-
     @Override
     public DocumentModel get(int index) {
         return versionList.get(index);
@@ -34,11 +28,6 @@ public class ArrayVersionCollection implements VersionCollection {
     @Override
     public int getSize() {
         return versionList.size();
-    }
-
-    @Override
-    public void remove(DocumentModel documentModel) {
-        this.versionList.remove(documentModel);
     }
 
     @Override
@@ -56,7 +45,7 @@ public class ArrayVersionCollection implements VersionCollection {
     }
 
     @Override
-    public VersionIterator iterator() {
-        return new ArrayVersionIterator(this);
+    public DocumentIterator iterator() {
+        return new ArrayDocumentUpdateTimeIterator(this);
     }
 }

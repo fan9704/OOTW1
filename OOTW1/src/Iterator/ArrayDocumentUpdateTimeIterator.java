@@ -2,13 +2,11 @@ package Iterator;
 
 import Database.Model.DocumentModel;
 
-import java.util.List;
-
-public class ArrayVersionIterator implements VersionIterator {
-    private ArrayVersionCollection arrayVersionCollection;
+public class ArrayDocumentUpdateTimeIterator implements DocumentIterator {
+    private ArrayDocumentCollection arrayVersionCollection;
     private int iteratorIndex = 0;
 
-    public ArrayVersionIterator(ArrayVersionCollection arrayVersionCollection) {
+    public ArrayDocumentUpdateTimeIterator(ArrayDocumentCollection arrayVersionCollection) {
         this.arrayVersionCollection = arrayVersionCollection;
     }
 
@@ -22,7 +20,7 @@ public class ArrayVersionIterator implements VersionIterator {
     }
 
     @Override
-    public DocumentModel getNext() {
+    public DocumentModel next() {
         DocumentModel documentModel = arrayVersionCollection.get(iteratorIndex);
         this.iteratorIndex++;
         return documentModel;

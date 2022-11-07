@@ -22,12 +22,12 @@ public class DocumentModel implements Serializable,Cloneable {
     @GeneratedValue
     public int documentId;
     public Document document;
-    public String author;
+    public String fileName;
     public Date updateTime;
     public Date createdDate;
-    public DocumentModel(Document document, String author){
+    public DocumentModel(Document document, String fileName){
         this.document = document;
-        this.author = author;
+        this.fileName = fileName;
     }
     @PrePersist
     void updateCreateDates() {
@@ -35,14 +35,11 @@ public class DocumentModel implements Serializable,Cloneable {
         createdDate = updateTime;
 
     }
-
     @PreUpdate
     void updateDates() {
+
         updateTime = new Date();
     }
-
-
-
     @Override
     public DocumentModel clone() {
         try {
@@ -55,3 +52,8 @@ public class DocumentModel implements Serializable,Cloneable {
         }
     }
 }
+
+
+
+
+

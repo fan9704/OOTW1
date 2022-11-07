@@ -5,7 +5,6 @@ import Database.Model.DocumentModel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import javax.swing.*;
 import java.util.List;
 
 public class DatabaseRepository {
@@ -37,7 +36,7 @@ public class DatabaseRepository {
 
     public void createDocumentModel(DocumentModel documentModel) {
 
-        EntityManager entityManager = dbConnector.getEntityManager();
+        EntityManager entityManager = dbConnector.getConnection();
 
         EntityTransaction transaction = entityManager.getTransaction();
 
@@ -49,7 +48,7 @@ public class DatabaseRepository {
 
 
     public List<DocumentModel> fetchDbDocumentModelList() {
-        EntityManager entityManager = dbConnector.getEntityManager();
+        EntityManager entityManager = dbConnector.getConnection();
 
         TypedQuery<DocumentModel> query
                 = entityManager.createQuery("SELECT d FROM DocumentModel d ORDER BY d.updateTime desc", DocumentModel.class);
@@ -59,7 +58,7 @@ public class DatabaseRepository {
     }
 
     public void updateDbDocument(DocumentModel documentModel){
-        EntityManager entityManager = dbConnector.getEntityManager();
+        EntityManager entityManager = dbConnector.getConnection();
         EntityTransaction transaction = entityManager.getTransaction();
 
         DocumentModel dbDocumentModel = entityManager.find(DocumentModel.class,documentModel.documentId);
@@ -70,7 +69,7 @@ public class DatabaseRepository {
     }
 
     public void deleteDbDocument(DocumentModel documentModel){
-        EntityManager entityManager = dbConnector.getEntityManager();
+        EntityManager entityManager = dbConnector.getConnection();
         EntityTransaction transaction = entityManager.getTransaction();
 
         DocumentModel dbDocumentModel = entityManager.find(DocumentModel.class,documentModel.documentId);

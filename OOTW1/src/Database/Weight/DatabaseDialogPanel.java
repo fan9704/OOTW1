@@ -2,10 +2,9 @@ package Database.Weight;
 
 import Database.DatabaseManager;
 import Database.Model.DocumentModel;
-import Iterator.VersionIterator;
+import Iterator.DocumentIterator;
 
 import javax.swing.*;
-import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,14 +53,14 @@ public class DatabaseDialogPanel implements ActionListener {
         documentPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 0));
 
 
-        VersionIterator versionIterator = databaseManager.getDocumentVersionIterator();
+        DocumentIterator documentIterator = databaseManager.getDocumentVersionIterator();
         DocumentModel document;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
 
-        while (versionIterator.hasNext()) {
-            document = versionIterator.getNext();
-            JButton tempButton = new JButton("<html>Author:" + document.getAuthor() + "<br/>" +
+        while (documentIterator.hasNext()) {
+            document = documentIterator.next();
+            JButton tempButton = new JButton("<html>Author:" + document.getFileName() + "<br/>" +
                     "CreateAt：" + simpleDateFormat.format(document.getCreatedDate()).toString() + "<br/>" +
                     "UpdateAt：" + simpleDateFormat.format(document.getUpdateTime()).toString() +
                     "</html>");

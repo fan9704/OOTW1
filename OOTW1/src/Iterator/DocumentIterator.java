@@ -2,10 +2,9 @@ package Iterator;
 
 import Database.Model.DocumentModel;
 
-public interface VersionIterator {
+public interface DocumentIterator {
     public boolean hasNext();
-    public DocumentModel getNext();
-
+    public DocumentModel next();
     public void remove();
 
 }

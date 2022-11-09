@@ -10,7 +10,8 @@ public interface DocumentCollection {
     public void removeAll();
     public DocumentModel get(int index);
     public int getSize();
-    public DocumentIterator iterator();
+    public DocumentIterator getIterator();
+    public DocumentIterator getIterator(String order);
 
 
 }

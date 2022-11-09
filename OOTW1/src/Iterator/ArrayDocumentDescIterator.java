@@ -2,21 +2,17 @@ package Iterator;
 
 import Database.Model.DocumentModel;
 
-public class ArrayDocumentUpdateTimeIterator implements DocumentIterator {
+public class ArrayDocumentDescIterator implements DocumentIterator {
     private ArrayDocumentCollection arrayVersionCollection;
     private int iteratorIndex = 0;
 
-    public ArrayDocumentUpdateTimeIterator(ArrayDocumentCollection arrayVersionCollection) {
+    public ArrayDocumentDescIterator(ArrayDocumentCollection arrayVersionCollection) {
         this.arrayVersionCollection = arrayVersionCollection;
     }
 
     @Override
     public boolean hasNext() {
-        if (arrayVersionCollection.getSize() > this.iteratorIndex) {
-            return true;
-        } else {
-            return false;
-        }
+        return arrayVersionCollection.getSize() > this.iteratorIndex;
     }
 
     @Override

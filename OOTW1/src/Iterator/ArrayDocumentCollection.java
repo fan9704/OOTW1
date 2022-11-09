@@ -12,14 +12,11 @@ public class ArrayDocumentCollection implements DocumentCollection {
         this.versionList = new ArrayList<>();
     }
 
-    ArrayDocumentCollection(List<DocumentModel> versionList) {
-        this.versionList = versionList;
-    }
-
     @Override
     public void add(DocumentModel documentModel) {
         this.versionList.add(documentModel);
     }
+
     @Override
     public DocumentModel get(int index) {
         return versionList.get(index);
@@ -31,8 +28,19 @@ public class ArrayDocumentCollection implements DocumentCollection {
     }
 
     @Override
+    public DocumentIterator getIterator() {
+        return new ArrayDocumentDescIterator(this);
+    }
+
+    @Override
+    public DocumentIterator getIterator(String order) {
+        return (order.equals("desc")) ? new ArrayDocumentDescIterator(this) : new ArrayDocumentAscIterator(this);
+
+    }
+
+    @Override
     public void remove(int index) {
-        versionList.remove(index-1);
+        versionList.remove(index - 1);
     }
 
     @Override
@@ -40,12 +48,4 @@ public class ArrayDocumentCollection implements DocumentCollection {
         this.versionList.clear();
     }
 
-    public int getLength() {
-        return this.versionList.size();
-    }
-
-    @Override
-    public DocumentIterator iterator() {
-        return new ArrayDocumentUpdateTimeIterator(this);
-    }
 }

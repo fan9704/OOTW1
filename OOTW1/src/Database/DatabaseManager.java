@@ -2,31 +2,32 @@ package Database;
 
 import Database.Model.DocumentModel;
 import Iterator.ArrayDocumentCollection;
+import Iterator.DocumentCollection;
 import Iterator.DocumentIterator;
 
 import java.util.List;
 
 public class DatabaseManager {
 
-    ArrayDocumentCollection arrayVersionCollection;
+    DocumentCollection documentCollection;
     DatabaseRepository dbRepository;
 
     public DatabaseManager() {
-        arrayVersionCollection = new ArrayDocumentCollection();
+        documentCollection = new ArrayDocumentCollection();
         dbRepository = new DatabaseRepository();
     }
 
     void fetchModel() {
-        arrayVersionCollection.removeAll();
+        documentCollection.removeAll();
         List<DocumentModel> documentModelList = dbRepository.fetchDbDocumentModelList();
         for (DocumentModel documentModel : documentModelList) {
-            arrayVersionCollection.add(documentModel);
+            documentCollection.add(documentModel);
         }
     }
 
     public void createDocumentModel(DocumentModel documentModel) {
         dbRepository.createDocumentModel(documentModel);
-        arrayVersionCollection.add(documentModel);
+        documentCollection.add(documentModel);
     }
 
     public void updateDocumentModel(DocumentModel documentModel) {
@@ -35,21 +36,10 @@ public class DatabaseManager {
 
     public void deleteDocumentModel(DocumentModel documentModel) {
         dbRepository.deleteDbDocument(documentModel);
-
-        DocumentIterator documentIterator = arrayVersionCollection.iterator();
-        DocumentModel tmp;
-
-        while (documentIterator.hasNext()) {
-            tmp = documentIterator.next();
-            if (tmp.documentId == documentModel.documentId) {
-                documentIterator.remove();
-            }
-        }
-
     }
 
-    public DocumentIterator getDocumentVersionIterator() {
+    public DocumentIterator getDocumentVersionIterator(String order) {
         fetchModel();
-        return arrayVersionCollection.iterator();
+        return documentCollection.getIterator(order);
     }
 }

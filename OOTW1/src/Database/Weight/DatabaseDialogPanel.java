@@ -20,10 +20,9 @@ public class DatabaseDialogPanel implements ActionListener {
     JTextPane textPane, dialogTextPane;
 
     DocumentModel editingDocumentModel;
-    JTextField fileNameJTextField = new JTextField();
+    private String order = "desc";
 
-
-    public DatabaseDialogPanel(JTextPane textPane,DocumentModel editingDocumentModel) {
+    public DatabaseDialogPanel(JTextPane textPane, DocumentModel editingDocumentModel) {
         this.textPane = textPane;
         this.editingDocumentModel = editingDocumentModel;
 
@@ -53,7 +52,7 @@ public class DatabaseDialogPanel implements ActionListener {
         documentPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 0));
 
 
-        DocumentIterator documentIterator = databaseManager.getDocumentVersionIterator();
+        DocumentIterator documentIterator = databaseManager.getDocumentVersionIterator(order);
         DocumentModel document;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
@@ -74,7 +73,7 @@ public class DatabaseDialogPanel implements ActionListener {
             });
             documentPanel.add(tempButton);
 
-            if (editingDocumentModel.documentId == finalDocument.documentId){
+            if (editingDocumentModel.documentId == finalDocument.documentId) {
                 dialogTextPane.setDocument(finalDocument.getDocument());
             }
 
@@ -105,11 +104,19 @@ public class DatabaseDialogPanel implements ActionListener {
         delete.setActionCommand("delete");
         delete.addActionListener(this);
 
-        JTextField jTextField = new JTextField();
+        JButton desc = new JButton("desc");
+        desc.setActionCommand("desc");
+        desc.addActionListener(this);
+
+        JButton asc = new JButton("asc");
+        asc.setActionCommand("asc");
+        asc.addActionListener(this);
 
         operationPanel.add(edit);
         operationPanel.add(update);
         operationPanel.add(delete);
+        operationPanel.add(desc);
+        operationPanel.add(asc);
 
         return operationPanel;
     }
@@ -127,15 +134,7 @@ public class DatabaseDialogPanel implements ActionListener {
         switch (command) {
             case "delete":
                 databaseManager.deleteDocumentModel(editingDocumentModel);
-
-                layoutPanel.remove(documentPanel);
-
-                documentPanel = getDocumentPanel();
-                layoutPanel.add(documentPanel, BorderLayout.LINE_START);
-
-
-                layoutPanel.revalidate();
-                layoutPanel.repaint();
+                readerVersionButton();
 
                 break;
             case "edit":
@@ -147,9 +146,24 @@ public class DatabaseDialogPanel implements ActionListener {
                 databaseManager.updateDocumentModel(editingDocumentModel);
                 dialogTextPane.setDocument(editingDocumentModel.document);
                 break;
-
+            case "desc":
+                this.order = "desc";
+                readerVersionButton();
+                break;
+            case "asc":
+                this.order = "asc";
+                readerVersionButton();
+                break;
         }
 
+    }
+
+    private void readerVersionButton() {
+        layoutPanel.remove(documentPanel);
+        documentPanel = getDocumentPanel();
+        layoutPanel.add(documentPanel, BorderLayout.LINE_START);
+        layoutPanel.revalidate();
+        layoutPanel.repaint();
     }
 
 

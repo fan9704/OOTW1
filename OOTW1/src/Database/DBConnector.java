@@ -5,21 +5,14 @@ import Database.Model.DocumentModel;
 import javax.persistence.*;
 import java.util.Timer;
 import javax.swing.*;
-import java.util.List;
 import java.util.TimerTask;
 
 public class DBConnector {
     private static DBConnector dbConnector;
     private EntityManager entityManager;
-    private EntityManagerFactory entityManagerFactory;
-
+    private final EntityManagerFactory entityManagerFactory;
     Timer closeEntityManagerTimer;
-
-    private DocumentModel editingDocumentModel;
-    private List<DocumentModel> dbDocumentModelList;
-
-
-    DBConnector() {
+    private DBConnector() {
 //      ------------------------------------------------------------------------
 //        entityManagerFactory = Persistence.createEntityManagerFactory(
 //                "objectdb://localhost/test2.odb;user=admin;password=admin");
@@ -30,21 +23,18 @@ public class DBConnector {
 
         entityManager = entityManagerFactory.createEntityManager();
         closeEntityManagerTimer = new Timer();
-        closeEntityManagerTimer.schedule(new CloseEntityManagerTimerTask(entityManager), 1000 * 60 * 5);
+        closeEntityManagerTimer.schedule(new CloseConnectionTimerTask(entityManager), 1000 * 60 * 5);
 
     }
-
-
     public static DBConnector getInstance() {
         if (dbConnector == null) {
             dbConnector = new DBConnector();
         }
         return dbConnector;
     }
+    public EntityManager getConnection() {
 
-    public EntityManager getEntityManager() {
-
-        resetCloseEntityManagerTimer();
+        resetConnectCloseTimer();
 
         if (!entityManager.isOpen()) {
             entityManager = entityManagerFactory.createEntityManager();
@@ -53,24 +43,15 @@ public class DBConnector {
         return entityManager;
     }
 
-    private void resetCloseEntityManagerTimer() {
+    private void resetConnectCloseTimer() {
         closeEntityManagerTimer.cancel();
         closeEntityManagerTimer = new Timer();
-        closeEntityManagerTimer.schedule(new CloseEntityManagerTimerTask(entityManager), 1000 * 60 * 5);
+        closeEntityManagerTimer.schedule(new CloseConnectionTimerTask(entityManager), 1000 * 60 * 5);
     }
-
-    public void close() {
+    public void closeConnection() {
         entityManagerFactory.close();
     }
-
-
-    private void setCloneToTextPane(JTextPane jTextPane, DocumentModel dbDocumentModel) {
-        DocumentModel clone = dbDocumentModel.clone();
-        jTextPane.setDocument(clone.getDocument());
-    }
-
-
-    class CloseEntityManagerTimerTask extends TimerTask {
+    class CloseConnectionTimerTask extends TimerTask {
 
         EntityManager entityManager;
 
@@ -79,10 +60,9 @@ public class DBConnector {
             entityManager.close();
         }
 
-        CloseEntityManagerTimerTask(EntityManager entityManager) {
+        CloseConnectionTimerTask(EntityManager entityManager) {
             this.entityManager = entityManager;
         }
     }
-
 
 }

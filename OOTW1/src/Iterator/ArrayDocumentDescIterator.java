@@ -2,27 +2,21 @@ package Iterator;
 
 import Database.Model.DocumentModel;
 
-import java.util.List;
-
-public class ArrayVersionIterator implements VersionIterator {
-    private ArrayVersionCollection arrayVersionCollection;
+public class ArrayDocumentDescIterator implements DocumentIterator {
+    private ArrayDocumentCollection arrayVersionCollection;
     private int iteratorIndex = 0;
 
-    public ArrayVersionIterator(ArrayVersionCollection arrayVersionCollection) {
+    public ArrayDocumentDescIterator(ArrayDocumentCollection arrayVersionCollection) {
         this.arrayVersionCollection = arrayVersionCollection;
     }
 
     @Override
     public boolean hasNext() {
-        if (arrayVersionCollection.getSize() > this.iteratorIndex) {
-            return true;
-        } else {
-            return false;
-        }
+        return arrayVersionCollection.getSize() > this.iteratorIndex;
     }
 
     @Override
-    public DocumentModel getNext() {
+    public DocumentModel next() {
         DocumentModel documentModel = arrayVersionCollection.get(iteratorIndex);
         this.iteratorIndex++;
         return documentModel;

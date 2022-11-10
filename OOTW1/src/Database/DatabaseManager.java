@@ -1,54 +1,45 @@
 package Database;
 
 import Database.Model.DocumentModel;
-import Iterator.ArrayVersionCollection;
-import Iterator.VersionIterator;
+import Iterator.ArrayDocumentCollection;
+import Iterator.DocumentCollection;
+import Iterator.DocumentIterator;
 
-import javax.swing.*;
+import java.util.List;
 
 public class DatabaseManager {
 
-    ArrayVersionCollection arrayVersionCollection;
+    DocumentCollection documentCollection;
     DatabaseRepository dbRepository;
-    JTextPane textPane;
 
     public DatabaseManager() {
-        arrayVersionCollection = new ArrayVersionCollection();
+        documentCollection = new ArrayDocumentCollection();
         dbRepository = new DatabaseRepository();
     }
 
-    void fetchModel(){
-        arrayVersionCollection.removeAll();
-        arrayVersionCollection.addRange(dbRepository.fetchDbDocumentModelList());
-    }
-    public void createDocumentModel(DocumentModel documentModel){
-        dbRepository.createDocumentModel(documentModel);
-        arrayVersionCollection.add(documentModel);
+    void fetchModel() {
+        documentCollection.removeAll();
+        List<DocumentModel> documentModelList = dbRepository.fetchDbDocumentModelList();
+        for (DocumentModel documentModel : documentModelList) {
+            documentCollection.add(documentModel);
+        }
     }
 
-    public void updateDocumentModel(DocumentModel documentModel){
+    public void createDocumentModel(DocumentModel documentModel) {
+        dbRepository.createDocumentModel(documentModel);
+        documentCollection.add(documentModel);
+    }
+
+    public void updateDocumentModel(DocumentModel documentModel) {
         dbRepository.updateDbDocument(documentModel);
     }
 
-    public void deleteDocumentModel(DocumentModel documentModel){
+    public void deleteDocumentModel(DocumentModel documentModel) {
         dbRepository.deleteDbDocument(documentModel);
-
-        VersionIterator versionIterator = arrayVersionCollection.iterator();
-        DocumentModel tmp;
-
-        while (versionIterator.hasNext()) {
-            tmp = versionIterator.getNext();
-            if(tmp.documentId == documentModel.documentId){
-                versionIterator.remove();
-            }
-        }
-
     }
 
-
-
-    public VersionIterator getDocumentVersionIterator() {
+    public DocumentIterator getDocumentVersionIterator(String order) {
         fetchModel();
-        return arrayVersionCollection.iterator();
+        return documentCollection.getIterator(order);
     }
 }

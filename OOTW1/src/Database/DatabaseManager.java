@@ -13,7 +13,8 @@ public class DatabaseManager {
     DatabaseRepository dbRepository;
 
     public DatabaseManager() {
-        documentCollection = new ArrayDocumentCollection();
+        List<DocumentModel> documentModelList = null;
+        documentCollection = new ArrayDocumentCollection(documentModelList);
         dbRepository = new DatabaseRepository();
     }
 

@@ -2,10 +2,9 @@ package Database.Weight;
 
 import Database.DatabaseManager;
 import Database.Model.DocumentModel;
-import Iterator.VersionIterator;
+import Iterator.DocumentIterator;
 
 import javax.swing.*;
-import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +20,9 @@ public class DatabaseDialogPanel implements ActionListener {
     JTextPane textPane, dialogTextPane;
 
     DocumentModel editingDocumentModel;
-    JTextField fileNameJTextField = new JTextField();
+    private String order = "desc";
 
-
-    public DatabaseDialogPanel(JTextPane textPane,DocumentModel editingDocumentModel) {
+    public DatabaseDialogPanel(JTextPane textPane, DocumentModel editingDocumentModel) {
         this.textPane = textPane;
         this.editingDocumentModel = editingDocumentModel;
 
@@ -54,14 +52,14 @@ public class DatabaseDialogPanel implements ActionListener {
         documentPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 0));
 
 
-        VersionIterator versionIterator = databaseManager.getDocumentVersionIterator();
+        DocumentIterator documentIterator = databaseManager.getDocumentVersionIterator(order);
         DocumentModel document;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
 
-        while (versionIterator.hasNext()) {
-            document = versionIterator.getNext();
-            JButton tempButton = new JButton("<html>Author:" + document.getAuthor() + "<br/>" +
+        while (documentIterator.hasNext()) {
+            document = documentIterator.next();
+            JButton tempButton = new JButton("<html>Author:" + document.getFileName() + "<br/>" +
                     "CreateAt：" + simpleDateFormat.format(document.getCreatedDate()).toString() + "<br/>" +
                     "UpdateAt：" + simpleDateFormat.format(document.getUpdateTime()).toString() +
                     "</html>");
@@ -75,7 +73,7 @@ public class DatabaseDialogPanel implements ActionListener {
             });
             documentPanel.add(tempButton);
 
-            if (editingDocumentModel.documentId == finalDocument.documentId){
+            if (editingDocumentModel.documentId == finalDocument.documentId) {
                 dialogTextPane.setDocument(finalDocument.getDocument());
             }
 
@@ -106,11 +104,19 @@ public class DatabaseDialogPanel implements ActionListener {
         delete.setActionCommand("delete");
         delete.addActionListener(this);
 
-        JTextField jTextField = new JTextField();
+        JButton desc = new JButton("desc");
+        desc.setActionCommand("desc");
+        desc.addActionListener(this);
+
+        JButton asc = new JButton("asc");
+        asc.setActionCommand("asc");
+        asc.addActionListener(this);
 
         operationPanel.add(edit);
         operationPanel.add(update);
         operationPanel.add(delete);
+        operationPanel.add(desc);
+        operationPanel.add(asc);
 
         return operationPanel;
     }
@@ -128,15 +134,7 @@ public class DatabaseDialogPanel implements ActionListener {
         switch (command) {
             case "delete":
                 databaseManager.deleteDocumentModel(editingDocumentModel);
-
-                layoutPanel.remove(documentPanel);
-
-                documentPanel = getDocumentPanel();
-                layoutPanel.add(documentPanel, BorderLayout.LINE_START);
-
-
-                layoutPanel.revalidate();
-                layoutPanel.repaint();
+                readerVersionButton();
 
                 break;
             case "edit":
@@ -148,9 +146,24 @@ public class DatabaseDialogPanel implements ActionListener {
                 databaseManager.updateDocumentModel(editingDocumentModel);
                 dialogTextPane.setDocument(editingDocumentModel.document);
                 break;
-
+            case "desc":
+                this.order = "desc";
+                readerVersionButton();
+                break;
+            case "asc":
+                this.order = "asc";
+                readerVersionButton();
+                break;
         }
 
+    }
+
+    private void readerVersionButton() {
+        layoutPanel.remove(documentPanel);
+        documentPanel = getDocumentPanel();
+        layoutPanel.add(documentPanel, BorderLayout.LINE_START);
+        layoutPanel.revalidate();
+        layoutPanel.repaint();
     }
 
 

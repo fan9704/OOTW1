@@ -377,16 +377,17 @@ public class editor extends JFrame implements ActionListener {
 
 
         if (s.equals("Undo")) {
-            this.restoreFromMemento(careTaker.getMemento());
-            textPane.setText(this.getNow());
-//            originator.restoreFromMemento(careTaker.getMemento());
-//            textPane.setText(originator.getNow());
-        } else if (s.equals("Redo")) {
-            this.restoreFromMemento(careTaker.getLastMemento());
-            textPane.setText(this.getNow());
-//            originator.restoreFromMemento(careTaker.getLastMemento());
-//            textPane.setText(originator.getNow());
-        } else if (s.equals("Close")) {
+            originator.restoreFromMemento(careTaker.getMemento());
+            textPane.setText(originator.getNow());
+        }
+
+        else if (s.equals("Redo")) {
+            originator.restoreFromMemento(careTaker.getLastMemento());
+            textPane.setText(originator.getNow());
+
+        }
+
+        else if (s.equals("Close")) {
             Origin = receiver.setOrigin();
             fi = receiver.setFi();
             if (textPane.getText().equals(Origin)) {
@@ -445,8 +446,7 @@ public class editor extends JFrame implements ActionListener {
             }
             Origin = textPane.getText();
             frame.setVisible(false);
-            DBConnector dbConnector = DBConnector.getInstance();
-            dbConnector.closeConnection();
+            DatabaseManager.closeConnection();
         }
     }
 

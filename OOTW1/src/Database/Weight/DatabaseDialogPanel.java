@@ -3,6 +3,10 @@ package Database.Weight;
 import Database.DatabaseManager;
 import Database.Model.DocumentModel;
 import Iterator.DocumentIterator;
+import Observer.Attribute;
+import Observer.Title;
+import Observer.WindowAttribute;
+import Observer.WindowTitle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,19 +15,19 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 
 public class DatabaseDialogPanel implements ActionListener {
-    JPanel documentPanel,
+    private JPanel documentPanel,
             contentPanel,
             operationPanel,
             layoutPanel;
 
-    DatabaseManager databaseManager;
-    JTextPane textPane, dialogTextPane;
+    private DatabaseManager databaseManager;
+    private JTextPane editorPane, dialogTextPane;
 
-    DocumentModel editingDocumentModel;
+    private DocumentModel editingDocumentModel;
     private String order = "desc";
 
-    public DatabaseDialogPanel(JTextPane textPane, DocumentModel editingDocumentModel) {
-        this.textPane = textPane;
+    public DatabaseDialogPanel(JTextPane editorPane, DocumentModel editingDocumentModel) {
+        this.editorPane = editorPane;
         this.editingDocumentModel = editingDocumentModel;
 
         dialogTextPane = new JTextPane();
@@ -67,8 +71,7 @@ public class DatabaseDialogPanel implements ActionListener {
 
             DocumentModel finalDocument = document.clone();
             tempButton.addActionListener((e) -> {
-                editingDocumentModel.documentId = finalDocument.getDocumentId();
-                editingDocumentModel.document = finalDocument.getDocument();
+                editingDocumentModel= finalDocument;
                 dialogTextPane.setDocument(finalDocument.getDocument());
             });
             documentPanel.add(tempButton);
@@ -134,31 +137,36 @@ public class DatabaseDialogPanel implements ActionListener {
         switch (command) {
             case "delete":
                 databaseManager.deleteDocumentModel(editingDocumentModel);
-                readerVersionButton();
+                updateDocumentPanel();
 
                 break;
             case "edit":
                 DocumentModel cloneDocumentModel = editingDocumentModel.clone();
-                textPane.setDocument(cloneDocumentModel.getDocument());
+                editorPane.setDocument(cloneDocumentModel.getDocument());
+
+                WindowAttribute title = WindowTitle.getInstance();
+                title.Notify(editingDocumentModel.fileName);
+
+
                 break;
             case "update":
-                editingDocumentModel.document = textPane.getDocument();
+                editingDocumentModel.document = editorPane.getDocument();
                 databaseManager.updateDocumentModel(editingDocumentModel);
                 dialogTextPane.setDocument(editingDocumentModel.document);
                 break;
             case "desc":
                 this.order = "desc";
-                readerVersionButton();
+                updateDocumentPanel();
                 break;
             case "asc":
                 this.order = "asc";
-                readerVersionButton();
+                updateDocumentPanel();
                 break;
         }
 
     }
 
-    private void readerVersionButton() {
+    private void updateDocumentPanel() {
         layoutPanel.remove(documentPanel);
         documentPanel = getDocumentPanel();
         layoutPanel.add(documentPanel, BorderLayout.LINE_START);

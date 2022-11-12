@@ -8,7 +8,7 @@ import java.util.List;
 public class ArrayDocumentCollection implements DocumentCollection {
     private List<DocumentModel> versionList;
 
-    public ArrayDocumentCollection(List<DocumentModel> documentModelList) {
+    public ArrayDocumentCollection() {
         this.versionList = new ArrayList<>();
     }
 

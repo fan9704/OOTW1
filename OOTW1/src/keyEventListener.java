@@ -1,29 +1,21 @@
+import Memento.careTaker;
+import Memento.originator;
+
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import Memento.*;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JTextPane;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.OceanTheme;
 
 public class keyEventListener implements KeyListener {
 	boolean enterTyped = false;
 	originator originator;
 	careTaker careTaker;
 	JTextPane jTextPane;
-	public keyEventListener(originator originator,careTaker careTaker,JTextPane jTextPane) {
+	editor editor;
+	public keyEventListener(careTaker careTaker,JTextPane jTextPane,editor editor) {
 		this.careTaker = careTaker;
-		this.originator = originator;
+
 		this.jTextPane = jTextPane;
+		this.editor = editor;
 	}
 	
 	public void keyTyped(KeyEvent e){}
@@ -34,24 +26,34 @@ public class keyEventListener implements KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			enterTyped = true;
 			System.out.println("EnterPress = "+enterTyped);
-			originator.storeState(jTextPane.getText());
-			careTaker.setMemento(originator.setMemento());
+			editor.storeState(jTextPane.getText());
+			careTaker.setMemento(editor.setMemento());
+//			originator.storeState(jTextPane.getText());
+//			careTaker.setMemento(originator.setMemento());
 		}
 		else if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
-			originator.storeState(jTextPane.getText());
-			careTaker.setMemento(originator.setMemento());
+			editor.storeState(jTextPane.getText());
+			careTaker.setMemento(editor.setMemento());
+//			originator.storeState(jTextPane.getText());
+//			careTaker.setMemento(originator.setMemento());
 		}
 		else if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
-			originator.storeState(jTextPane.getText());
-			careTaker.setMemento(originator.setMemento());
+			editor.storeState(jTextPane.getText());
+			careTaker.setMemento(editor.setMemento());
+//			originator.storeState(jTextPane.getText());
+//			careTaker.setMemento(originator.setMemento());
 		}
 		else if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X) {
-			originator.storeState(jTextPane.getText());
-			careTaker.setMemento(originator.setMemento());
+			editor.storeState(jTextPane.getText());
+			careTaker.setMemento(editor.setMemento());
+//			originator.storeState(jTextPane.getText());
+//			careTaker.setMemento(originator.setMemento());
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-			originator.storeState(jTextPane.getText());
-			careTaker.setMemento(originator.setMemento());
+			editor.storeState(jTextPane.getText());
+			careTaker.setMemento(editor.setMemento());
+//			originator.storeState(jTextPane.getText());
+//			careTaker.setMemento(originator.setMemento());
 		}
 		enterTyped = false;	
 		

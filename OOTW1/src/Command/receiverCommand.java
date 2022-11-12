@@ -95,7 +95,8 @@ public class receiverCommand extends JFrame {
 		if (r == JFileChooser.APPROVE_OPTION) {
 			// Set the label to the path of the selected directory
 			fi = new File(j.getSelectedFile().getAbsolutePath());
-			//To get the fileName
+			//To get the file
+			// Name
 			fileName = fi.toString();
 			fileNameTemp = fileName.split("\\\\");
 			System.out.println("Open file: " + fileNameTemp[fileNameTemp.length - 1]);

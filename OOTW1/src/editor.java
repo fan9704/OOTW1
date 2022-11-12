@@ -5,7 +5,7 @@ import Database.Model.DocumentModel;
 import Database.Weight.DBMenuWeightHelper;
 import Database.Weight.DatabaseDialogPanel;
 import Memento.careTaker;
-import Memento.originator;
+import Memento.memento;
 import bridge.Window;
 import bridge.*;
 import model.BasicFontStyle;
@@ -34,7 +34,7 @@ public class editor extends JFrame implements ActionListener {
 
     // Frame
     JFrame frame;
-
+    String state;
     public String Origin = "";
     File fi;
     String fileName;
@@ -42,13 +42,28 @@ public class editor extends JFrame implements ActionListener {
 
     DocumentModel editingDocumentModel = new DocumentModel();
 
-    originator originator = new originator();
-    careTaker careTaker = new careTaker();
 
+    careTaker careTaker = new careTaker();
+    public void storeState(String state) {
+        this.state = state;
+    }
+    public String getNow() {
+        return state;
+    }
+    public memento setMemento() {
+        return new memento(state);
+    }
+    public void restoreFromMemento(memento memento) {
+        this.state = memento.getState();
+    }
     // Constructor
     editor() {
-        originator.storeState(Origin);
-        careTaker.setMemento(originator.setMemento());
+        this.storeState(Origin);
+        careTaker.setMemento(this.setMemento());
+
+//        originator.storeState(Origin);
+//        careTaker.setMemento(originator.setMemento());
+
         // Create a frame
 
         WindowImpl windowImpl;
@@ -86,7 +101,7 @@ public class editor extends JFrame implements ActionListener {
 
 
 
-        keyEventListener key = new keyEventListener(originator, careTaker, textPane);
+        keyEventListener key = new keyEventListener(careTaker, textPane,this);
         // Create a menubar
         JMenuBar menuBar = new JMenuBar();
 
@@ -298,6 +313,9 @@ public class editor extends JFrame implements ActionListener {
         frame.show();
     }
 
+    //Originator
+
+
     // If a button is pressed
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
@@ -359,17 +377,16 @@ public class editor extends JFrame implements ActionListener {
 
 
         if (s.equals("Undo")) {
-            originator.restoreFromMemento(careTaker.getMemento());
-            textPane.setText(originator.getNow());
-        }
-
-        else if (s.equals("Redo")) {
-            originator.restoreFromMemento(careTaker.getLastMemento());
-            textPane.setText(originator.getNow());
-
-        }
-
-        else if (s.equals("Close")) {
+            this.restoreFromMemento(careTaker.getMemento());
+            textPane.setText(this.getNow());
+//            originator.restoreFromMemento(careTaker.getMemento());
+//            textPane.setText(originator.getNow());
+        } else if (s.equals("Redo")) {
+            this.restoreFromMemento(careTaker.getLastMemento());
+            textPane.setText(this.getNow());
+//            originator.restoreFromMemento(careTaker.getLastMemento());
+//            textPane.setText(originator.getNow());
+        } else if (s.equals("Close")) {
             Origin = receiver.setOrigin();
             fi = receiver.setFi();
             if (textPane.getText().equals(Origin)) {

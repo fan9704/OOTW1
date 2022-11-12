@@ -8,14 +8,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class DatabaseRepository {
-    DBConnector dbConnector;
-
-    DatabaseRepository(){
-        dbConnector = DBConnector.getInstance();
-    }
-
-
-
 
 //    public void rollbackToNewstDocumentModel() {
 //
@@ -30,12 +22,8 @@ public class DatabaseRepository {
 //        setCloneToTextPane(jTextPane,dbDocument.clone());
 //    }
 
-
-
-
-
     public void createDocumentModel(DocumentModel documentModel) {
-
+        DBConnector dbConnector = DBConnector.getInstance();
         EntityManager entityManager = dbConnector.getConnection();
 
         EntityTransaction transaction = entityManager.getTransaction();
@@ -48,6 +36,7 @@ public class DatabaseRepository {
 
 
     public List<DocumentModel> fetchDbDocumentModelList() {
+        DBConnector dbConnector = DBConnector.getInstance();
         EntityManager entityManager = dbConnector.getConnection();
 
         TypedQuery<DocumentModel> query
@@ -58,6 +47,7 @@ public class DatabaseRepository {
     }
 
     public void updateDbDocument(DocumentModel documentModel){
+        DBConnector dbConnector = DBConnector.getInstance();
         EntityManager entityManager = dbConnector.getConnection();
         EntityTransaction transaction = entityManager.getTransaction();
 
@@ -68,11 +58,12 @@ public class DatabaseRepository {
         transaction.commit();
     }
 
-    public void deleteDbDocument(DocumentModel documentModel){
+    public void deleteDbDocument(int documentId){
+        DBConnector dbConnector = DBConnector.getInstance();
         EntityManager entityManager = dbConnector.getConnection();
         EntityTransaction transaction = entityManager.getTransaction();
 
-        DocumentModel dbDocumentModel = entityManager.find(DocumentModel.class,documentModel.documentId);
+        DocumentModel dbDocumentModel = entityManager.find(DocumentModel.class,documentId);
 
         transaction.begin();
         entityManager.remove(dbDocumentModel);

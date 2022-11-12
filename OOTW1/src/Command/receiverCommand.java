@@ -19,8 +19,8 @@ public class receiverCommand extends JFrame {
 	String Origin;
 	File fi;
 	public void getOrigin(String Origin){this.Origin = Origin;}
-	public void getFi(File fi){this.fi = fi;}
-	public File setFi(){return fi;}
+	public File getFi(){return fi;}
+	public void setFi(File fi){this.fi = fi;}
 	public String setOrigin(){return Origin;}
 	public void setTextArea(JTextPane textArea) {
 		this.textArea = textArea;

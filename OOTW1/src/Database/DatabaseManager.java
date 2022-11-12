@@ -12,6 +12,7 @@ public class DatabaseManager {
     DocumentCollection documentCollection;
     public DatabaseManager() {
         documentCollection = new ArrayDocumentCollection();
+
     }
 
     private void fetchModel() {

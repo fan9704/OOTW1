@@ -8,7 +8,7 @@ import java.util.List;
 public class ArrayDocumentCollection implements DocumentCollection {
     private List<DocumentModel> versionList;
 
-    public ArrayDocumentCollection() {
+    public ArrayDocumentCollection(List<DocumentModel> documentModelList) {
         this.versionList = new ArrayList<>();
     }
 
@@ -36,6 +36,11 @@ public class ArrayDocumentCollection implements DocumentCollection {
     public DocumentIterator getIterator(String order) {
         return (order.equals("desc")) ? new ArrayDocumentDescIterator(this) : new ArrayDocumentAscIterator(this);
 
+    }
+
+    @Override
+    public DocumentIterator iterator() {
+        return null;
     }
 
     @Override

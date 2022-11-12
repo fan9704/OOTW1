@@ -5,7 +5,7 @@ import Database.Model.DocumentModel;
 import Database.Weight.DBMenuWeightHelper;
 import Database.Weight.DatabaseDialogPanel;
 import Memento.careTaker;
-import Memento.originator;
+import Memento.memento;
 import bridge.Window;
 import bridge.*;
 import model.BasicFontStyle;
@@ -34,7 +34,7 @@ public class editor extends JFrame implements ActionListener {
 
     // Frame
     JFrame frame;
-
+    String state;
     public String Origin = "";
     File fi;
     String fileName;
@@ -42,13 +42,28 @@ public class editor extends JFrame implements ActionListener {
 
     DocumentModel editingDocumentModel = new DocumentModel();
 
-    originator originator = new originator();
-    careTaker careTaker = new careTaker();
 
+    careTaker careTaker = new careTaker();
+    public void storeState(String state) {
+        this.state = state;
+    }
+    public String getNow() {
+        return state;
+    }
+    public memento setMemento() {
+        return new memento(state);
+    }
+    public void restoreFromMemento(memento memento) {
+        this.state = memento.getState();
+    }
     // Constructor
     editor() {
-        originator.storeState(Origin);
-        careTaker.setMemento(originator.setMemento());
+        this.storeState(Origin);
+        careTaker.setMemento(this.setMemento());
+
+//        originator.storeState(Origin);
+//        careTaker.setMemento(originator.setMemento());
+
         // Create a frame
 
         WindowImpl windowImpl;
@@ -86,7 +101,7 @@ public class editor extends JFrame implements ActionListener {
 
 
 
-        keyEventListener key = new keyEventListener(originator, careTaker, textPane);
+        keyEventListener key = new keyEventListener(careTaker, textPane,this);
         // Create a menubar
         JMenuBar menuBar = new JMenuBar();
 
@@ -297,6 +312,9 @@ public class editor extends JFrame implements ActionListener {
         frame.setSize(500, 500);
         frame.show();
     }
+
+    //Originator
+
 
     // If a button is pressed
     public void actionPerformed(ActionEvent e) {

@@ -3,6 +3,10 @@ package Database.Weight;
 import Database.DatabaseManager;
 import Database.Model.DocumentModel;
 import Iterator.DocumentIterator;
+import Observer.Attribute;
+import Observer.Title;
+import Observer.WindowAttribute;
+import Observer.WindowTitle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,8 +71,7 @@ public class DatabaseDialogPanel implements ActionListener {
 
             DocumentModel finalDocument = document.clone();
             tempButton.addActionListener((e) -> {
-                editingDocumentModel.documentId = finalDocument.getDocumentId();
-                editingDocumentModel.document = finalDocument.getDocument();
+                editingDocumentModel= finalDocument;
                 dialogTextPane.setDocument(finalDocument.getDocument());
             });
             documentPanel.add(tempButton);
@@ -140,6 +143,11 @@ public class DatabaseDialogPanel implements ActionListener {
             case "edit":
                 DocumentModel cloneDocumentModel = editingDocumentModel.clone();
                 editorPane.setDocument(cloneDocumentModel.getDocument());
+
+                WindowAttribute title = WindowTitle.getInstance();
+                title.Notify(editingDocumentModel.fileName);
+
+
                 break;
             case "update":
                 editingDocumentModel.document = editorPane.getDocument();

@@ -10,12 +10,8 @@ import java.util.List;
 public class DatabaseManager {
 
     DocumentCollection documentCollection;
-    DatabaseRepository dbRepository;
-
     public DatabaseManager() {
-        List<DocumentModel> documentModelList = null;
-        documentCollection = new ArrayDocumentCollection(documentModelList);
-        dbRepository = new DatabaseRepository();
+        documentCollection = new ArrayDocumentCollection();
     }
 
     void fetchModel() {

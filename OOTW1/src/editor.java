@@ -44,7 +44,6 @@ public class editor extends JFrame implements ActionListener {
 
 
     careTaker careTaker = new careTaker();
-    //Originator
     public void storeState(String state) {
         this.state = state;
     }
@@ -328,7 +327,7 @@ public class editor extends JFrame implements ActionListener {
 
         receiver.setTextArea(textPane);
         receiver.setJFrame(frame);
-        receiver.getFi();
+        receiver.getFi(fi);
         receiver.getOrigin(Origin);
 
         switch (s) {
@@ -372,7 +371,7 @@ public class editor extends JFrame implements ActionListener {
                 invoker.addCommend(open);
                 invoker.execute();
                 Origin = receiver.setOrigin();
-                fi = receiver.getFi();
+                fi = receiver.setFi();
                 break;
         }
 
@@ -389,7 +388,7 @@ public class editor extends JFrame implements ActionListener {
 //            textPane.setText(originator.getNow());
         } else if (s.equals("Close")) {
             Origin = receiver.setOrigin();
-            fi = receiver.getFi();
+            fi = receiver.setFi();
             if (textPane.getText().equals(Origin)) {
                 frame.setVisible(false);
             } else {
@@ -446,8 +445,7 @@ public class editor extends JFrame implements ActionListener {
             }
             Origin = textPane.getText();
             frame.setVisible(false);
-            DBConnector dbConnector = DBConnector.getInstance();
-            dbConnector.closeConnection();
+            DatabaseManager.closeConnection();
         }
     }
 

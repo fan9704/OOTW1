@@ -10,8 +10,7 @@ import java.io.*;
 
 
 public class receiverCommand extends JFrame {
-	WindowAttribute windowTitle = new WindowTitle();
-	Attribute title = new Title();
+	WindowAttribute windowTitle = WindowTitle.getInstance();
 	JTextPane textArea;
 	JFrame frame;
 	String fileName;
@@ -19,8 +18,8 @@ public class receiverCommand extends JFrame {
 	String Origin;
 	File fi;
 	public void getOrigin(String Origin){this.Origin = Origin;}
-	public File getFi(){return fi;}
-	public void setFi(File fi){this.fi = fi;}
+	public void getFi(File fi){this.fi = fi;}
+	public File setFi(){return fi;}
 	public String setOrigin(){return Origin;}
 	public void setTextArea(JTextPane textArea) {
 		this.textArea = textArea;
@@ -51,7 +50,6 @@ public class receiverCommand extends JFrame {
 			//Observer Pattern
 			fileName = fi.toString();
 			String[] fileNameTemp = fileName.split("\\\\");
-			windowTitle.AddObserver(title);
 			windowTitle.Notify(fileNameTemp[fileNameTemp.length - 1]);
 
 			try {
@@ -104,7 +102,6 @@ public class receiverCommand extends JFrame {
 			System.out.println("Open file: " + fileNameTemp[fileNameTemp.length - 1]);
 
 			// Observer Pattern
-			windowTitle.AddObserver(title);
 			windowTitle.Notify(fileNameTemp[fileNameTemp.length - 1]);
 
 			try {
@@ -137,7 +134,6 @@ public class receiverCommand extends JFrame {
 	public void New() {
 		textArea.setText("");
 		// Observer Pattern
-		windowTitle.AddObserver(title);
 		if(System.getProperty("os.name").equals("Windows 10")){
 			windowTitle.Notify("Window");
 		}

@@ -445,7 +445,8 @@ public class editor extends JFrame implements ActionListener {
             }
             Origin = textPane.getText();
             frame.setVisible(false);
-            DatabaseManager.closeConnection();
+            DBConnector dbConnector = DBConnector.getInstance();
+            dbConnector.closeConnection();
         }
     }
 

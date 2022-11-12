@@ -10,14 +10,16 @@ import java.util.List;
 public class DatabaseManager {
 
     DocumentCollection documentCollection;
-    public DatabaseManager() {
-        documentCollection = new ArrayDocumentCollection();
+    DatabaseRepository dbRepository;
 
+    public DatabaseManager() {
+        List<DocumentModel> documentModelList = null;
+        documentCollection = new ArrayDocumentCollection(documentModelList);
+        dbRepository = new DatabaseRepository();
     }
 
-    private void fetchModel() {
+    void fetchModel() {
         documentCollection.removeAll();
-        DatabaseRepository dbRepository = new DatabaseRepository();
         List<DocumentModel> documentModelList = dbRepository.fetchDbDocumentModelList();
         for (DocumentModel documentModel : documentModelList) {
             documentCollection.add(documentModel);
@@ -25,28 +27,20 @@ public class DatabaseManager {
     }
 
     public void createDocumentModel(DocumentModel documentModel) {
-        DatabaseRepository dbRepository = new DatabaseRepository();
         dbRepository.createDocumentModel(documentModel);
         documentCollection.add(documentModel);
     }
 
     public void updateDocumentModel(DocumentModel documentModel) {
-        DatabaseRepository dbRepository = new DatabaseRepository();
         dbRepository.updateDbDocument(documentModel);
     }
 
     public void deleteDocumentModel(DocumentModel documentModel) {
-        DatabaseRepository dbRepository = new DatabaseRepository();
-        dbRepository.deleteDbDocument(documentModel.documentId);
+        dbRepository.deleteDbDocument(documentModel);
     }
 
     public DocumentIterator getDocumentVersionIterator(String order) {
         fetchModel();
         return documentCollection.getIterator(order);
-    }
-
-    static public void closeConnection(){
-        DBConnector dbConnector = DBConnector.getInstance();
-        dbConnector.closeConnection();
     }
 }

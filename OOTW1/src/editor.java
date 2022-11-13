@@ -1,5 +1,4 @@
 import Command.*;
-import Database.DBConnector;
 import Database.DatabaseManager;
 import Database.Model.DocumentModel;
 import Database.Weight.DBMenuWeightHelper;
@@ -548,7 +547,7 @@ public class editor extends JFrame implements ActionListener {
         toolBar.add(DatabaseCommitButton);
 
 
-        JButton coustomStyleButton = new JButton(getResizedIcon(url + "fontStyleUnderline.png"));
+        JButton coustomStyleButton = new JButton(getResizedIcon(url + "custom.png"));
         coustomStyleButton.setActionCommand("coustomStyle");
         coustomStyleButton.addActionListener(customFontStyleActionListener);
         coustomStyleButton.addActionListener(customFontColorActionListener);

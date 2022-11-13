@@ -63,7 +63,7 @@ public class DatabaseDialogPanel implements ActionListener {
 
         while (documentIterator.hasNext()) {
             document = documentIterator.next();
-            JButton tempButton = new JButton("<html>Author:" + document.getFileName() + "<br/>" +
+            JButton tempButton = new JButton("<html>FileName:" + document.getFileName() + "<br/>" +
                     "CreateAt：" + simpleDateFormat.format(document.getCreatedDate()).toString() + "<br/>" +
                     "UpdateAt：" + simpleDateFormat.format(document.getUpdateTime()).toString() +
                     "</html>");

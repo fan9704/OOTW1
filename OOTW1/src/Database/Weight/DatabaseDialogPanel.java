@@ -153,6 +153,8 @@ public class DatabaseDialogPanel implements ActionListener {
                 editingDocumentModel.document = editorPane.getDocument();
                 databaseManager.updateDocumentModel(editingDocumentModel);
                 dialogTextPane.setDocument(editingDocumentModel.document);
+                updateDocumentPanel();
+
                 break;
             case "desc":
                 this.order = "desc";

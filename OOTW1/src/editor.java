@@ -1,10 +1,13 @@
 import Command.*;
+import Database.DBConnector;
 import Database.DatabaseManager;
 import Database.Model.DocumentModel;
-import Database.Weight.DBMenuWeightHelper;
 import Database.Weight.DatabaseDialogPanel;
 import Memento.careTaker;
 import Memento.memento;
+import Observer.Attribute;
+import Observer.WindowAttribute;
+import Observer.WindowTitle;
 import bridge.Window;
 import bridge.*;
 import model.BasicFontStyle;
@@ -211,10 +214,54 @@ public class editor extends JFrame implements ActionListener {
         colorMenu.add(fontColorIsBlackMenuItem);
 
 
+
+        JMenu dbMenu = new JMenu("Database");
+        JMenuItem dbCreateButton = new JMenuItem("Create");
+        JMenuItem dbUpdateMenuItem = new JMenuItem("Update");
+
+        dbCreateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fileName = JOptionPane.showInputDialog("InputFileName");
+                if (fileName != null) {
+                    DocumentModel documentModel = new DocumentModel();
+                    documentModel.setFileName(fileName);
+                    documentModel.setDocument(textPane.getDocument());
+
+                    DocumentModel cloneDocumentModel = documentModel.clone();
+
+                    DatabaseManager databaseManager = new DatabaseManager();
+                    databaseManager.createDocumentModel(documentModel);
+
+                    textPane.setDocument(cloneDocumentModel.getDocument());
+                    WindowAttribute title = WindowTitle.getInstance();
+                    title.Notify(fileName);
+                }
+            }
+        });
+
+        dbUpdateMenuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog versionDialog = new JDialog(frame, "Version", true);
+                DatabaseDialogPanel databaseDialog = new DatabaseDialogPanel(textPane, editingDocumentModel);
+                versionDialog.setContentPane(databaseDialog.getLayoutPanel());
+                versionDialog.setSize(600, 400);
+                versionDialog.setVisible(true);
+
+                System.out.println(editingDocumentModel.getDocumentId());
+            }
+        });
+
+        dbMenu.add((dbUpdateMenuItem));
+        dbMenu.add(dbCreateButton);
+
+
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
         menuBar.add(alignMenu);
-        menuBar.add(DBMenuWeightHelper.getMenu(textPane));
+        menuBar.add(dbMenu);
         menuBar.add(styleMenu);
         menuBar.add(colorMenu);
         menuBar.add(closeMenuItem);
@@ -540,6 +587,8 @@ public class editor extends JFrame implements ActionListener {
                     databaseManager.createDocumentModel(documentModel);
 
                     textPane.setDocument(cloneDocumentModel.getDocument());
+                    WindowAttribute title = WindowTitle.getInstance();
+                    title.Notify(fileName);
 
                 }
             }
